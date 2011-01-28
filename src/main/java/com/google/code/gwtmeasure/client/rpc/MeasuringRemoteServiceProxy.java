@@ -11,7 +11,10 @@ import com.google.gwt.user.client.rpc.impl.Serializer;
  */
 public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
 
-    protected MeasuringRemoteServiceProxy(String moduleBaseURL, String remoteServiceRelativePath, String serializationPolicyName, Serializer serializer) {
+    protected MeasuringRemoteServiceProxy(String moduleBaseURL,
+                                          String remoteServiceRelativePath,
+                                          String serializationPolicyName,
+                                          Serializer serializer) {
         super(moduleBaseURL, remoteServiceRelativePath, serializationPolicyName, serializer);
     }
 
@@ -21,8 +24,8 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
                                                           int invocationCount,
                                                           AsyncCallback<T> callback) {
         MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback);
-        RequestCallback originalReq = super.doCreateRequestCallback(responseReader, methodName, invocationCount, wrappedCallback);
-        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(methodName, originalReq, wrappedCallback);
+        RequestCallback originalRequest = super.doCreateRequestCallback(responseReader, methodName, invocationCount, wrappedCallback);
+        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(methodName, originalRequest, wrappedCallback);
         return requestCallback;
     }
 

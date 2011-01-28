@@ -12,4 +12,6 @@
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
     </generate-with>
 
+    <entry-point class="com.google.code.gwtmeasure.client.GWTMeasureEntryPoint"/>
+
 </module>
