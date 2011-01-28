@@ -1,5 +1,8 @@
 package com.google.code.gwtmeasure.client.rpc;
 
+import com.google.code.gwtmeasure.client.Measurements;
+import com.google.code.gwtmeasure.client.PendingMeasurement;
+import com.google.code.gwtmeasure.shared.Constants;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -7,25 +10,29 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
-    final AsyncCallback<T> original;
-    private String correlationId;
+    final AsyncCallback<T> originalCallback;
+    final PendingMeasurement measurement;
 
-    public MeasuringAsyncCallback(AsyncCallback<T> original) {
-        this.original = original;
+    public MeasuringAsyncCallback(AsyncCallback<T> originalCallback) {
+        this.originalCallback = originalCallback;
+        String callbackType = originalCallback.getClass().getName();
+        this.measurement = Measurements.start(callbackType, Constants.GROUP_CALLBACK);
     }
 
     public void onSuccess(T result) {
         try {
-            original.onSuccess(result);
+            originalCallback.onSuccess(result);
+        } catch (RuntimeException exception) {
+            measurement.discard();
+            throw exception;
         } finally {
+            measurement.stop();
         }
     }
 
     public void onFailure(Throwable caught) {
-        original.onFailure(caught);
+        measurement.discard();
+        originalCallback.onFailure(caught);
     }
 
-    public void setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
-    }
 }

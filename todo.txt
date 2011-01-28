@@ -14,3 +14,7 @@
 # uid injection with filter or remote servlet
 # native js support (somehow)
 # resource bundle support
+# callback failure identification
+# retry sequence of measurement delivery
+# exception reporting
+# Apache License
