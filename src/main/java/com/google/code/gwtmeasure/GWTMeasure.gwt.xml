@@ -8,7 +8,7 @@
     <source path="client"/>
     <source path="shared"/>
 
-    <generate-with class="com.swissre.sje.measure.instruments.measuringProxyGenerator.MeasuringProxyGenerator">
+    <generate-with class="com.google.code.gwtmeasure.MeasuringProxyGenerator">
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
     </generate-with>
 

@@ -1,0 +1,14 @@
+# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
+# logging mechanism (div, firebug, etc)
+# nested measurements
+# measurements groups
+# disabling/enabling feature
+# measurements of RPC
+# measurements of HTTP Requests
+# measurements of Callbacks
+# measurements of Timers
+# measurements of RequestFactory
+# integration with lightweight measurements
+# measuring static resource download
+# network calculation
+# uid injection with filter or remote servlet 

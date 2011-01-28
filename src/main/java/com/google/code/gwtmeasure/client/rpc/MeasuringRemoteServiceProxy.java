@@ -1,0 +1,26 @@
+package com.google.code.gwtmeasure.client.rpc;
+
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
+import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
+import com.google.gwt.user.client.rpc.impl.RpcStatsContext;
+import com.google.gwt.user.client.rpc.impl.Serializer;
+
+/**
+ * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ */
+public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
+
+    protected MeasuringRemoteServiceProxy(String moduleBaseURL, String remoteServiceRelativePath, String serializationPolicyName, Serializer serializer) {
+        super(moduleBaseURL, remoteServiceRelativePath, serializationPolicyName, serializer);
+    }
+
+    @Override
+    protected <T> RequestCallback doCreateRequestCallback(RequestCallbackAdapter.ResponseReader responseReader, String methodName, RpcStatsContext statsContext, AsyncCallback<T> callback) {
+        MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback);
+        RequestCallback originalReq = super.doCreateRequestCallback(responseReader, methodName, statsContext, wrappedCallback);
+        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(methodName, originalReq, wrappedCallback);
+        return requestCallback;
+    }
+}
