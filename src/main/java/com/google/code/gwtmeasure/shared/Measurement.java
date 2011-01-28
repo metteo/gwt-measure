@@ -1,9 +1,11 @@
 package com.google.code.gwtmeasure.shared;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class Measurement {
+public class Measurement implements IsSerializable {
 
     private long from;
     private long to;

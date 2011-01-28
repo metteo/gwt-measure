@@ -11,4 +11,6 @@
 # integration with lightweight measurements
 # measuring static resource download
 # network calculation
-# uid injection with filter or remote servlet 
+# uid injection with filter or remote servlet
+# native js support (somehow)
+# resource bundle support

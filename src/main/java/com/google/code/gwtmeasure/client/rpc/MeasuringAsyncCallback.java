@@ -8,7 +8,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     final AsyncCallback<T> original;
-    final MeasurementTree clientTree = ClientMeasurementStorage.startAction();
     private String correlationId;
 
     public MeasuringAsyncCallback(AsyncCallback<T> original) {
@@ -16,16 +15,9 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     }
 
     public void onSuccess(T result) {
-        if (correlationId != null) {
-            clientTree.setAttribute(MeasureAttributes.CORRELATION_ID, correlationId);
-        }
-        MeasurementTree serverTree = ((MeasurementSupport) result).getMeasurementTree();
-        ClientMeasurementStorage.stopRemoteCall(clientTree, serverTree);
-
         try {
             original.onSuccess(result);
         } finally {
-            ClientMeasurementStorage.stopClientAction();
         }
     }
 
