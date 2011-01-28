@@ -55,5 +55,16 @@ public class PendingMeasurement {
     public boolean isDiscarded() {
         return discarded;
     }
+
+    @Override
+    public String toString() {
+        return "PendingMeasurement{" +
+                "from=" + from +
+                ", to=" + to +
+                ", name='" + name + '\'' +
+                ", group='" + group + '\'' +
+                ", discarded=" + discarded +
+                '}';
+    }
     
 }

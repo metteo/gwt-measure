@@ -1,5 +1,6 @@
 package com.google.code.gwtmeasure.client;
 
+import com.google.code.gwtmeasure.client.internal.VoidDeliveryChannell;
 import com.google.code.gwtmeasure.client.spi.DeliveryChannel;
 
 /**
@@ -7,7 +8,7 @@ import com.google.code.gwtmeasure.client.spi.DeliveryChannel;
  */
 public final class Measurements {
 
-    private static DeliveryChannel deliveryChannel;
+    private static DeliveryChannel deliveryChannel = new VoidDeliveryChannell();
 
     private Measurements() {
     }

@@ -8,6 +8,7 @@
 # measurements of Callbacks
 # measurements of Timers
 # measurements of RequestFactory
+# measurements of EntryPoints
 # integration with lightweight measurements
 # measuring static resource download
 # network calculation

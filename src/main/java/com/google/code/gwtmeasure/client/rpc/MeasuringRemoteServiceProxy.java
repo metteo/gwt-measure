@@ -4,7 +4,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
-import com.google.gwt.user.client.rpc.impl.RpcStatsContext;
 import com.google.gwt.user.client.rpc.impl.Serializer;
 
 /**
@@ -17,10 +16,14 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
     }
 
     @Override
-    protected <T> RequestCallback doCreateRequestCallback(RequestCallbackAdapter.ResponseReader responseReader, String methodName, RpcStatsContext statsContext, AsyncCallback<T> callback) {
+    protected <T> RequestCallback doCreateRequestCallback(RequestCallbackAdapter.ResponseReader responseReader,
+                                                          String methodName,
+                                                          int invocationCount,
+                                                          AsyncCallback<T> callback) {
         MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback);
-        RequestCallback originalReq = super.doCreateRequestCallback(responseReader, methodName, statsContext, wrappedCallback);
+        RequestCallback originalReq = super.doCreateRequestCallback(responseReader, methodName, invocationCount, wrappedCallback);
         MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(methodName, originalReq, wrappedCallback);
         return requestCallback;
     }
+
 }
