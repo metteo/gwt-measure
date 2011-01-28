@@ -12,7 +12,7 @@ public class Measurement implements IsSerializable {
     private String name;
     private String group;
 
-    private Measurement() {
+    public Measurement() {
     }
 
     public static class Builder {

@@ -1,5 +1,6 @@
 package com.google.code.gwtmeasure.client;
 
+import com.google.code.gwtmeasure.shared.MetricEvent;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.Window;
 
@@ -12,8 +13,16 @@ public class GWTMeasureEntryPoint implements EntryPoint {
         hookGwtStatsFunctionAndSink();
     }
 
-    public static void handleEvent(String group, String name, String subSystem, String type, String millis) {
-        Window.alert(group + name + subSystem + type + millis);
+    public static void handleEvent(String group, String moduleName, String subSystem, String type, String millis) {
+        MetricEvent metricEvent = new MetricEvent.Builder()
+                .setEventGroup(group)
+                .setModuleName(moduleName)
+                .setSubSystem(subSystem)
+                .setType(type)
+                .setMillis(Long.parseLong(millis))
+                .create();
+        
+        Window.alert(metricEvent.toString());
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{
