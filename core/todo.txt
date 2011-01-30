@@ -1,6 +1,7 @@
+# mention gwt-debug-panel in documentation
 # embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
-# logging mechanism (div, firebug, etc)
-# nested measurements
+# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
+# nested custom measurements
 # measurements groups
 # disabling/enabling feature
 # measurements of RPC
@@ -25,3 +26,7 @@
 # use HTML5 browser storage and cookies on older browsers
 # slf4j on server
 # gwt logging on client
+# gwt event handling on client for easy hook-up
+# support RunAsync measurements (fragment, size - attributes are new)
+# support custom event attributes (fragment, size, bytes, method, sessionId)
+# pluggable server implementations
