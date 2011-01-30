@@ -17,7 +17,7 @@
 package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.internal.TimeUtils;
-import com.google.code.gwtmeasure.client.spi.DeliveryChannel;
+import com.google.code.gwtmeasure.client.spi.MeasurementControl;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -28,23 +28,23 @@ public class PendingMeasurement {
     private long to;
     private String name;
     private String group;
-    private DeliveryChannel deliveryChannel;
+    private MeasurementControl measurementControl;
     private boolean discarded;
 
     {
         this.from = TimeUtils.current();
     }
 
-    public PendingMeasurement(String name, String group, DeliveryChannel deliveryChannel) {
+    public PendingMeasurement(String name, String group, MeasurementControl measurementControl) {
         this.name = name;
         this.group = group;
-        this.deliveryChannel = deliveryChannel;
+        this.measurementControl = measurementControl;
     }
 
     public void stop() {
         if (!discarded) {
             this.to = TimeUtils.current();
-            deliveryChannel.submit(this);
+            measurementControl.submit(this);
         }
     }
 

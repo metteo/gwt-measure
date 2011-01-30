@@ -37,7 +37,7 @@ public class MeasuringRequestCallback implements RequestCallback {
     }
 
     public void onResponseReceived(Request request, Response response) {
-        String uidHeader = response.getHeader(Constants.UID_HEADER);
+        String uidHeader = response.getHeader(Constants.HEADER_UID);
         this.callback.onResponseReceived(request, response);
     }
 

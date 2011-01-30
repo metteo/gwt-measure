@@ -24,18 +24,31 @@ import com.google.code.gwtmeasure.shared.MetricEvent;
  */
 public class MeasurementToEvent {
 
-    public static MetricEvent convert(PendingMeasurement measurement) {
+    public MetricEvent[] convert(PendingMeasurement measurement) {
         long from = measurement.getFrom();
         long to = measurement.getTo();
         String group = measurement.getGroup();
         String name = measurement.getName();
 
-        return new MetricEvent.Builder()
+
+
+        MetricEvent[] result = new MetricEvent[2];
+
+        result[0] = new MetricEvent.Builder()
                 .setEventGroup(group)
                 .setMillis(from)
                 .setModuleName(name)
                 .setSubSystem("start")
                 .create();
+
+        result[1] = new MetricEvent.Builder()
+                .setEventGroup(group)
+                .setMillis(to)
+                .setModuleName(name)
+                .setSubSystem("stop")
+                .create();
+
+        return result;
     }
 
 }

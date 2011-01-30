@@ -61,7 +61,7 @@ public class MetricEvent implements IsSerializable {
         }
 
         public Builder setType(String type) {
-            this.event.moduleName = type;
+            this.event.type = type;
             return this;
         }
 
@@ -92,6 +92,32 @@ public class MetricEvent implements IsSerializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MetricEvent event = (MetricEvent) o;
+
+        if (millis != event.millis) return false;
+        if (eventGroup != null ? !eventGroup.equals(event.eventGroup) : event.eventGroup != null) return false;
+        if (moduleName != null ? !moduleName.equals(event.moduleName) : event.moduleName != null) return false;
+        if (subSystem != null ? !subSystem.equals(event.subSystem) : event.subSystem != null) return false;
+        if (type != null ? !type.equals(event.type) : event.type != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = moduleName != null ? moduleName.hashCode() : 0;
+        result = 31 * result + (subSystem != null ? subSystem.hashCode() : 0);
+        result = 31 * result + (eventGroup != null ? eventGroup.hashCode() : 0);
+        result = 31 * result + (int) (millis ^ (millis >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "MetricEvent{" +
                 "moduleName='" + moduleName + '\'' +
@@ -101,4 +127,24 @@ public class MetricEvent implements IsSerializable {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    public String encode() {
+        return moduleName + '|'
+                + subSystem + '|'
+                + eventGroup + '|'
+                + millis + '|'
+                + type;
+    }
+
+    public static MetricEvent decode(String encodedEvent) {
+        String[] tokens = encodedEvent.split("\\|");
+        return new Builder()
+                .setModuleName(tokens[0])
+                .setSubSystem(tokens[1])
+                .setEventGroup(tokens[2])
+                .setMillis(Long.parseLong(tokens[3]))
+                .setType(tokens[4])
+                .create();
+    }
+    
 }

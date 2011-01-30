@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.client.spi;
+package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
+import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.shared.MetricEvent;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface DeliveryChannel {
+public class VoidControl implements MeasurementControl {
 
-    void submit(PendingMeasurement measurement);
+    public void submit(PendingMeasurement measurement) {
+    }
+
+    public void submit(MetricEvent event) {
+    }
 
 }

@@ -1,12 +1,9 @@
 package com.google.code.gwtmeasure.client;
 
-import com.google.code.gwtmeasure.client.spi.DeliveryChannel;
-import org.hamcrest.CoreMatchers;
+import com.google.code.gwtmeasure.client.spi.MeasurementControl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.internal.matchers.GreaterThan;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -21,11 +18,11 @@ public class MeasurementsTest extends Assert {
     private static final String MEASUREMENT_NAME = "a";
     private static final String MEASUREMENT_GROUP = "g";
 
-    DeliveryChannel channel;
+    MeasurementControl channel;
 
     @Before
     public void setUp() {
-        this.channel = mock(DeliveryChannel.class);
+        this.channel = mock(MeasurementControl.class);
         Measurements.setDeliveryChannel(channel);
     }
 

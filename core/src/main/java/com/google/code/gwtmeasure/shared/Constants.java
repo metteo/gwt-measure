@@ -21,7 +21,8 @@ package com.google.code.gwtmeasure.shared;
  */
 public final class Constants {
 
-    public static final String UID_HEADER = "gwt-measure-uid";
+    public static final String HEADER_UID = "gwt-measure-uid";
+    public static final String HEADER_RESULT = "gwt-measure-result";
 
     public static final String GROUP_CALLBACK = "rpc-callback";
 
