@@ -30,4 +30,13 @@
         <url-pattern>/samplerpc/MyService</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>measure</filter-name>
+        <filter-class>com.google.code.gwtmeasure.server.MeasureFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>measure</filter-name>
+        <servlet-name>myService</servlet-name>
+    </filter-mapping>
+
 </web-app>

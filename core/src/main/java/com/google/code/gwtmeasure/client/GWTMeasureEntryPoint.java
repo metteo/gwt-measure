@@ -16,14 +16,18 @@
 
 package com.google.code.gwtmeasure.client;
 
+import com.google.code.gwtmeasure.client.spi.MeasurementControl;
 import com.google.code.gwtmeasure.shared.MetricEvent;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class GWTMeasureEntryPoint implements EntryPoint {
+
+    private static final MeasurementControl control = GWT.create(MeasurementControl.class);
 
     public void onModuleLoad() {
         hookGwtStatsFunctionAndSink();
@@ -37,8 +41,8 @@ public class GWTMeasureEntryPoint implements EntryPoint {
                 .setType(type)
                 .setMillis(Long.parseLong(millis))
                 .create();
-        
-        Window.alert(metricEvent.toString());
+
+        control.submit(metricEvent);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{

@@ -38,14 +38,14 @@ public class MeasurementToEvent {
                 .setEventGroup(group)
                 .setMillis(from)
                 .setModuleName(name)
-                .setSubSystem("start")
+                .setType("begin")
                 .create();
 
         result[1] = new MetricEvent.Builder()
                 .setEventGroup(group)
                 .setMillis(to)
                 .setModuleName(name)
-                .setSubSystem("stop")
+                .setType("end")
                 .create();
 
         return result;

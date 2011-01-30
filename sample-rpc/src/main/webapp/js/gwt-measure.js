@@ -34,6 +34,7 @@ function sinkGwtEvents() {
 }
 
 window.__gwtStatsEvent = function(event) {
+    alert("event received");
     if (gwt_initialized) {
         //if flag is set to true, then all events goes to GWT created method
         sinkGwtEvents();

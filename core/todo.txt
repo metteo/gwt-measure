@@ -19,3 +19,5 @@
 # retry sequence of measurement delivery
 # exception reporting
 # Apache License
+# handle browser close and navigate to different url
+# use HTML5 browser storage and cookies on older browsers

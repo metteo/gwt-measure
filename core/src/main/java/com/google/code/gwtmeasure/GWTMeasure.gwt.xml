@@ -15,8 +15,8 @@
   ~ limitations under the License.
   -->
 
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.0.3//EN"
-        "http://google-web-toolkit.googlecode.com/svn/tags/2.0.3/distro-source/core/src/gwt-module.dtd">
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.1.1//EN"
+        "http://google-web-toolkit.googlecode.com/svn/tags/2.1.1/distro-source/core/src/gwt-module.dtd">
 <module>
         
     <inherits name='com.google.gwt.user.User'/>    
@@ -27,6 +27,10 @@
     <generate-with class="com.google.code.gwtmeasure.rebind.MeasuringProxyGenerator">
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
     </generate-with>
+
+    <replace-with class="com.google.code.gwtmeasure.client.internal.MeasurementConrolImpl">
+        <when-type-assignable class="com.google.code.gwtmeasure.client.spi.MeasurementControl"/>
+    </replace-with>
 
     <entry-point class="com.google.code.gwtmeasure.client.GWTMeasureEntryPoint"/>
 

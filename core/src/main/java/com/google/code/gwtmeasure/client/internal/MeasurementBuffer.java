@@ -25,8 +25,8 @@ public class MeasurementBuffer {
         buffer.add(event);
     }
 
-    public MetricEvent[] popAll() {
-        MetricEvent[] result = (MetricEvent[]) buffer.toArray();
+    public Object[] popAll() {
+        Object[] result = buffer.toArray();
         buffer.clear();
         return result;
     }

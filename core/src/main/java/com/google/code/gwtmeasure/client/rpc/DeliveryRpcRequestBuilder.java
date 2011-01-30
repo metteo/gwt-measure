@@ -31,8 +31,9 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
         MeasurementBuffer buffer = MeasurementBuffer.instance();
         if (!buffer.isEmpty()) {
             StringBuilder headerBuilder = new StringBuilder("");
-            MetricEvent[] events = buffer.popAll();
-            for (MetricEvent event : events) {
+            Object[] events = buffer.popAll();
+            for (Object object : events) {
+                MetricEvent event = (MetricEvent) object;
                 String encodedEvent = event.encode();
                 headerBuilder.append(encodedEvent);
                 headerBuilder.append('@');
