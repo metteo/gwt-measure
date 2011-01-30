@@ -28,6 +28,9 @@ public class MetricEvent implements IsSerializable {
     private String eventGroup;
     private long millis;
     private String type;
+    private String sessionId;
+    private long bytes;
+    private String method;
 
     public MetricEvent() {
     }
@@ -57,6 +60,21 @@ public class MetricEvent implements IsSerializable {
 
         public Builder setMillis(long millis) {
             this.event.millis = millis;
+            return this;
+        }
+
+        public Builder setSessionId(String sessionId) {
+            this.event.sessionId = sessionId;
+            return this;
+        }
+
+        public Builder setMethod(String method) {
+            this.event.method = method;
+            return this;
+        }
+
+        public Builder setBytes(long bytes) {
+            this.event.bytes = bytes;
             return this;
         }
 
@@ -91,18 +109,33 @@ public class MetricEvent implements IsSerializable {
         return type;
     }
 
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public Long getBytes() {
+        return bytes;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MetricEvent event = (MetricEvent) o;
+        MetricEvent that = (MetricEvent) o;
 
-        if (millis != event.millis) return false;
-        if (eventGroup != null ? !eventGroup.equals(event.eventGroup) : event.eventGroup != null) return false;
-        if (moduleName != null ? !moduleName.equals(event.moduleName) : event.moduleName != null) return false;
-        if (subSystem != null ? !subSystem.equals(event.subSystem) : event.subSystem != null) return false;
-        if (type != null ? !type.equals(event.type) : event.type != null) return false;
+        if (bytes != that.bytes) return false;
+        if (millis != that.millis) return false;
+        if (eventGroup != null ? !eventGroup.equals(that.eventGroup) : that.eventGroup != null) return false;
+        if (method != null ? !method.equals(that.method) : that.method != null) return false;
+        if (moduleName != null ? !moduleName.equals(that.moduleName) : that.moduleName != null) return false;
+        if (sessionId != null ? !sessionId.equals(that.sessionId) : that.sessionId != null) return false;
+        if (subSystem != null ? !subSystem.equals(that.subSystem) : that.subSystem != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
 
         return true;
     }
@@ -114,6 +147,9 @@ public class MetricEvent implements IsSerializable {
         result = 31 * result + (eventGroup != null ? eventGroup.hashCode() : 0);
         result = 31 * result + (int) (millis ^ (millis >>> 32));
         result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (sessionId != null ? sessionId.hashCode() : 0);
+        result = 31 * result + (int) (bytes ^ (bytes >>> 32));
+        result = 31 * result + (method != null ? method.hashCode() : 0);
         return result;
     }
 
@@ -125,6 +161,9 @@ public class MetricEvent implements IsSerializable {
                 ", eventGroup='" + eventGroup + '\'' +
                 ", millis=" + millis +
                 ", type='" + type + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", bytes=" + bytes +
+                ", method='" + method + '\'' +
                 '}';
     }
 
@@ -133,7 +172,10 @@ public class MetricEvent implements IsSerializable {
                 + subSystem + '|'
                 + eventGroup + '|'
                 + millis + '|'
-                + type;
+                + type + '|'
+                + sessionId + '|'
+                + bytes + '|'
+                + method;
     }
 
     public static MetricEvent decode(String encodedEvent) {
@@ -144,6 +186,9 @@ public class MetricEvent implements IsSerializable {
                 .setEventGroup(tokens[2])
                 .setMillis(Long.parseLong(tokens[3]))
                 .setType(tokens[4])
+                .setSessionId(tokens[5])
+                .setBytes(Long.parseLong(tokens[6]))
+                .setMethod(tokens[7])
                 .create();
     }
     

@@ -18,6 +18,7 @@ package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
 import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.gwt.core.client.GWT;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -30,25 +31,29 @@ public class MeasurementToEvent {
         String group = measurement.getGroup();
         String name = measurement.getName();
 
-
-
         MetricEvent[] result = new MetricEvent[2];
 
         result[0] = new MetricEvent.Builder()
+                .setModuleName(moduleName())
                 .setEventGroup(group)
                 .setMillis(from)
-                .setModuleName(name)
+                .setSubSystem(name)
                 .setType("begin")
                 .create();
 
         result[1] = new MetricEvent.Builder()
+                .setModuleName(moduleName())
                 .setEventGroup(group)
                 .setMillis(to)
-                .setModuleName(name)
+                .setSubSystem(name)
                 .setType("end")
                 .create();
 
         return result;
+    }
+
+    String moduleName() {
+        return GWT.getModuleName();
     }
 
 }

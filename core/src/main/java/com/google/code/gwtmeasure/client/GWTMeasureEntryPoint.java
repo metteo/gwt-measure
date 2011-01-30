@@ -33,21 +33,49 @@ public class GWTMeasureEntryPoint implements EntryPoint {
         hookGwtStatsFunctionAndSink();
     }
 
-    public static void handleEvent(String group, String moduleName, String subSystem, String type, String millis) {
-        MetricEvent metricEvent = new MetricEvent.Builder()
+    public static void handleEvent(String group,
+                                   String moduleName,
+                                   String subSystem,
+                                   String type,
+                                   String millis,
+                                   String sessionId,
+                                   String method,
+                                   String bytes) {
+        MetricEvent.Builder builder = new MetricEvent.Builder()
                 .setEventGroup(group)
                 .setModuleName(moduleName)
                 .setSubSystem(subSystem)
                 .setType(type)
-                .setMillis(Long.parseLong(millis))
-                .create();
+                .setSessionId(sessionId)
+                .setMethod(method);
+
+        if (millis != null && !"undefined".equals(bytes)) {
+            builder.setMillis(Long.parseLong(millis));
+        }
+        if (bytes != null && !"undefined".equals(bytes)) {
+            builder.setBytes(Long.parseLong(bytes));
+        }
+
+        MetricEvent metricEvent = builder.create();
 
         control.submit(metricEvent);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{
-        $wnd.gwtInitialized = true;
-        $wnd.handleEvent = @com.google.code.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;);
+        $wnd.handleEvent = @com.google.code.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;);
+        $wnd.__gwtStatsEvent = function(event) {
+            $wnd.sinkGwtEvents();
+            $wnd.handleEvent(
+                    "" + event.evtGroup,
+                    "" + event.moduleName,
+                    "" + event.subSystem,
+                    "" + event.type,
+                    "" + event.millis,
+                    "" + event.sessionId,
+                    "" + event.method,
+                    "" + event.bytes);
+            return true;
+        };
         $wnd.sinkGwtEvents();
     }-*/;
 

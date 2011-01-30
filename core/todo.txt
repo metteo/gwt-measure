@@ -18,6 +18,10 @@
 # callback failure identification
 # retry sequence of measurement delivery
 # exception reporting
-# Apache License
+# exception diagnostics
+# offline storage of incidents
+# Apache 2.0 License
 # handle browser close and navigate to different url
 # use HTML5 browser storage and cookies on older browsers
+# slf4j on server
+# gwt logging on client
