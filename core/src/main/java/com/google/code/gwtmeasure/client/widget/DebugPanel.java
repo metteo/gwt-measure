@@ -17,23 +17,31 @@
 package com.google.code.gwtmeasure.client.widget;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class DebugPanel extends Composite {
+public class DebugPanel extends DialogBox {
 
-    private final VerticalPanel panel;
+    private final VerticalPanel contentPanel;
 
-    public DebugPanel() {
-        panel = new VerticalPanel();
-        initWidget(panel);
+    public DebugPanel() {                
+        setTitle("Debug Panel");
+        setModal(false);        
+
+        contentPanel = new VerticalPanel();
+        setWidget(contentPanel);
     }
 
     public void appendDebugLine(String text) {
-        panel.add(new Label(text));
+        if (isShowing()) {
+           contentPanel.add(new Label(text));
+        }
     }
 
 }

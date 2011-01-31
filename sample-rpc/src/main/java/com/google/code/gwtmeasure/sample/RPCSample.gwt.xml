@@ -22,6 +22,8 @@
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.code.gwtmeasure.GWTMeasure"/>
 
+    <inherits name="com.google.gwt.user.theme.standard.Standard"/>
+
     <source path="client"/>
     <source path="shared"/>    
     

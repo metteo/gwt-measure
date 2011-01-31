@@ -32,7 +32,7 @@ public class DebugPanelDelivery implements PerformanceEventHandler {
     public void onPerformanceEvent(PerformanceEvent event) {
         if (debugPanel == null) {
             debugPanel = new DebugPanel();
-            RootPanel.get().add(debugPanel);
+            debugPanel.show();
         }
 
         PerformanceMetrics metrics = event.getMetrics();
