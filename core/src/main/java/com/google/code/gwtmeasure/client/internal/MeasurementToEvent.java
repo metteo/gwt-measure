@@ -17,7 +17,7 @@
 package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
-import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.GWT;
 
 /**
@@ -25,15 +25,15 @@ import com.google.gwt.core.client.GWT;
  */
 public class MeasurementToEvent {
 
-    public MetricEvent[] convert(PendingMeasurement measurement) {
+    public PerformanceMetrics[] convert(PendingMeasurement measurement) {
         long from = measurement.getFrom();
         long to = measurement.getTo();
         String group = measurement.getGroup();
         String name = measurement.getName();
 
-        MetricEvent[] result = new MetricEvent[2];
+        PerformanceMetrics[] result = new PerformanceMetrics[2];
 
-        result[0] = new MetricEvent.Builder()
+        result[0] = new PerformanceMetrics.Builder()
                 .setModuleName(moduleName())
                 .setMillis(from)
                 .setSubSystem(group)
@@ -41,7 +41,7 @@ public class MeasurementToEvent {
                 .setMethod(name)
                 .create();
 
-        result[1] = new MetricEvent.Builder()
+        result[1] = new PerformanceMetrics.Builder()
                 .setModuleName(moduleName())
                 .setMillis(to)
                 .setSubSystem(group)

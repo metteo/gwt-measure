@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.client.spi;
+package com.google.code.gwtmeasure.client.delivery;
 
-import com.google.code.gwtmeasure.client.PendingMeasurement;
+import com.google.code.gwtmeasure.client.PerformanceEvent;
 import com.google.code.gwtmeasure.client.PerformanceEventHandler;
+import com.google.code.gwtmeasure.client.internal.MeasurementBuffer;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
-import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementControl {
+public class RpcPiggibackDelivery implements PerformanceEventHandler {
 
-    void submit(PendingMeasurement measurement);
-
-    void submit(PerformanceMetrics event);
-
-    HandlerRegistration addHandler(PerformanceEventHandler handler);
+    public void onPerformanceEvent(PerformanceEvent event) {
+        PerformanceMetrics metrics = event.getMetrics();
+        MeasurementBuffer.instance().push(metrics);
+    }
 
 }

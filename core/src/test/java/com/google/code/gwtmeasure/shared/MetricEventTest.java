@@ -13,11 +13,11 @@ import static org.hamcrest.CoreMatchers.is;
 public class MetricEventTest extends Assert {
 
     private static final String RAW_STRING = "moduleName|subSystem|eventGroup|100|type|sessionId|200|method";
-    private MetricEvent event;
+    private PerformanceMetrics event;
 
     @Before
     public void setUp() {
-        event = new MetricEvent.Builder()
+        event = new PerformanceMetrics.Builder()
                 .setModuleName("moduleName")
                 .setEventGroup("eventGroup")
                 .setSubSystem("subSystem")
@@ -38,25 +38,25 @@ public class MetricEventTest extends Assert {
 
     @Test
     public void testDecode() throws Exception {
-        MetricEvent decodedEvent = MetricEvent.decode(RAW_STRING);
+        PerformanceMetrics decodedEvent = PerformanceMetrics.decode(RAW_STRING);
 
         assertThat(decodedEvent, is(event));
     }
 
     @Test
     public void shouldEncodeEmptyMessage() throws Exception {
-        MetricEvent event = new MetricEvent();
+        PerformanceMetrics event = new PerformanceMetrics();
         String encodedEvent = event.encode();
         assertThat(encodedEvent, equalTo("|||0|||0|"));
     }
 
     @Test
     public void shouldWorkWithEmptyMessage() throws Exception {
-        MetricEvent event = new MetricEvent.Builder()
+        PerformanceMetrics event = new PerformanceMetrics.Builder()
                 .create();
         String encodedEvent = event.encode();
 
-        MetricEvent decodedEvent = MetricEvent.decode(encodedEvent);
+        PerformanceMetrics decodedEvent = PerformanceMetrics.decode(encodedEvent);
 
         assertThat(decodedEvent, equalTo(event));
     }

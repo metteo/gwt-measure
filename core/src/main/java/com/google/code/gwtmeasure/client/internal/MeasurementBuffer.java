@@ -1,6 +1,6 @@
 package com.google.code.gwtmeasure.client.internal;
 
-import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class MeasurementBuffer {
     private MeasurementBuffer() {
     }
 
-    private final List<MetricEvent> buffer = new ArrayList<MetricEvent>();
+    private final List<PerformanceMetrics> buffer = new ArrayList<PerformanceMetrics>();
 
-    public void push(MetricEvent event) {
+    public void push(PerformanceMetrics event) {
         buffer.add(event);
     }
 

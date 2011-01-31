@@ -21,7 +21,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MetricEvent implements IsSerializable {
+public class PerformanceMetrics implements IsSerializable {
 
     private String moduleName = "";
     private String subSystem  = "";
@@ -32,15 +32,15 @@ public class MetricEvent implements IsSerializable {
     private long bytes;
     private String method = "";
 
-    public MetricEvent() {
+    public PerformanceMetrics() {
     }
 
     public static class Builder {
 
-        private MetricEvent event;
+        private PerformanceMetrics event;
 
         public Builder() {
-            this.event = new MetricEvent();
+            this.event = new PerformanceMetrics();
         }
 
         public Builder setModuleName(String moduleName) {
@@ -83,7 +83,7 @@ public class MetricEvent implements IsSerializable {
             return this;
         }
 
-        public MetricEvent create() {
+        public PerformanceMetrics create() {
             return this.event;
         }
 
@@ -126,7 +126,7 @@ public class MetricEvent implements IsSerializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MetricEvent that = (MetricEvent) o;
+        PerformanceMetrics that = (PerformanceMetrics) o;
 
         if (bytes != that.bytes) return false;
         if (millis != that.millis) return false;
@@ -182,7 +182,7 @@ public class MetricEvent implements IsSerializable {
         return value == null ? "" : value;
     }
 
-    public static MetricEvent decode(String encodedEvent) {
+    public static PerformanceMetrics decode(String encodedEvent) {
         String[] tokens = encodedEvent.split("\\|");
         return new Builder()
                 .setModuleName(tokens.length >=1 ? tokens[0] : "")

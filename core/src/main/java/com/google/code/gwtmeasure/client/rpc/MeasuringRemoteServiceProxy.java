@@ -16,6 +16,7 @@
 
 package com.google.code.gwtmeasure.client.rpc;
 
+import com.google.code.gwtmeasure.client.delivery.DeliveryRpcRequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;

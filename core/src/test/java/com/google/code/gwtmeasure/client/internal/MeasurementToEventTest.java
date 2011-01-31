@@ -2,9 +2,7 @@ package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
 import com.google.code.gwtmeasure.client.spi.MeasurementControl;
-import com.google.code.gwtmeasure.shared.MetricEvent;
-import com.google.gwt.junit.GWTMockUtilities;
-import org.hamcrest.CoreMatchers;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +32,7 @@ public class MeasurementToEventTest extends Assert {
         PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementControl.class));
         measurement.stop();
 
-        MetricEvent[] events = converter.convert(measurement);
+        PerformanceMetrics[] events = converter.convert(measurement);
 
         assertThat(events.length, is(2));
 

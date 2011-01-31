@@ -1,7 +1,7 @@
 package com.google.code.gwtmeasure.server;
 
 import com.google.code.gwtmeasure.shared.Constants;
-import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -30,8 +30,8 @@ public class MeasureFilter implements Filter {
     private void handleMetrics(String result) {
         String[] metrics = result.split("\\@");
         for (String metric : metrics) {
-            MetricEvent metricEvent = MetricEvent.decode(metric);
-            System.out.println(metricEvent);
+            PerformanceMetrics performanceMetrics = PerformanceMetrics.decode(metric);
+            System.out.println(performanceMetrics);
         }
     }
 

@@ -19,15 +19,12 @@ package com.google.code.gwtmeasure.sample.client;
 import com.google.code.gwtmeasure.client.Measurements;
 import com.google.code.gwtmeasure.client.PendingMeasurement;
 import com.google.code.gwtmeasure.client.internal.MeasurementConrolImpl;
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
 import com.google.code.gwtmeasure.sample.shared.Model;
-import com.google.code.gwtmeasure.shared.MetricEvent;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
@@ -43,9 +40,7 @@ public class SampleEntryPoint implements EntryPoint {
 
     private MyServiceAsync service = GWT.create(MyService.class);
 
-    public void onModuleLoad() {
-        Measurements.setDeliveryChannel(new MeasurementConrolImpl());
-
+    public void onModuleLoad() {        
         PendingMeasurement measurement = Measurements.start("custom-mesurement");
 
         RootPanel panel = RootPanel.get();

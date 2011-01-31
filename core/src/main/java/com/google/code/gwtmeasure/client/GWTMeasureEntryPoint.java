@@ -16,11 +16,11 @@
 
 package com.google.code.gwtmeasure.client;
 
+import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
 import com.google.code.gwtmeasure.client.spi.MeasurementControl;
-import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -30,6 +30,8 @@ public class GWTMeasureEntryPoint implements EntryPoint {
     private static final MeasurementControl control = GWT.create(MeasurementControl.class);
 
     public void onModuleLoad() {
+        control.addHandler(new RpcPiggibackDelivery());
+
         hookGwtStatsFunctionAndSink();
     }
 
@@ -41,7 +43,7 @@ public class GWTMeasureEntryPoint implements EntryPoint {
                                    String sessionId,
                                    String method,
                                    String bytes) {
-        MetricEvent.Builder builder = new MetricEvent.Builder()
+        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder()
                 .setEventGroup(group)
                 .setModuleName(moduleName)
                 .setSubSystem(subSystem)
@@ -56,9 +58,9 @@ public class GWTMeasureEntryPoint implements EntryPoint {
             builder.setBytes(Long.parseLong(bytes));
         }
 
-        MetricEvent metricEvent = builder.create();
+        PerformanceMetrics performanceMetrics = builder.create();
 
-        control.submit(metricEvent);
+        control.submit(performanceMetrics);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{

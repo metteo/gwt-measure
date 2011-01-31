@@ -1,8 +1,8 @@
-package com.google.code.gwtmeasure.client.rpc;
+package com.google.code.gwtmeasure.client.delivery;
 
 import com.google.code.gwtmeasure.client.internal.MeasurementBuffer;
 import com.google.code.gwtmeasure.shared.Constants;
-import com.google.code.gwtmeasure.shared.MetricEvent;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
 
@@ -33,7 +33,7 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
             StringBuilder headerBuilder = new StringBuilder("");
             Object[] events = buffer.popAll();
             for (Object object : events) {
-                MetricEvent event = (MetricEvent) object;
+                PerformanceMetrics event = (PerformanceMetrics) object;
                 String encodedEvent = event.encode();
                 headerBuilder.append(encodedEvent);
                 headerBuilder.append('@');

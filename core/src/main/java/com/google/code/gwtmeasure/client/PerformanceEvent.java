@@ -14,22 +14,36 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.client.spi;
+package com.google.code.gwtmeasure.client;
 
-import com.google.code.gwtmeasure.client.PendingMeasurement;
-import com.google.code.gwtmeasure.client.PerformanceEventHandler;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementControl {
+public class PerformanceEvent extends GwtEvent<PerformanceEventHandler> {
+    
+    public static final Type<PerformanceEventHandler> TYPE = new Type<PerformanceEventHandler>();
 
-    void submit(PendingMeasurement measurement);
+    private final PerformanceMetrics metrics;
 
-    void submit(PerformanceMetrics event);
+    public PerformanceEvent(PerformanceMetrics metrics) {
+        this.metrics = metrics;
+    }
 
-    HandlerRegistration addHandler(PerformanceEventHandler handler);
+    @Override
+    public Type<PerformanceEventHandler> getAssociatedType() {
+        return TYPE;
+    }
+
+    @Override
+    protected void dispatch(PerformanceEventHandler handler) {
+        handler.onPerformanceEvent(this);
+    }
+
+    public PerformanceMetrics getMetrics() {
+        return metrics;
+    }
 
 }
