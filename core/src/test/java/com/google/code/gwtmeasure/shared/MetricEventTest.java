@@ -47,12 +47,13 @@ public class MetricEventTest extends Assert {
     public void shouldEncodeEmptyMessage() throws Exception {
         MetricEvent event = new MetricEvent();
         String encodedEvent = event.encode();
-        assertThat(encodedEvent, equalTo("||||||||"));
+        assertThat(encodedEvent, equalTo("|||0|||0|"));
     }
 
     @Test
     public void shouldWorkWithEmptyMessage() throws Exception {
-        MetricEvent event = new MetricEvent();
+        MetricEvent event = new MetricEvent.Builder()
+                .create();
         String encodedEvent = event.encode();
 
         MetricEvent decodedEvent = MetricEvent.decode(encodedEvent);

@@ -24,6 +24,7 @@ import com.google.code.gwtmeasure.sample.shared.Model;
 import com.google.code.gwtmeasure.shared.MetricEvent;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -54,13 +55,31 @@ public class SampleEntryPoint implements EntryPoint {
         textArea.setHeight("400px");
         panel.add(textArea);               
 
-        Button button = new Button("Submit");
-        button.addClickHandler(new ClickHandler() {
+        Button rpcButton = new Button("Submit RPC Request");
+        rpcButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 callServer();
             }
         });
-        panel.add(button);
+
+        Button asyncButton = new Button("Run Async");
+        asyncButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent clickEvent) {
+                GWT.runAsync(new RunAsyncCallback() {
+                    public void onFailure(Throwable reason) {
+                        textArea.setText("Failure");
+                    }
+
+                    public void onSuccess() {
+                        AdditionalView additionalView = new AdditionalView();
+                        additionalView.render();
+                    }
+                });
+            }
+        });
+
+        panel.add(rpcButton);
+        panel.add(asyncButton);
 
         callServer();
 

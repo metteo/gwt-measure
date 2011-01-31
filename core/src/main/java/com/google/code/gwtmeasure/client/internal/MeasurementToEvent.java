@@ -35,18 +35,18 @@ public class MeasurementToEvent {
 
         result[0] = new MetricEvent.Builder()
                 .setModuleName(moduleName())
-                .setEventGroup(group)
                 .setMillis(from)
-                .setSubSystem(name)
+                .setSubSystem(group)
                 .setType("begin")
+                .setMethod(name)
                 .create();
 
         result[1] = new MetricEvent.Builder()
                 .setModuleName(moduleName())
-                .setEventGroup(group)
                 .setMillis(to)
-                .setSubSystem(name)
+                .setSubSystem(group)
                 .setType("end")
+                .setMethod(name)
                 .create();
 
         return result;

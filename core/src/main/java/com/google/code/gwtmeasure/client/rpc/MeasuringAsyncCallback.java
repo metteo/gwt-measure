@@ -31,8 +31,8 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     public MeasuringAsyncCallback(AsyncCallback<T> originalCallback) {
         this.originalCallback = originalCallback;
-        String callbackType = originalCallback.getClass().getName();
-        this.measurement = Measurements.start(callbackType, Constants.GROUP_CALLBACK);
+        String callbackType = originalCallback.getClass().getName() + ".onSuccess";
+        this.measurement = Measurements.start(callbackType, Constants.SUB_SYSTEM_RPC);
     }
 
     public void onSuccess(T result) {

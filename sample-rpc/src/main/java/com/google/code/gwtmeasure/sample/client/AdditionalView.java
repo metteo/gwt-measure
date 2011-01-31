@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.shared;
+package com.google.code.gwtmeasure.sample.client;
+
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Constants {
+public class AdditionalView {
 
-    public static final String SUB_SYSTEM_STARTUP = "startup";
-    public static final String SUB_SYSTEM_RPC = "rpc";
-    
-    public static final String TYPE_START = "begin";
-    public static final String TYPE_END = "end";
-
-    public static final String HEADER_UID = "gwt-measure-uid";
-    public static final String HEADER_RESULT = "gwt-measure-result";    
-
-    private Constants() {
+    public Widget render() {
+        return new Label("Run Async");
     }
-
+    
 }

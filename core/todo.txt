@@ -1,3 +1,4 @@
+# Apache 2.0 License
 # mention gwt-debug-panel in documentation
 # embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
@@ -20,8 +21,7 @@
 # retry sequence of measurement delivery
 # exception reporting
 # exception diagnostics
-# offline storage of incidents
-# Apache 2.0 License
+# offline storage of incidents on client until browser is connected
 # handle browser close and navigate to different url
 # use HTML5 browser storage and cookies on older browsers
 # slf4j on server
@@ -30,3 +30,5 @@
 # support RunAsync measurements (fragment, size - attributes are new)
 # support custom event attributes (fragment, size, bytes, method, sessionId)
 # pluggable server implementations
+# browser recognition
+# ip geomapping

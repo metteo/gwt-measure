@@ -23,14 +23,14 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public class MetricEvent implements IsSerializable {
 
-    private String moduleName;
-    private String subSystem;
-    private String eventGroup;
+    private String moduleName = "";
+    private String subSystem  = "";
+    private String eventGroup  = "";
     private long millis;
-    private String type;
-    private String sessionId;
+    private String type = "";
+    private String sessionId  = "";
     private long bytes;
-    private String method;
+    private String method = "";
 
     public MetricEvent() {
     }
@@ -168,27 +168,31 @@ public class MetricEvent implements IsSerializable {
     }
 
     public String encode() {
-        return moduleName + '|'
-                + subSystem + '|'
-                + eventGroup + '|'
+        return string(moduleName) + '|'
+                + string(subSystem) + '|'
+                + string(eventGroup) + '|'
                 + millis + '|'
-                + type + '|'
-                + sessionId + '|'
+                + string(type) + '|'
+                + string(sessionId) + '|'
                 + bytes + '|'
-                + method;
+                + string(method);
+    }
+
+    private String string(String value) {
+        return value == null ? "" : value;
     }
 
     public static MetricEvent decode(String encodedEvent) {
         String[] tokens = encodedEvent.split("\\|");
         return new Builder()
-                .setModuleName(tokens[0])
-                .setSubSystem(tokens[1])
-                .setEventGroup(tokens[2])
-                .setMillis(Long.parseLong(tokens[3]))
-                .setType(tokens[4])
-                .setSessionId(tokens[5])
-                .setBytes(Long.parseLong(tokens[6]))
-                .setMethod(tokens[7])
+                .setModuleName(tokens.length >=1 ? tokens[0] : "")
+                .setSubSystem(tokens.length >=2 ? tokens[1] : "")
+                .setEventGroup(tokens.length >=3 ? tokens[2] : "")
+                .setMillis(tokens.length >=4 ? Long.parseLong(tokens[3]) : 0)
+                .setType(tokens.length >=5 ? tokens[4] : "")
+                .setSessionId(tokens.length >=6 ? tokens[5] : "")
+                .setBytes(tokens.length >=7 ? Long.parseLong(tokens[6]) : 0)
+                .setMethod(tokens.length >=8 ? tokens[7] : "")
                 .create();
     }
     

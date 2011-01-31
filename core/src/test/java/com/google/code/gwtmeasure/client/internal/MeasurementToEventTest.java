@@ -40,13 +40,13 @@ public class MeasurementToEventTest extends Assert {
 
         assertThat(events[0].getModuleName(), equalTo("moduleName"));
         assertThat(events[0].getType(), equalTo("begin"));
-        assertThat(events[0].getSubSystem(), equalTo("name"));
-        assertThat(events[0].getEventGroup(), equalTo("group"));
+        assertThat(events[0].getSubSystem(), equalTo("group"));
+        assertThat(events[0].getMethod(), equalTo("name"));
 
         assertThat(events[1].getModuleName(), equalTo("moduleName"));
         assertThat(events[1].getType(), equalTo("end"));
-        assertThat(events[1].getSubSystem(), equalTo("name"));
-        assertThat(events[1].getEventGroup(), equalTo("group"));
+        assertThat(events[1].getSubSystem(), equalTo("group"));
+        assertThat(events[1].getMethod(), equalTo("name"));
     }
 
 }
