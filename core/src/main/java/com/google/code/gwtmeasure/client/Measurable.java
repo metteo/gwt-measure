@@ -16,30 +16,8 @@
 
 package com.google.code.gwtmeasure.client;
 
-import com.google.code.gwtmeasure.client.internal.VoidControl;
-import com.google.code.gwtmeasure.client.spi.MeasurementHub;
-import com.google.code.gwtmeasure.shared.Constants;
-
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Measurements {
-
-    private static MeasurementHub measurementHub = new VoidControl();
-
-    private Measurements() {
-    }
-
-    public static void setDeliveryChannel(MeasurementHub measurementHub) {
-        Measurements.measurementHub = measurementHub;
-    }
-
-    public static PendingMeasurement start(String name) {
-        return start(name, Constants.SUB_SYSTEM_DEFAULT);
-    }
-
-    public static PendingMeasurement start(String name, String group) {
-        return new PendingMeasurement(name, group, measurementHub);
-    }
-
+public interface Measurable {
 }

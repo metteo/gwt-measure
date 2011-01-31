@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.shared;
+package com.google.code.gwtmeasure.client.internal;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Constants {
+public class TypeUtilsTest extends Assert {
 
-    public static final String SUB_SYSTEM_DEFAULT = "default";
-    public static final String SUB_SYSTEM_STARTUP = "startup";
-    public static final String SUB_SYSTEM_RPC = "rpc";
-    
-    public static final String TYPE_START = "begin";
-    public static final String TYPE_END = "end";
+    @Test
+    public void testGetSimpleName() throws Exception {
+        String result = TypeUtils.classSimpleName("com.google.code.sample.Class");
+        assertThat(result, equalTo("Class"));
+    }
 
-    public static final String HEADER_UID = "gwt-measure-uid";
-    public static final String HEADER_RESULT = "gwt-measure-result";    
-
-    private Constants() {
+    @Test
+    public void testGetSimpleName_InnerClass() throws Exception {
+        String result = TypeUtils.classSimpleName("com.google.code.sample.Class$Inner");
+        assertThat(result, equalTo("Class$Inner"));
     }
 
 }

@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.client;
+package com.google.code.gwtmeasure.server;
 
-import com.google.code.gwtmeasure.client.internal.VoidControl;
-import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.Constants;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Measurements {
+public class MetricsProcessor {
 
-    private static MeasurementHub measurementHub = new VoidControl();
-
-    private Measurements() {
+    public void extractAndProcess(HttpServletRequest request) {
+        String result = request.getHeader(Constants.HEADER_RESULT);
+        if (null != result) {
+            handleMetrics(result);
+        }
     }
 
-    public static void setDeliveryChannel(MeasurementHub measurementHub) {
-        Measurements.measurementHub = measurementHub;
-    }
-
-    public static PendingMeasurement start(String name) {
-        return start(name, Constants.SUB_SYSTEM_DEFAULT);
-    }
-
-    public static PendingMeasurement start(String name, String group) {
-        return new PendingMeasurement(name, group, measurementHub);
+    private void handleMetrics(String result) {
+        String[] metrics = result.split("\\@");
+        for (String metric : metrics) {
+            PerformanceMetrics performanceMetrics = PerformanceMetrics.decode(metric);
+            System.out.println(performanceMetrics);
+        }
     }
 
 }

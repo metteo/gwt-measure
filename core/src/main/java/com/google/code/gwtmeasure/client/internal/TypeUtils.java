@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.shared;
+package com.google.code.gwtmeasure.client.internal;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Constants {
+public final class TypeUtils {
 
-    public static final String SUB_SYSTEM_DEFAULT = "default";
-    public static final String SUB_SYSTEM_STARTUP = "startup";
-    public static final String SUB_SYSTEM_RPC = "rpc";
-    
-    public static final String TYPE_START = "begin";
-    public static final String TYPE_END = "end";
+    private TypeUtils() {
+    }
 
-    public static final String HEADER_UID = "gwt-measure-uid";
-    public static final String HEADER_RESULT = "gwt-measure-result";    
-
-    private Constants() {
+    public static String classSimpleName(String fullName) {
+        int index = fullName.lastIndexOf(".");
+        return fullName.substring(index + 1);
     }
 
 }

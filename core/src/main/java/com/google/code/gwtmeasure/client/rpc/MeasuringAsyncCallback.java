@@ -18,7 +18,9 @@ package com.google.code.gwtmeasure.client.rpc;
 
 import com.google.code.gwtmeasure.client.Measurements;
 import com.google.code.gwtmeasure.client.PendingMeasurement;
+import com.google.code.gwtmeasure.client.internal.TypeUtils;
 import com.google.code.gwtmeasure.shared.Constants;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -31,8 +33,9 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     public MeasuringAsyncCallback(AsyncCallback<T> originalCallback) {
         this.originalCallback = originalCallback;
-        String callbackType = originalCallback.getClass().getName() + ".onSuccess";
-        this.measurement = Measurements.start(callbackType, Constants.SUB_SYSTEM_RPC);
+        String callbackType = originalCallback.getClass().getName();
+        String measurementName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
+        this.measurement = Measurements.start(measurementName, Constants.SUB_SYSTEM_RPC);
     }
 
     public void onSuccess(T result) {

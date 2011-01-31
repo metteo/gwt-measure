@@ -12,27 +12,18 @@ import java.io.IOException;
  */
 public class MeasureFilter implements Filter {
 
+    private MetricsProcessor metricsProcessor;
+
     public void init(FilterConfig filterConfig) throws ServletException {
+        metricsProcessor = new MetricsProcessor();
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (request instanceof HttpServletRequest) {
-            HttpServletRequest httpRequest = (HttpServletRequest) request;
-            String result = httpRequest.getHeader(Constants.HEADER_RESULT);
-            if (null != result) {
-                handleMetrics(result);
-            }
+            metricsProcessor.extractAndProcess((HttpServletRequest) request);
         }
 
         chain.doFilter(request, response);
-    }
-
-    private void handleMetrics(String result) {
-        String[] metrics = result.split("\\@");
-        for (String metric : metrics) {
-            PerformanceMetrics performanceMetrics = PerformanceMetrics.decode(metric);
-            System.out.println(performanceMetrics);
-        }
     }
 
     public void destroy() {

@@ -32,3 +32,4 @@
 # pluggable server implementations
 # browser recognition
 # ip geomapping
+# aspect-like proxy generation
