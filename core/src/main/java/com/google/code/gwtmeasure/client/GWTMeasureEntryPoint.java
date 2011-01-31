@@ -18,7 +18,7 @@ package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
 import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -28,11 +28,13 @@ import com.google.gwt.core.client.GWT;
  */
 public class GWTMeasureEntryPoint implements EntryPoint {
 
-    private static final MeasurementControl control = GWT.create(MeasurementControl.class);
+    private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
 
     public void onModuleLoad() {
-        control.addHandler(new RpcPiggibackDelivery());
-        control.addHandler(new DebugPanelDelivery());
+        Measurements.setDeliveryChannel(hub);
+        
+        hub.addHandler(new RpcPiggibackDelivery());
+        hub.addHandler(new DebugPanelDelivery());
 
         hookGwtStatsFunctionAndSink();
     }
@@ -62,7 +64,7 @@ public class GWTMeasureEntryPoint implements EntryPoint {
 
         PerformanceMetrics performanceMetrics = builder.create();
 
-        control.submit(performanceMetrics);
+        hub.submit(performanceMetrics);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{

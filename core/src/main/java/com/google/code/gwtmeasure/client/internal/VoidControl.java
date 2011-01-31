@@ -18,14 +18,14 @@ package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
 import com.google.code.gwtmeasure.client.PerformanceEventHandler;
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class VoidControl implements MeasurementControl {
+public class VoidControl implements MeasurementHub {
 
     public void submit(PendingMeasurement measurement) {
     }

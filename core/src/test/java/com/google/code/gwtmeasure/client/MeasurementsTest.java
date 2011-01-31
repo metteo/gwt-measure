@@ -1,6 +1,6 @@
 package com.google.code.gwtmeasure.client;
 
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,11 +18,11 @@ public class MeasurementsTest extends Assert {
     private static final String MEASUREMENT_NAME = "a";
     private static final String MEASUREMENT_GROUP = "g";
 
-    MeasurementControl channel;
+    MeasurementHub channel;
 
     @Before
     public void setUp() {
-        this.channel = mock(MeasurementControl.class);
+        this.channel = mock(MeasurementHub.class);
         Measurements.setDeliveryChannel(channel);
     }
 

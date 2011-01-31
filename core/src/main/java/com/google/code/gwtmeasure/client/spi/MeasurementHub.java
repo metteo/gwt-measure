@@ -24,7 +24,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementControl {
+public interface MeasurementHub {
 
     void submit(PendingMeasurement measurement);
 

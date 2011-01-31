@@ -1,7 +1,7 @@
 package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class MeasurementToEventTest extends Assert {
 
     @Test
     public void testConvert() throws Exception {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementControl.class));
+        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHub.class));
         measurement.stop();
 
         PerformanceMetrics[] events = converter.convert(measurement);

@@ -28,8 +28,8 @@
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
     </generate-with>
 
-    <replace-with class="com.google.code.gwtmeasure.client.internal.MeasurementConrolImpl">
-        <when-type-assignable class="com.google.code.gwtmeasure.client.spi.MeasurementControl"/>
+    <replace-with class="com.google.code.gwtmeasure.client.internal.MeasurementHubImpl">
+        <when-type-assignable class="com.google.code.gwtmeasure.client.spi.MeasurementHub"/>
     </replace-with>
 
     <entry-point class="com.google.code.gwtmeasure.client.GWTMeasureEntryPoint"/>

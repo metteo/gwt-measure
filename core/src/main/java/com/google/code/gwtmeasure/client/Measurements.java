@@ -17,20 +17,20 @@
 package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.internal.VoidControl;
-import com.google.code.gwtmeasure.client.spi.MeasurementControl;
+import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public final class Measurements {
 
-    private static MeasurementControl measurementControl = new VoidControl();
+    private static MeasurementHub measurementHub = new VoidControl();
 
     private Measurements() {
     }
 
-    public static void setDeliveryChannel(MeasurementControl measurementControl) {
-        Measurements.measurementControl = measurementControl;
+    public static void setDeliveryChannel(MeasurementHub measurementHub) {
+        Measurements.measurementHub = measurementHub;
     }
 
     public static PendingMeasurement start(String name) {
@@ -38,7 +38,7 @@ public final class Measurements {
     }
 
     public static PendingMeasurement start(String name, String group) {
-        return new PendingMeasurement(name, group, measurementControl);
+        return new PendingMeasurement(name, group, measurementHub);
     }
 
 }

@@ -18,7 +18,6 @@ package com.google.code.gwtmeasure.sample.client;
 
 import com.google.code.gwtmeasure.client.Measurements;
 import com.google.code.gwtmeasure.client.PendingMeasurement;
-import com.google.code.gwtmeasure.client.internal.MeasurementConrolImpl;
 import com.google.code.gwtmeasure.sample.shared.Model;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
