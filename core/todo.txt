@@ -1,35 +1,39 @@
-# Apache 2.0 License
-# mention gwt-debug-panel in documentation
+# retry sequence of measurement delivery
+# disabling/enabling features
+# offline storage of incidents on client until browser is connected
+# handle browser close and navigate to different url
+# callback failure identification
+# exception reporting
+# exception diagnostics
+# pluggable server implementations
 # embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
 # measurements groups
-# disabling/enabling feature
-# measurements of RPC
+# sample reporting over the embedded database
+# google chart api for reporting
 # measurements of HTTP Requests
-# measurements of Callbacks
 # measurements of Timers
 # measurements of RequestFactory
 # measurements of EntryPoints
-# integration with lightweight measurements
 # measuring static resource download
 # network calculation
 # uid injection with filter or remote servlet
 # native js support (somehow)
 # resource bundle support
-# callback failure identification
-# retry sequence of measurement delivery
-# exception reporting
-# exception diagnostics
-# offline storage of incidents on client until browser is connected
-# handle browser close and navigate to different url
 # use HTML5 browser storage and cookies on older browsers
 # slf4j on server
+# honor HTTP header limitations
 # gwt logging on client
-# gwt event handling on client for easy hook-up
 # support RunAsync measurements (fragment, size - attributes are new)
 # support custom event attributes (fragment, size, bytes, method, sessionId)
-# pluggable server implementations
 # browser recognition
 # ip geomapping
+# mention gwt-debug-panel in documentation
 # aspect-like proxy generation
+# async storage on server not to stall the production
++ Apache 2.0 License
++ integration with lightweight measurements
++ gwt event handler on client for easy plugins
++ measurements of Callbacks
++ measurements of RPC
