@@ -155,7 +155,7 @@ public class PerformanceMetrics implements IsSerializable {
 
     @Override
     public String toString() {
-        return "MetricEvent{" +
+        return "Metrics{" +
                 "moduleName='" + moduleName + '\'' +
                 ", subSystem='" + subSystem + '\'' +
                 ", eventGroup='" + eventGroup + '\'' +

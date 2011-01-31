@@ -16,6 +16,7 @@
 
 package com.google.code.gwtmeasure.client;
 
+import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
 import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
 import com.google.code.gwtmeasure.client.spi.MeasurementControl;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
@@ -31,6 +32,7 @@ public class GWTMeasureEntryPoint implements EntryPoint {
 
     public void onModuleLoad() {
         control.addHandler(new RpcPiggibackDelivery());
+        control.addHandler(new DebugPanelDelivery());
 
         hookGwtStatsFunctionAndSink();
     }
