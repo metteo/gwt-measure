@@ -28,8 +28,14 @@ public final class Constants {
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
 
-    public static final String HEADER_UID = "gwt-measure-uid";
-    public static final String HEADER_RESULT = "gwt-measure-result";    
+    public static final String HEADER_UID = "X-GWT-Measure-uid";
+    public static final String HEADER_RESULT = "X-GWT-Measure-result";
+   
+    public static final String PARAM_METHOD = "method";
+    public static final String PARAM_FRAGMENT = "fragment";
+    public static final String PARAM_SIZE = "size";    
+    public static final String PARAM_BYTES = "bytes";
+    public static final String PARAM_SESSION_ID = "sessionId";
 
     private Constants() {
     }

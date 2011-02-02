@@ -16,34 +16,18 @@
 
 package com.google.code.gwtmeasure.server;
 
-import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MetricsProcessor {
+public class MetricsDecoder {
 
-    public void extractAndProcess(HttpServletRequest request) {
-        String result = request.getHeader(Constants.HEADER_RESULT);
-        if (null != result) {
-            handleMetrics(result);
-        }
+    public PerformanceMetrics decode(String metric) {
+        Gson gson = new GsonBuilder().create();
+        return gson.fromJson(metric, PerformanceMetrics.class);
     }
-
-    private void handleMetrics(String result) {
-        String[] metrics = result.split("\\@");
-        for (String metric : metrics) {
-            MetricsDecoder decoder = new MetricsDecoder();
-            PerformanceMetrics performanceMetrics = decoder.decode(metric);
-            System.out.println(performanceMetrics);
-        }
-    }
-
-
 
 }

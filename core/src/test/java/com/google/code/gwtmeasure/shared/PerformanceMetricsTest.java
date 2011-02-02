@@ -10,7 +10,7 @@ import static org.hamcrest.CoreMatchers.is;
 /**
  * @author dmitry.buzdin
  */
-public class MetricEventTest extends Assert {
+public class PerformanceMetricsTest extends Assert {
 
     private static final String RAW_STRING = "moduleName|subSystem|eventGroup|100|type|sessionId|200|method";
     private PerformanceMetrics event;
@@ -23,42 +23,25 @@ public class MetricEventTest extends Assert {
                 .setSubSystem("subSystem")
                 .setType("type")
                 .setMillis(100)
-                .setSessionId("sessionId")
-                .setMethod("method")
-                .setBytes(200)       
+                .setParameter(Constants.PARAM_SESSION_ID, "sessionId")
+                .setParameter(Constants.PARAM_METHOD, "method")
+                .setParameter(Constants.PARAM_BYTES, 200)       
                 .create();
     }
 
     @Test
     public void testEncode() throws Exception {
-        String encodedEvent = event.encode();
+        String encodedEvent = event.jsonEncode();
         
         assertThat(encodedEvent, equalTo(RAW_STRING));
     }
 
-    @Test
-    public void testDecode() throws Exception {
-        PerformanceMetrics decodedEvent = PerformanceMetrics.decode(RAW_STRING);
-
-        assertThat(decodedEvent, is(event));
-    }
 
     @Test
     public void shouldEncodeEmptyMessage() throws Exception {
         PerformanceMetrics event = new PerformanceMetrics();
-        String encodedEvent = event.encode();
+        String encodedEvent = event.jsonEncode();
         assertThat(encodedEvent, equalTo("|||0|||0|"));
-    }
-
-    @Test
-    public void shouldWorkWithEmptyMessage() throws Exception {
-        PerformanceMetrics event = new PerformanceMetrics.Builder()
-                .create();
-        String encodedEvent = event.encode();
-
-        PerformanceMetrics decodedEvent = PerformanceMetrics.decode(encodedEvent);
-
-        assertThat(decodedEvent, equalTo(event));
     }
 
 }

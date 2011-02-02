@@ -15,19 +15,10 @@
  */
 
 window.sinkGwtEvents = function() {
-    if (this.eventBuffer) {
-        // We have some data that was reported before the div was connected
+    if (this.eventBuffer) {        
         for (var i = 0; i < this.eventBuffer.length; i++) {
-            var bufferedEvent = this.eventBuffer[i];
-            handleEvent("" + bufferedEvent.evtGroup,
-                    "" + bufferedEvent.moduleName,
-                    "" + bufferedEvent.subSystem,
-                    "" + bufferedEvent.type,
-                    "" + bufferedEvent.millis,
-                    "" + bufferedEvent.sessionId,
-                    "" + bufferedEvent.method,
-                    "" + bufferedEvent.bytes
-                    );
+            var event = this.eventBuffer[i];
+            handleEvent(event);
         }
         this.eventBuffer = null;
     }

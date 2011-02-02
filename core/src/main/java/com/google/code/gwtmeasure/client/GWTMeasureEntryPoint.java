@@ -18,6 +18,7 @@ package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
 import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
+import com.google.code.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.EntryPoint;
@@ -39,47 +40,16 @@ public class GWTMeasureEntryPoint implements EntryPoint {
         hookGwtStatsFunctionAndSink();
     }
 
-    public static void handleEvent(String group,
-                                   String moduleName,
-                                   String subSystem,
-                                   String type,
-                                   String millis,
-                                   String sessionId,
-                                   String method,
-                                   String bytes) {
-        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder()
-                .setEventGroup(group)
-                .setModuleName(moduleName)
-                .setSubSystem(subSystem)
-                .setType(type)
-                .setSessionId(sessionId)
-                .setMethod(method);
-
-        if (millis != null && !"undefined".equals(bytes)) {
-            builder.setMillis(Long.parseLong(millis));
-        }
-        if (bytes != null && !"undefined".equals(bytes)) {
-            builder.setBytes(Long.parseLong(bytes));
-        }
-
-        PerformanceMetrics performanceMetrics = builder.create();
-
-        hub.submit(performanceMetrics);
+    public static void handleEvent(JavaScriptEventObject event) {
+        PerformanceMetrics metrics = event.asJavaObject();
+        hub.submit(metrics);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{
-        $wnd.handleEvent = @com.google.code.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;);
+        $wnd.handleEvent = @com.google.code.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Lcom/google/code/gwtmeasure/client/internal/JavaScriptEventObject;);
         $wnd.__gwtStatsEvent = function(event) {
             $wnd.sinkGwtEvents();
-            $wnd.handleEvent(
-                    "" + event.evtGroup,
-                    "" + event.moduleName,
-                    "" + event.subSystem,
-                    "" + event.type,
-                    "" + event.millis,
-                    "" + event.sessionId,
-                    "" + event.method,
-                    "" + event.bytes);
+            $wnd.handleEvent(event);
             return true;
         };
         $wnd.sinkGwtEvents();

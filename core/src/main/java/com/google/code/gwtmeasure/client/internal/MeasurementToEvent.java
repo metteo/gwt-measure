@@ -17,6 +17,7 @@
 package com.google.code.gwtmeasure.client.internal;
 
 import com.google.code.gwtmeasure.client.PendingMeasurement;
+import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.GWT;
 
@@ -37,16 +38,16 @@ public class MeasurementToEvent {
                 .setModuleName(moduleName())
                 .setMillis(from)
                 .setSubSystem(group)
-                .setType("begin")
-                .setMethod(name)
+                .setType(Constants.TYPE_START)
+                .setParameter(Constants.PARAM_METHOD, name)
                 .create();
 
         result[1] = new PerformanceMetrics.Builder()
                 .setModuleName(moduleName())
                 .setMillis(to)
                 .setSubSystem(group)
-                .setType("end")
-                .setMethod(name)
+                .setType(Constants.TYPE_END)
+                .setParameter(Constants.PARAM_METHOD, name)
                 .create();
 
         return result;

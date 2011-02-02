@@ -10,6 +10,7 @@
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
 # measurements groups
+# split client and server distributions
 # sample reporting over the embedded database
 # google chart api for reporting
 # measurements of HTTP Requests
@@ -29,6 +30,7 @@
 # support custom event attributes (fragment, size, bytes, method, sessionId)
 # browser recognition
 # ip geomapping
+# Google App Engine integration
 # mention gwt-debug-panel in documentation
 # aspect-like proxy generation
 # async storage on server not to stall the production

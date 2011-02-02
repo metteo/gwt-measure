@@ -19,7 +19,8 @@
         "http://google-web-toolkit.googlecode.com/svn/tags/2.1.1/distro-source/core/src/gwt-module.dtd">
 <module>
         
-    <inherits name='com.google.gwt.user.User'/>    
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.json.JSON"/>
 
     <source path="client"/>
     <source path="shared"/>
@@ -28,9 +29,9 @@
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService" />
     </generate-with>
 
-    <generate-with class="com.google.code.gwtmeasure.rebind.MeasurableProxyGenerator">
-        <when-type-assignable class="com.google.code.gwtmeasure.client.Measurable" />
-    </generate-with>
+    <!--<generate-with class="com.google.code.gwtmeasure.rebind.MeasurableProxyGenerator">-->
+        <!--<when-type-assignable class="com.google.code.gwtmeasure.client.Measurable" />-->
+    <!--</generate-with>-->
 
     <replace-with class="com.google.code.gwtmeasure.client.internal.MeasurementHubImpl">
         <when-type-assignable class="com.google.code.gwtmeasure.client.spi.MeasurementHub"/>

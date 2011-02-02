@@ -16,7 +16,13 @@
 
 package com.google.code.gwtmeasure.shared;
 
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -24,13 +30,12 @@ import com.google.gwt.user.client.rpc.IsSerializable;
 public class PerformanceMetrics implements IsSerializable {
 
     private String moduleName = "";
-    private String subSystem  = "";
-    private String eventGroup  = "";
-    private long millis;
+    private String subSystem = "";
+    private String eventGroup = "";
+    private double millis;
     private String type = "";
-    private String sessionId  = "";
-    private long bytes;
-    private String method = "";
+
+    private Map<String, String> parameters = new HashMap<String, String>();
 
     public PerformanceMetrics() {
     }
@@ -58,28 +63,19 @@ public class PerformanceMetrics implements IsSerializable {
             return this;
         }
 
-        public Builder setMillis(long millis) {
+        public Builder setMillis(double millis) {
             this.event.millis = millis;
-            return this;
-        }
-
-        public Builder setSessionId(String sessionId) {
-            this.event.sessionId = sessionId;
-            return this;
-        }
-
-        public Builder setMethod(String method) {
-            this.event.method = method;
-            return this;
-        }
-
-        public Builder setBytes(long bytes) {
-            this.event.bytes = bytes;
             return this;
         }
 
         public Builder setType(String type) {
             this.event.type = type;
+            return this;
+        }
+
+        public Builder setParameter(String name, Object value) {
+            String string = value == null ? "" : value.toString();
+            this.event.parameters.put(name, string);
             return this;
         }
 
@@ -101,7 +97,7 @@ public class PerformanceMetrics implements IsSerializable {
         return eventGroup;
     }
 
-    public long getMillis() {
+    public double getMillis() {
         return millis;
     }
 
@@ -109,16 +105,32 @@ public class PerformanceMetrics implements IsSerializable {
         return type;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public String getParameter(String name) {
+        return parameters.get(name);
     }
 
-    public Long getBytes() {
-        return bytes;
+    public String getSessionId() {
+        return parameters.get(Constants.PARAM_SESSION_ID);
+    }
+
+    public Double getBytes() {
+        return Double.valueOf(parameters.get(Constants.PARAM_BYTES));
     }
 
     public String getMethod() {
-        return method;
+        return parameters.get(Constants.PARAM_METHOD);
+    }
+
+    public String getFragment() {
+        return parameters.get(Constants.PARAM_FRAGMENT);
+    }
+
+    public String getSize() {
+        return parameters.get(Constants.PARAM_SIZE);
+    }
+
+    public void setParam(String param) {
+        parameters.put("param", param);
     }
 
     @Override
@@ -126,16 +138,11 @@ public class PerformanceMetrics implements IsSerializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PerformanceMetrics that = (PerformanceMetrics) o;
+        PerformanceMetrics metrics = (PerformanceMetrics) o;
 
-        if (bytes != that.bytes) return false;
-        if (millis != that.millis) return false;
-        if (eventGroup != null ? !eventGroup.equals(that.eventGroup) : that.eventGroup != null) return false;
-        if (method != null ? !method.equals(that.method) : that.method != null) return false;
-        if (moduleName != null ? !moduleName.equals(that.moduleName) : that.moduleName != null) return false;
-        if (sessionId != null ? !sessionId.equals(that.sessionId) : that.sessionId != null) return false;
-        if (subSystem != null ? !subSystem.equals(that.subSystem) : that.subSystem != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        if (eventGroup != null ? !eventGroup.equals(metrics.eventGroup) : metrics.eventGroup != null) return false;
+        if (moduleName != null ? !moduleName.equals(metrics.moduleName) : metrics.moduleName != null) return false;
+        if (subSystem != null ? !subSystem.equals(metrics.subSystem) : metrics.subSystem != null) return false;
 
         return true;
     }
@@ -145,11 +152,7 @@ public class PerformanceMetrics implements IsSerializable {
         int result = moduleName != null ? moduleName.hashCode() : 0;
         result = 31 * result + (subSystem != null ? subSystem.hashCode() : 0);
         result = 31 * result + (eventGroup != null ? eventGroup.hashCode() : 0);
-        result = 31 * result + (int) (millis ^ (millis >>> 32));
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (sessionId != null ? sessionId.hashCode() : 0);
-        result = 31 * result + (int) (bytes ^ (bytes >>> 32));
-        result = 31 * result + (method != null ? method.hashCode() : 0);
+
         return result;
     }
 
@@ -161,39 +164,35 @@ public class PerformanceMetrics implements IsSerializable {
                 ", eventGroup='" + eventGroup + '\'' +
                 ", millis=" + millis +
                 ", type='" + type + '\'' +
-                ", sessionId='" + sessionId + '\'' +
-                ", bytes=" + bytes +
-                ", method='" + method + '\'' +
                 '}';
     }
 
-    public String encode() {
-        return string(moduleName) + '|'
-                + string(subSystem) + '|'
-                + string(eventGroup) + '|'
-                + millis + '|'
-                + string(type) + '|'
-                + string(sessionId) + '|'
-                + bytes + '|'
-                + string(method);
+    public String jsonEncode() {
+        JSONObject object = new JSONObject();
+
+        if (moduleName != null) object.put("moduleName", new JSONString(moduleName));
+        if (subSystem != null) object.put("subSystem", new JSONString(subSystem));
+        if (eventGroup != null) object.put("eventGroup", new JSONString(eventGroup));
+        object.put("millis", new JSONNumber(millis));
+        if (type!= null) object.put("type", new JSONString(type));
+
+        if (!parameters.isEmpty()) {
+            JSONObject params = new JSONObject();
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                String name = entry.getKey();
+                String value = entry.getValue();
+                if (value != null) {
+                    params.put(name, new JSONString(value));
+                }
+            }
+            object.put("parameters", params);
+        }
+
+        return object.toString();
     }
 
     private String string(String value) {
         return value == null ? "" : value;
     }
 
-    public static PerformanceMetrics decode(String encodedEvent) {
-        String[] tokens = encodedEvent.split("\\|");
-        return new Builder()
-                .setModuleName(tokens.length >=1 ? tokens[0] : "")
-                .setSubSystem(tokens.length >=2 ? tokens[1] : "")
-                .setEventGroup(tokens.length >=3 ? tokens[2] : "")
-                .setMillis(tokens.length >=4 ? Long.parseLong(tokens[3]) : 0)
-                .setType(tokens.length >=5 ? tokens[4] : "")
-                .setSessionId(tokens.length >=6 ? tokens[5] : "")
-                .setBytes(tokens.length >=7 ? Long.parseLong(tokens[6]) : 0)
-                .setMethod(tokens.length >=8 ? tokens[7] : "")
-                .create();
-    }
-    
 }

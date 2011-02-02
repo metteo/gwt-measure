@@ -34,7 +34,7 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
             Object[] events = buffer.popAll();
             for (Object object : events) {
                 PerformanceMetrics event = (PerformanceMetrics) object;
-                String encodedEvent = event.encode();
+                String encodedEvent = event.jsonEncode();
                 headerBuilder.append(encodedEvent);
                 headerBuilder.append('@');
             }
