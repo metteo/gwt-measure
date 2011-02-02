@@ -129,10 +129,6 @@ public class PerformanceMetrics implements IsSerializable {
         return parameters.get(Constants.PARAM_SIZE);
     }
 
-    public void setParam(String param) {
-        parameters.put("param", param);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -158,13 +154,27 @@ public class PerformanceMetrics implements IsSerializable {
 
     @Override
     public String toString() {
-        return "Metrics{" +
-                "moduleName='" + moduleName + '\'' +
-                ", subSystem='" + subSystem + '\'' +
-                ", eventGroup='" + eventGroup + '\'' +
-                ", millis=" + millis +
-                ", type='" + type + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append("{")
+                .append("moduleName='")
+                .append(moduleName)
+                .append("', subSystem='")
+                .append(subSystem)
+                .append("', eventGroup='")
+                .append(eventGroup)
+                .append("', millis=")
+                .append(millis)
+                .append("', type='")
+                .append(type)
+                .append("', parameters=[");
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {            
+            builder.append(entry.getKey());
+            builder.append("=");
+            builder.append(entry.getValue());
+            builder.append(",");
+        }
+        builder.append("]}");
+        return builder.toString();
     }
 
     public String jsonEncode() {
@@ -174,7 +184,7 @@ public class PerformanceMetrics implements IsSerializable {
         if (subSystem != null) object.put("subSystem", new JSONString(subSystem));
         if (eventGroup != null) object.put("eventGroup", new JSONString(eventGroup));
         object.put("millis", new JSONNumber(millis));
-        if (type!= null) object.put("type", new JSONString(type));
+        if (type != null) object.put("type", new JSONString(type));
 
         if (!parameters.isEmpty()) {
             JSONObject params = new JSONObject();
@@ -189,10 +199,6 @@ public class PerformanceMetrics implements IsSerializable {
         }
 
         return object.toString();
-    }
-
-    private String string(String value) {
-        return value == null ? "" : value;
     }
 
 }

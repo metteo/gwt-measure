@@ -18,6 +18,7 @@ package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
 import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
+import com.google.code.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.google.code.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
@@ -38,6 +39,9 @@ public class GWTMeasureEntryPoint implements EntryPoint {
         hub.addHandler(new DebugPanelDelivery());
 
         hookGwtStatsFunctionAndSink();
+
+        GWT.UncaughtExceptionHandler exceptionHandler = GWT.getUncaughtExceptionHandler();
+        GWT.setUncaughtExceptionHandler(new WrappingExceptionHandler(exceptionHandler));
     }
 
     public static void handleEvent(JavaScriptEventObject event) {

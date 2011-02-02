@@ -1,3 +1,4 @@
+--- In Progress ---
 # retry sequence of measurement delivery
 # disabling/enabling features
 # offline storage of incidents on client until browser is connected
@@ -11,8 +12,6 @@
 # nested custom measurements
 # measurements groups
 # split client and server distributions
-# sample reporting over the embedded database
-# google chart api for reporting
 # measurements of HTTP Requests
 # measurements of Timers
 # measurements of RequestFactory
@@ -23,19 +22,26 @@
 # native js support (somehow)
 # resource bundle support
 # use HTML5 browser storage and cookies on older browsers
-# slf4j on server
 # honor HTTP header limitations
 # gwt logging on client
 # support RunAsync measurements (fragment, size - attributes are new)
-# support custom event attributes (fragment, size, bytes, method, sessionId)
-# browser recognition
-# ip geomapping
-# Google App Engine integration
 # mention gwt-debug-panel in documentation
 # aspect-like proxy generation
 # async storage on server not to stall the production
+
+----- Planned -----
+# Google App Engine integration
+# browser recognition
+# ip geomapping
+# sample reporting over the embedded database
+# google chart api for reporting
+
+--- Implemented ---
++ GWT 2.1.1 support
 + Apache 2.0 License
 + integration with lightweight measurements
 + gwt event handler on client for easy plugins
 + measurements of Callbacks
 + measurements of RPC
++ support custom event attributes (fragment, size, bytes, method, sessionId)
++ slf4j on server
