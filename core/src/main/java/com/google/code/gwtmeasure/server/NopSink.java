@@ -16,29 +16,16 @@
 
 package com.google.code.gwtmeasure.server;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 
-/** 
+import java.util.List;
+
+/**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasuringServlet extends HttpServlet {
+public class NopSink implements MetricsSink {
 
-    MetricsProcessor metricsProcessor;
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        metricsProcessor.extractAndProcess(request);
+    public void flush(List<PerformanceMetrics> metrics) {        
     }
 
 }

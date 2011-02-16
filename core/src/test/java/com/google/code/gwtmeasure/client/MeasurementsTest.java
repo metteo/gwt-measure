@@ -36,7 +36,7 @@ public class MeasurementsTest extends Assert {
         verify(channel).submit(measurement);
         assertThat(measurement.isDiscarded(), is(false));
         assertThat(measurement.getName(), is(MEASUREMENT_NAME));
-        assertThat(measurement.getGroup(), is(""));
+        assertThat(measurement.getGroup(), is("default"));
         assertThat(measurement.getTo(), new GreaterThan(measurement.getFrom()));
     }
 

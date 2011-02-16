@@ -38,7 +38,7 @@ import com.google.gwt.user.client.Window;
 public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
 
     private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
-    private static final int TIMER_INTERVAL = 10000; // 10 seconds
+    private static final int TIMER_INTERVAL = 15000; // 15 seconds
 
     public void onModuleLoad() {
         Measurements.setDeliveryChannel(hub);

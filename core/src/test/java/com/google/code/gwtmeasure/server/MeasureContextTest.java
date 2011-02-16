@@ -16,29 +16,32 @@
 
 package com.google.code.gwtmeasure.server;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
-/** 
+import static org.hamcrest.CoreMatchers.notNullValue;
+
+/**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasuringServlet extends HttpServlet {
+public class MeasureContextTest extends Assert {
 
-    MetricsProcessor metricsProcessor;
+    private MeasureContext context;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
+    @Before
+    public void setUp() {
+        context = MeasureContext.instance();
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        metricsProcessor.extractAndProcess(request);
+    @Test
+    public void testGetBean() throws Exception {
+        Service bean = context.getBean(Service.class);
+        
+        assertThat(bean, notNullValue());
+    }
+
+    public static class Service {
     }
 
 }

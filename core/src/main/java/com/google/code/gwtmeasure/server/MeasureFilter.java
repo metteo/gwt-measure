@@ -15,7 +15,7 @@ public class MeasureFilter implements Filter {
     private MetricsProcessor metricsProcessor;
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        metricsProcessor = new MetricsProcessor();
+        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class)        
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

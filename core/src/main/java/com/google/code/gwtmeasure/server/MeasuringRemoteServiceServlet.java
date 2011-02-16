@@ -34,7 +34,7 @@ public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        metricsProcessor = new MetricsProcessor();
+        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
     }
 
     @Override

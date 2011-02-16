@@ -16,29 +16,23 @@
 
 package com.google.code.gwtmeasure.server;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.google.code.gwtmeasure.shared.PerformanceMetrics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** 
+import java.util.List;
+
+/**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasuringServlet extends HttpServlet {
+public class LoggingSink implements MetricsSink {
 
-    MetricsProcessor metricsProcessor;
+    private static final Logger logger = LoggerFactory.getLogger(LoggingSink.class);
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        metricsProcessor.extractAndProcess(request);
+    public void flush(List<PerformanceMetrics> metrics) {
+        for (PerformanceMetrics metric : metrics) {
+            logger.info(metric.toString());
+        }
     }
 
 }

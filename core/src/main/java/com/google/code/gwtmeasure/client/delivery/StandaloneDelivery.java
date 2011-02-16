@@ -33,6 +33,7 @@ public class StandaloneDelivery {
     
     private final MeasurementSerializer serializer = new MeasurementSerializer();
 
+    // TODO Make configurable
     private static final String SERVLET_LOCATION = "measurements";
 
     public static StandaloneDelivery instance() {

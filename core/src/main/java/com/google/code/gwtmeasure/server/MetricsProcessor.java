@@ -20,13 +20,20 @@ import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class MetricsProcessor {
+
+    private final MetricsDecoder decoder = new MetricsDecoder();
+    private MetricsSink sink = new LoggingSink();
 
     public void extractAndProcess(HttpServletRequest request) {
         Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
@@ -43,13 +50,23 @@ public class MetricsProcessor {
 
     private void handleMetrics(String result) {
         String[] metrics = result.split("\\@");
-        for (String metric : metrics) {
-            MetricsDecoder decoder = new MetricsDecoder();
+        List<PerformanceMetrics> decodedMetrics = new ArrayList<PerformanceMetrics>();
+        for (String metric : metrics) {            
             PerformanceMetrics performanceMetrics = decoder.decode(metric);
-            System.out.println(performanceMetrics);
+            decodedMetrics.add(performanceMetrics);
+        }
+
+        if (sink != null) {
+            sink.flush(decodedMetrics);
         }
     }
 
+    public void setMetricsSink(MetricsSink sink) {
+        this.sink = sink;
+    }
 
+    public MetricsSink getMetricsSink() {
+        return sink;
+    }
 
 }

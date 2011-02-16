@@ -10,21 +10,21 @@
 + handle browser close and navigate to different url
 
 --- In Progress ---
-# retry sequence of measurement delivery
-# disabling/enabling features
-# exception reporting
 # pluggable server implementations
 # measurements groups
 # measuring static resource download
+# support RunAsync measurements (fragment, size - attributes are new)
+# retry sequence of measurement delivery
+# exception reporting
+# callback failure identification
+# messages in json format
 # network calculation
 # uid injection with filter or remote servlet
-# support RunAsync measurements (fragment, size - attributes are new)
-# mention gwt-debug-panel in documentation
-# messages in json format
-# callback failure identification
-# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
+# configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # split client and server distributions
 # honor HTTP header limitations
+# disabling/enabling features
+# mention gwt-debug-panel in documentation
 
 --- Next Versions ---
 # offline storage of incidents on client until browser is connected
@@ -51,3 +51,4 @@
 # JMX reporting and configuration support
 # reporting tooling
 # GWT 2.2 support
+# Migrate to Java 1.6 and use SPI feature
