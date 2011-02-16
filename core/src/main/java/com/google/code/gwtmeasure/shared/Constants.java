@@ -30,6 +30,7 @@ public final class Constants {
 
     public static final String HEADER_UID = "X-GWT-Measure-uid";
     public static final String HEADER_RESULT = "X-GWT-Measure-result";
+    public static final String HEADER_ERROR = "X-GWT-Measure-error";
    
     public static final String PARAM_METHOD = "method";
     public static final String PARAM_FRAGMENT = "fragment";

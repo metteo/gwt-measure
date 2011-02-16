@@ -24,11 +24,18 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -45,14 +52,25 @@ public class SampleEntryPoint implements EntryPoint {
         RootPanel panel = RootPanel.get();
         panel.add(new Label("Measurements"));
         textArea = new TextArea();
-        textArea.setWidth("500px");
-        textArea.setHeight("400px");
-        panel.add(textArea);               
+        textArea.setWidth("400px");
+        textArea.setHeight("300px");
+
+        VerticalPanel vpanel = new VerticalPanel();
+        panel.add(vpanel);
+
+        vpanel.add(textArea);
 
         Button rpcButton = new Button("Submit RPC Request");
         rpcButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 callServer();
+            }
+        });
+
+        Button xhrButton = new Button("Submit XHR Request");
+        xhrButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                callXhrServer();
             }
         });
 
@@ -72,12 +90,34 @@ public class SampleEntryPoint implements EntryPoint {
             }
         });
 
-        panel.add(rpcButton);
-        panel.add(asyncButton);
+        HorizontalPanel hpanel = new HorizontalPanel();
+        hpanel.add(rpcButton);
+        hpanel.add(xhrButton);
+        hpanel.add(asyncButton);
+
+        vpanel.add(hpanel);
 
         callServer();
 
         measurement.stop();
+    }
+
+    private void callXhrServer() {
+        RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, "/servlet");
+        builder.setCallback(new RequestCallback() {
+            public void onResponseReceived(Request request, Response response) {
+                textArea.setText("Success");
+            }
+
+            public void onError(Request request, Throwable exception) {
+                textArea.setText("Failure");
+            }
+        });
+        try {
+            builder.send();
+        } catch (RequestException e) {
+            textArea.setText("Exception : " + e.getMessage());
+        }
     }
 
     private void callServer() {

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.rpc.RpcRequestBuilder;
 public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
 
     private static final RpcRequestBuilder instance = new DeliveryRpcRequestBuilder();
-    
+
     public static RpcRequestBuilder instance() {
         return instance;
     }
@@ -22,13 +22,22 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
 
     /**
      * Inject pending measurements if any are waiting.
+     *
      * @param requestBuilder
      */
     @Override
-    protected void doFinish(RequestBuilder requestBuilder  ) {
+    protected void doFinish(RequestBuilder requestBuilder) {
         super.doFinish(requestBuilder);
 
         MeasurementBuffer buffer = MeasurementBuffer.instance();
+        String results = produceHeader(buffer);
+
+        if (!"".equals(results)) {
+            requestBuilder.setHeader(Constants.HEADER_RESULT, results);
+        }
+    }
+
+    private String produceHeader(MeasurementBuffer buffer) {
         if (!buffer.isEmpty()) {
             StringBuilder headerBuilder = new StringBuilder("");
             Object[] events = buffer.popAll();
@@ -39,14 +48,14 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
                 headerBuilder.append('@');
             }
 
-            String results = headerBuilder.toString();
-
-            requestBuilder.setHeader(Constants.HEADER_RESULT, results);
+            return headerBuilder.toString();
         }
+        return "";
     }
 
     /**
      * Sets a unique request id for each RPC call.
+     *
      * @param requestBuilder
      * @param id
      */

@@ -1,41 +1,3 @@
---- In Progress ---
-# retry sequence of measurement delivery
-# disabling/enabling features
-# offline storage of incidents on client until browser is connected
-# handle browser close and navigate to different url
-# callback failure identification
-# exception reporting
-# exception diagnostics
-# pluggable server implementations
-# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
-# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
-# nested custom measurements
-# measurements groups
-# split client and server distributions
-# measurements of HTTP Requests
-# measurements of Timers
-# measurements of RequestFactory
-# measurements of EntryPoints
-# measuring static resource download
-# network calculation
-# uid injection with filter or remote servlet
-# native js support (somehow)
-# resource bundle support
-# use HTML5 browser storage and cookies on older browsers
-# honor HTTP header limitations
-# gwt logging on client
-# support RunAsync measurements (fragment, size - attributes are new)
-# mention gwt-debug-panel in documentation
-# aspect-like proxy generation
-# async storage on server not to stall the production
-
------ Planned -----
-# Google App Engine integration
-# browser recognition
-# ip geomapping
-# sample reporting over the embedded database
-# google chart api for reporting
-
 --- Implemented ---
 + GWT 2.1.1 support
 + Apache 2.0 License
@@ -45,3 +7,47 @@
 + measurements of RPC
 + support custom event attributes (fragment, size, bytes, method, sessionId)
 + slf4j on server
+
+--- In Progress ---
+# retry sequence of measurement delivery
+# disabling/enabling features
+# handle browser close and navigate to different url
+# exception reporting
+# pluggable server implementations
+# measurements groups
+# measuring static resource download
+# network calculation
+# uid injection with filter or remote servlet
+# support RunAsync measurements (fragment, size - attributes are new)
+# mention gwt-debug-panel in documentation
+# messages in json format
+
+--- Next Versions ---
+# offline storage of incidents on client until browser is connected
+# callback failure identification
+# exception diagnostics
+# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
+# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
+# nested custom measurements
+# split client and server distributions
+# measurements of HTTP Requests
+# measurements of Timers
+# measurements of RequestFactory
+# measurements of EntryPoints
+# native js support (somehow)
+# resource bundle support
+# use HTML5 browser storage and cookies on older browsers
+# honor HTTP header limitations
+# gwt logging on client
+# aspect-like proxy generation
+# async storage on server not to stall the production
+# GWT 2.2 support
+
+----- Planned -----
+# Google App Engine integration
+# browser recognition
+# ip geomapping
+# sample reporting over the embedded database
+# google chart api for reporting
+# JMX reporting and configuration support
+# reporting tooling

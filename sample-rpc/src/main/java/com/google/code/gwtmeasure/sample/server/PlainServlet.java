@@ -16,18 +16,20 @@
 
 package com.google.code.gwtmeasure.sample.server;
 
-import com.google.code.gwtmeasure.sample.shared.Model;
-import com.google.code.gwtmeasure.sample.client.MyService;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MyServiceImpl extends RemoteServiceServlet implements MyService {
+public class PlainServlet extends HttpServlet {
 
-    public Model doStuff(Model model) {
-        System.out.println("rpc method invoked.");
-        return model;
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {        
+        System.out.println("ajax doPost invoked.");
     }
 
 }

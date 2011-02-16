@@ -22,12 +22,21 @@
          version="2.5">
 
     <servlet>
-        <servlet-name>myService</servlet-name>
+        <servlet-name>rpcServlet</servlet-name>
         <servlet-class>com.google.code.gwtmeasure.sample.server.MyServiceImpl</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>myService</servlet-name>
+        <servlet-name>rpcServlet</servlet-name>
         <url-pattern>/samplerpc/MyService</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>plainServlet</servlet-name>
+        <servlet-class>com.google.code.gwtmeasure.sample.server.PlainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>plainServlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
     </servlet-mapping>
 
     <filter>
@@ -36,7 +45,7 @@
     </filter>
     <filter-mapping>
         <filter-name>measure</filter-name>
-        <servlet-name>myService</servlet-name>
+        <servlet-name>*</servlet-name>
     </filter-mapping>
 
 </web-app>

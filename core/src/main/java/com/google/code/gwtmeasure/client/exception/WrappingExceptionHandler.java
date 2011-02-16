@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.client.delivery;
+package com.google.code.gwtmeasure.client.exception;
 
-import com.google.code.gwtmeasure.client.PerformanceEvent;
-import com.google.code.gwtmeasure.client.PerformanceEventHandler;
-import com.google.code.gwtmeasure.client.internal.MeasurementBuffer;
-import com.google.code.gwtmeasure.shared.PerformanceMetrics;
+import com.google.gwt.core.client.GWT;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class RpcPiggibackDelivery implements PerformanceEventHandler {
+public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
 
-    public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceMetrics metrics = event.getMetrics();
-        MeasurementBuffer.instance().push(metrics);
+    private GWT.UncaughtExceptionHandler handler;
+
+    public WrappingExceptionHandler(GWT.UncaughtExceptionHandler handler) {
+        this.handler = handler;
+    }
+
+    public void onUncaughtException(Throwable e) {
+        // TODO Handle the exception
+        if (handler != null) {
+            handler.onUncaughtException(e);
+        }
     }
 
 }

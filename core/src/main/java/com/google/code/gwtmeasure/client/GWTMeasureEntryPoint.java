@@ -17,33 +17,67 @@
 package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
-import com.google.code.gwtmeasure.client.delivery.RpcPiggibackDelivery;
+import com.google.code.gwtmeasure.client.delivery.RemoteServerDelivery;
 import com.google.code.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.google.code.gwtmeasure.client.internal.JavaScriptEventObject;
+import com.google.code.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class GWTMeasureEntryPoint implements EntryPoint {
+public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
 
     private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
+    private static final int TIMER_INTERVAL = 10000; // 10 seconds
 
     public void onModuleLoad() {
         Measurements.setDeliveryChannel(hub);
-        
-        hub.addHandler(new RpcPiggibackDelivery());
+
+        // TODO Make configurable and extract
+        hub.addHandler(new RemoteServerDelivery());
         hub.addHandler(new DebugPanelDelivery());
 
+        // Measurement hooks
         hookGwtStatsFunctionAndSink();
+        hookWindowCloseHandler();
+        hookToWindowUnload();
+        hookTimer();
 
+        // Exception handling hooks
+        hookExceptionHandler();
+    }
+
+    private void hookExceptionHandler() {
         GWT.UncaughtExceptionHandler exceptionHandler = GWT.getUncaughtExceptionHandler();
         GWT.setUncaughtExceptionHandler(new WrappingExceptionHandler(exceptionHandler));
     }
 
+    private void hookTimer() {
+        MeasurementDeliveryTimer timer = new MeasurementDeliveryTimer();
+        timer.scheduleRepeating(TIMER_INTERVAL);
+    }
+
+    private void hookToWindowUnload() {
+        WindowUnloadHandler.attach(new WindowUnloadCommand());
+    }
+
+    private void hookWindowCloseHandler() {
+        Window.addCloseHandler(this);
+    }
+
+    /**
+     * Target for JSNI invocation
+     * @param event JSON object representing performance event
+     */
     public static void handleEvent(JavaScriptEventObject event) {
         PerformanceMetrics metrics = event.asJavaObject();
         hub.submit(metrics);
@@ -58,5 +92,26 @@ public class GWTMeasureEntryPoint implements EntryPoint {
         };
         $wnd.sinkGwtEvents();
     }-*/;
+
+    public void onClose(CloseEvent<Window> windowCloseEvent) {
+        // TODO Deliver
+    }
+
+    private static class WindowUnloadCommand implements Command {
+
+        public void execute() {
+            // TODO Deliver
+        }
+        
+    }
+
+    private static class MeasurementDeliveryTimer extends Timer {
+
+        @Override
+        public void run() {
+            // TODO Deliver
+        }
+
+    }
 
 }
