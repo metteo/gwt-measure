@@ -60,6 +60,14 @@ public class SampleEntryPoint implements EntryPoint {
 
         vpanel.add(textArea);
 
+        Button measureButton = new Button("Add Measurement");
+        measureButton.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                PendingMeasurement m = Measurements.start("test");
+                m.stop();
+            }
+        });
+
         Button rpcButton = new Button("Submit RPC Request");
         rpcButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
@@ -91,6 +99,8 @@ public class SampleEntryPoint implements EntryPoint {
         });
 
         HorizontalPanel hpanel = new HorizontalPanel();
+
+        hpanel.add(measureButton);
         hpanel.add(rpcButton);
         hpanel.add(xhrButton);
         hpanel.add(asyncButton);

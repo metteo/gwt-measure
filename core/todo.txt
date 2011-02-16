@@ -7,11 +7,11 @@
 + measurements of RPC
 + support custom event attributes (fragment, size, bytes, method, sessionId)
 + slf4j on server
++ handle browser close and navigate to different url
 
 --- In Progress ---
 # retry sequence of measurement delivery
 # disabling/enabling features
-# handle browser close and navigate to different url
 # exception reporting
 # pluggable server implementations
 # measurements groups
@@ -21,15 +21,16 @@
 # support RunAsync measurements (fragment, size - attributes are new)
 # mention gwt-debug-panel in documentation
 # messages in json format
+# callback failure identification
+# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
+# split client and server distributions
+# honor HTTP header limitations
 
 --- Next Versions ---
 # offline storage of incidents on client until browser is connected
-# callback failure identification
-# exception diagnostics
-# embeddable transport (rpc, servlet, rpc piggyback, servlet piggyback, custom)
+# exception diagnostics and categorization
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
-# split client and server distributions
 # measurements of HTTP Requests
 # measurements of Timers
 # measurements of RequestFactory
@@ -37,11 +38,9 @@
 # native js support (somehow)
 # resource bundle support
 # use HTML5 browser storage and cookies on older browsers
-# honor HTTP header limitations
 # gwt logging on client
 # aspect-like proxy generation
 # async storage on server not to stall the production
-# GWT 2.2 support
 
 ----- Planned -----
 # Google App Engine integration
@@ -51,3 +50,4 @@
 # google chart api for reporting
 # JMX reporting and configuration support
 # reporting tooling
+# GWT 2.2 support

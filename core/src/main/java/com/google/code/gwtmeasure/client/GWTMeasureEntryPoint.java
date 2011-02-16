@@ -18,6 +18,7 @@ package com.google.code.gwtmeasure.client;
 
 import com.google.code.gwtmeasure.client.delivery.DebugPanelDelivery;
 import com.google.code.gwtmeasure.client.delivery.RemoteServerDelivery;
+import com.google.code.gwtmeasure.client.delivery.StandaloneDelivery;
 import com.google.code.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.google.code.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.google.code.gwtmeasure.client.internal.WindowUnloadHandler;
@@ -94,13 +95,13 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
     }-*/;
 
     public void onClose(CloseEvent<Window> windowCloseEvent) {
-        // TODO Deliver
+        StandaloneDelivery.instance().deliver();
     }
 
     private static class WindowUnloadCommand implements Command {
 
         public void execute() {
-            // TODO Deliver
+            StandaloneDelivery.instance().deliver();
         }
         
     }
@@ -109,7 +110,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
 
         @Override
         public void run() {
-            // TODO Deliver
+            StandaloneDelivery.instance().deliver();
         }
 
     }

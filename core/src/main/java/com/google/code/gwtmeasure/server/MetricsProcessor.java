@@ -29,10 +29,16 @@ import javax.servlet.http.HttpServletRequest;
 public class MetricsProcessor {
 
     public void extractAndProcess(HttpServletRequest request) {
+        Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
+        if (Boolean.TRUE.equals(processed)) {
+            return;
+        }
+
         String result = request.getHeader(Constants.HEADER_RESULT);
         if (null != result) {
             handleMetrics(result);
         }
+        request.setAttribute(Constants.ATTR_PROCESSED, Boolean.TRUE);
     }
 
     private void handleMetrics(String result) {

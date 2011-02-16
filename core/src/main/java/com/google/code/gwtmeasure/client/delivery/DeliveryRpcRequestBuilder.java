@@ -13,6 +13,8 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
 
     private static final RpcRequestBuilder instance = new DeliveryRpcRequestBuilder();
 
+    private final MeasurementSerializer serializer = new MeasurementSerializer();
+
     public static RpcRequestBuilder instance() {
         return instance;
     }
@@ -30,27 +32,11 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
         super.doFinish(requestBuilder);
 
         MeasurementBuffer buffer = MeasurementBuffer.instance();
-        String results = produceHeader(buffer);
+        String results = serializer.serialize(buffer);
 
         if (!"".equals(results)) {
             requestBuilder.setHeader(Constants.HEADER_RESULT, results);
         }
-    }
-
-    private String produceHeader(MeasurementBuffer buffer) {
-        if (!buffer.isEmpty()) {
-            StringBuilder headerBuilder = new StringBuilder("");
-            Object[] events = buffer.popAll();
-            for (Object object : events) {
-                PerformanceMetrics event = (PerformanceMetrics) object;
-                String encodedEvent = event.jsonEncode();
-                headerBuilder.append(encodedEvent);
-                headerBuilder.append('@');
-            }
-
-            return headerBuilder.toString();
-        }
-        return "";
     }
 
     /**

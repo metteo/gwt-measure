@@ -28,10 +28,14 @@ public final class Constants {
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
 
+    // HTTP Headers
     public static final String HEADER_UID = "X-GWT-Measure-uid";
     public static final String HEADER_RESULT = "X-GWT-Measure-result";
     public static final String HEADER_ERROR = "X-GWT-Measure-error";
-   
+
+    // Servlet Attributes
+    public static final String ATTR_PROCESSED = "_processed";
+
     public static final String PARAM_METHOD = "method";
     public static final String PARAM_FRAGMENT = "fragment";
     public static final String PARAM_SIZE = "size";    
