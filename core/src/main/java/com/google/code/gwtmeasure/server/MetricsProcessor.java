@@ -18,10 +18,6 @@ package com.google.code.gwtmeasure.server;
 
 import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -32,8 +28,13 @@ import java.util.List;
  */
 public class MetricsProcessor {
 
-    private final MetricsDecoder decoder = new MetricsDecoder();
-    private MetricsSink sink = new LoggingSink();
+    private final MetricsDecoder decoder;
+    private MetricsSink sink;
+
+    public MetricsProcessor(MetricsDecoder decoder, MetricsSink sink) {
+        this.decoder = decoder;
+        this.sink = sink;
+    }
 
     public void extractAndProcess(HttpServletRequest request) {
         Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
@@ -59,14 +60,6 @@ public class MetricsProcessor {
         if (sink != null) {
             sink.flush(decodedMetrics);
         }
-    }
-
-    public void setMetricsSink(MetricsSink sink) {
-        this.sink = sink;
-    }
-
-    public MetricsSink getMetricsSink() {
-        return sink;
     }
 
 }

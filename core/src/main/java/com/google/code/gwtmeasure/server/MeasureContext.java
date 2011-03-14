@@ -16,9 +16,11 @@
 
 package com.google.code.gwtmeasure.server;
 
+import com.google.code.gwtmeasure.server.internal.MeasureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,31 +29,46 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MeasureContext {
 
-    private static final Logger logger = LoggerFactory.getLogger(MeasureContext.class);
-
     private static final MeasureContext instance = new MeasureContext();
 
+    private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
 
     public static MeasureContext instance() {
         return instance;
     }
 
-    // TODO Tackle syncronization issues and provide simplistic constructor-based DI concept
-    public <T> T getBean(Class<T> type) {
-        Object bean = beans.get(type);
+    public <T> T getBean(final Class<T> type) {
+        Class<T> targetType = type;
+        Class<?> impl = registry.get(type);
+        if (impl != null) {
+            targetType = (Class<T>) impl;
+        }
+        Object bean = beans.get(targetType);
         if (bean == null) {
             Object instance;
             try {
-                instance = type.newInstance();
+                // using first possible constructor
+                Constructor<?> constructor = targetType.getConstructors()[0];
+                Class<?>[] parameterTypes = constructor.getParameterTypes();
+                Object[] initargs = new Object[parameterTypes.length];
+                for (int i = 0, parameterTypesLength = parameterTypes.length; i < parameterTypesLength; i++) {
+                    Class<?> parameterType = parameterTypes[i];
+                    Object dependency = getBean(parameterType);
+                    initargs[i] = dependency;
+                }
+                instance = constructor.newInstance(initargs);
             } catch (Exception e) {
-                logger.error("Failed to instantiate", e);
-                return null;
+                throw new MeasureException("Failed to instantiate", e);
             }
-            beans.put(type, instance);
+            beans.put(targetType, instance);
             return (T) instance;
         }
         return (T) bean;
+    }
+
+    public <T> void register(Class<T> iface, Class<? extends T> impl) {
+        registry.put(iface, impl);
     }
 
 }
