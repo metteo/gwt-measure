@@ -11,44 +11,48 @@
 
 --- In Progress ---
 # pluggable server implementations
+
+--- This Version ---
 # measurements groups
 # measuring static resource download
-# support RunAsync measurements (fragment, size - attributes are new)
-# retry sequence of measurement delivery
+# compare with https://github.com/yahoo/boomerang/
+# compare with http://stevesouders.com/episodes/
+# honor HTTP header limitations
+# disabling/enabling features
+# mention gwt-debug-panel in documentation
 # exception reporting
 # callback failure identification
 # messages in json format
 # network calculation
+# support RunAsync measurements (fragment, size - attributes are new)
+# retry sequence of measurement delivery
 # uid injection with filter or remote servlet
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # split client and server distributions
-# honor HTTP header limitations
-# disabling/enabling features
-# mention gwt-debug-panel in documentation
+# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
+# nested custom measurements
+# gwt logging on client
 
 --- Next Versions ---
 # offline storage of incidents on client until browser is connected
 # exception diagnostics and categorization
-# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
-# nested custom measurements
 # measurements of HTTP Requests
 # measurements of Timers
 # measurements of RequestFactory
 # measurements of EntryPoints
 # native js support (somehow)
 # resource bundle support
-# use HTML5 browser storage and cookies on older browsers
-# gwt logging on client
-# aspect-like proxy generation
 # async storage on server not to stall the production
-
------ Planned -----
-# Google App Engine integration
 # browser recognition
+
+----- Future -----
+# use HTML5 browser storage and cookies on older browsers
+# aspect-like proxy generation
+# Google App Engine integration
 # ip geomapping
 # sample reporting over the embedded database
 # google chart api for reporting
 # JMX reporting and configuration support
-# reporting tooling
+# reporting tooling integration
 # GWT 2.2 support
 # Migrate to Java 1.6 and use SPI feature
