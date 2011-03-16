@@ -17,22 +17,12 @@
 package com.google.code.gwtmeasure.server;
 
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class LoggingSink implements MetricsSink {
+public interface MetricsEventHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingSink.class);
-
-    public void flush(List<PerformanceMetrics> metrics) {
-        for (PerformanceMetrics metric : metrics) {
-            logger.info(metric.toString());
-        }
-    }
+    void onEvent(PerformanceMetrics metric);
 
 }

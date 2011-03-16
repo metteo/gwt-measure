@@ -1,5 +1,7 @@
-package com.google.code.gwtmeasure.server;
+package com.google.code.gwtmeasure.server.servlet;
 
+import com.google.code.gwtmeasure.server.MeasureContext;
+import com.google.code.gwtmeasure.server.MetricsProcessor;
 import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 

@@ -41,7 +41,7 @@
 
     <servlet>
         <servlet-name>measurementServlet</servlet-name>
-        <servlet-class>com.google.code.gwtmeasure.server.MeasuringServlet</servlet-class>
+        <servlet-class>com.google.code.gwtmeasure.server.servlet.MeasuringServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>measurementServlet</servlet-name>
@@ -50,7 +50,7 @@
 
     <filter>
         <filter-name>measure</filter-name>
-        <filter-class>com.google.code.gwtmeasure.server.MeasureFilter</filter-class>
+        <filter-class>com.google.code.gwtmeasure.server.servlet.MeasureFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>measure</filter-name>

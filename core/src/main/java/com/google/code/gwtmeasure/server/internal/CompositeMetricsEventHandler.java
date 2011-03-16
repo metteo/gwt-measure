@@ -14,17 +14,33 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.server;
+package com.google.code.gwtmeasure.server.internal;
 
+import com.google.code.gwtmeasure.server.MetricsEventHandler;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MetricsSink {
+public class CompositeMetricsEventHandler implements MetricsEventHandler {
 
-    void flush(List<PerformanceMetrics> metrics);
+    final List<MetricsEventHandler> handlers = new ArrayList<MetricsEventHandler>();
+
+    public void onEvent(PerformanceMetrics metrics) {
+        for (MetricsEventHandler handler : handlers) {
+            handler.onEvent(metrics);
+        }
+    }
+
+    public void addHandler(MetricsEventHandler handler) {
+        handlers.add(handler);
+    }
+
+    public List<MetricsEventHandler> getHandlers() {
+        return new ArrayList<MetricsEventHandler>(handlers);
+    }
 
 }

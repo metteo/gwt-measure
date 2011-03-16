@@ -33,7 +33,7 @@ public class MeasureContextTest extends Assert {
 
     @Before
     public void setUp() {
-        context = MeasureContext.instance();
+        context = new MeasureContext();        
     }
 
     @Test
@@ -73,6 +73,14 @@ public class MeasureContextTest extends Assert {
         context.register(I.class, Alternate.class);
         I bean = context.getBean(I.class);
         assertThat(bean, is(Alternate.class));
+    }
+
+    @Test
+    public void testRegisterBean() throws Exception {
+        Impl bean = new Impl();
+        context.register(I.class, bean);
+        I result = context.getBean(I.class);
+        assertThat(bean, sameInstance(result));
     }
 
     public static interface I {

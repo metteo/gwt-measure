@@ -1,13 +1,12 @@
 package com.google.code.gwtmeasure.server;
 
+import com.google.code.gwtmeasure.server.servlet.MeasureFilter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

@@ -29,11 +29,11 @@ import java.util.List;
 public class MetricsProcessor {
 
     private final MetricsDecoder decoder;
-    private MetricsSink sink;
+    private final MetricsEventHandler handler;
 
-    public MetricsProcessor(MetricsDecoder decoder, MetricsSink sink) {
+    public MetricsProcessor(MetricsDecoder decoder, MetricsEventHandler handler) {
         this.decoder = decoder;
-        this.sink = sink;
+        this.handler = handler;
     }
 
     public void extractAndProcess(HttpServletRequest request) {
@@ -51,15 +51,10 @@ public class MetricsProcessor {
 
     private void handleMetrics(String result) {
         String[] metrics = result.split("\\@");
-        List<PerformanceMetrics> decodedMetrics = new ArrayList<PerformanceMetrics>();
         for (String metric : metrics) {            
             PerformanceMetrics performanceMetrics = decoder.decode(metric);
-            decodedMetrics.add(performanceMetrics);
-        }
-
-        if (sink != null) {
-            sink.flush(decodedMetrics);
-        }
+            handler.onEvent(performanceMetrics);
+        }                        
     }
 
 }

@@ -16,6 +16,7 @@
 
 package com.google.code.gwtmeasure.server;
 
+import com.google.code.gwtmeasure.server.internal.CompositeMetricsEventHandler;
 import com.google.code.gwtmeasure.server.internal.MeasureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,10 @@ public class MeasureContext {
 
     private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
+
+    static {
+        instance.register(MetricsEventHandler.class, new CompositeMetricsEventHandler());
+    }
 
     public static MeasureContext instance() {
         return instance;
@@ -67,8 +72,16 @@ public class MeasureContext {
         return (T) bean;
     }
 
+    public <T> void register(Class<T> iface, T bean) {
+        beans.put(iface, bean);
+    }
+
     public <T> void register(Class<T> iface, Class<? extends T> impl) {
         registry.put(iface, impl);
+    }
+
+    public void reset() {
+        beans.clear();
     }
 
 }

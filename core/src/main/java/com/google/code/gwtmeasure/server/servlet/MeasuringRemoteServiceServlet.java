@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package com.google.code.gwtmeasure.server;
+package com.google.code.gwtmeasure.server.servlet;
+
+import com.google.code.gwtmeasure.server.MeasureContext;
+import com.google.code.gwtmeasure.server.MetricsProcessor;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/** 
+/**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasuringServlet extends HttpServlet {
+public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
 
-    MetricsProcessor metricsProcessor;
+    private MetricsProcessor metricsProcessor;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -37,8 +40,10 @@ public class MeasuringServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         metricsProcessor.extractAndProcess(request);
+        super.service(request, response);
     }
 
 }
