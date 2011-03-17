@@ -2,12 +2,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.google.code</groupId>
+    <groupId>com.googlecode</groupId>
     <artifactId>gwt-measure</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <url>http://code.google.com/p/gwt-measure/</url>
+    <description>
+        GWT Measure is an extension to Google Web Toolkit framework
+        adding production monitoring and performance measurement capabilities.
+    </description>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly Open Source license</comments>
+        </license>
+    </licenses>
 
     <properties>
         <maven.compiler.source>1.5</maven.compiler.source>
@@ -79,7 +94,7 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <module>com.google.code.gwtmeasure.GWTMeasure</module>
+                            <module>com.googlecode.gwtmeasure.GWTMeasure</module>
                         </configuration>
                         <goals>
                             <goal>compile</goal>
@@ -126,5 +141,24 @@
         </resources>
 
     </build>
+
+    <developers>
+        <developer>
+            <roles>
+                <role>Project Lead</role>
+            </roles>
+            <name>Dmitry Buzdin</name>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>Google Code</system>
+        <url>http://code.google.com/p/gwt-measure/issues/list</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:hf:https://gwt-measure.googlecode.com/hg/</connection>
+        <url>https://gwt-measure.googlecode.com/hg/</url>
+    </scm>
 
 </project>

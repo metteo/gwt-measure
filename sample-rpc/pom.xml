@@ -61,7 +61,7 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <module>com.google.code.gwtmeasure.sample.RPCSample</module>
+                            <module>com.googlecode.gwtmeasure.sample.RPCSample</module>
                         </configuration>
                         <goals>
                             <goal>compile</goal>

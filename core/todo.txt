@@ -10,12 +10,12 @@
 + handle browser close and navigate to different url
 + pluggable server implementations
 + measurements groups support
++ measuring static resource download
 
 --- In Progress ---
 # client/server network events
 
 --- This Version ---
-# measuring static resource download
 # compare with https://github.com/yahoo/boomerang/
 # compare with http://stevesouders.com/episodes/
 # honor HTTP header limitations
