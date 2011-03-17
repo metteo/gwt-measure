@@ -23,12 +23,14 @@ import com.google.code.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.google.code.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.google.code.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.google.code.gwtmeasure.client.spi.MeasurementHub;
+import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
@@ -47,6 +49,8 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
         hub.addHandler(new RemoteServerDelivery());
         hub.addHandler(new DebugPanelDelivery());
 
+        registerResourceStartEvent();
+
         // Measurement hooks
         hookGwtStatsFunctionAndSink();
         hookWindowCloseHandler();
@@ -55,6 +59,20 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
 
         // Exception handling hooks
         hookExceptionHandler();
+    }
+
+    private void registerResourceStartEvent() {
+        String resourceStart = Cookies.getCookie(Constants.COOKIE_RESOURCE_LOAD_START);
+        if (resourceStart == null) {
+            return;
+        }
+        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
+        builder
+                .setSubSystem(Constants.SUB_SYSTEM_RESOURCES)
+                .setEventGroup(Constants.GRP_BOOTSTRAP)
+                .setMillis(Double.parseDouble(resourceStart));
+
+        hub.submit(builder.create());
     }
 
     private void hookExceptionHandler() {

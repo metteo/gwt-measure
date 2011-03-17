@@ -21,12 +21,17 @@ package com.google.code.gwtmeasure.shared;
  */
 public final class Constants {
 
+    // SubSystems
     public static final String SUB_SYSTEM_DEFAULT = "default";
     public static final String SUB_SYSTEM_STARTUP = "startup";
     public static final String SUB_SYSTEM_RPC = "rpc";
-    
+    public static final String SUB_SYSTEM_RESOURCES = "resources";
+
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
+
+    // Groups
+    public static final String GRP_BOOTSTRAP = "bootstrap";
 
     // HTTP Headers
     public static final String HEADER_UID = "X-GWT-Measure-uid";
@@ -41,6 +46,9 @@ public final class Constants {
     public static final String PARAM_SIZE = "size";    
     public static final String PARAM_BYTES = "bytes";
     public static final String PARAM_SESSION_ID = "sessionId";
+
+    // Cookies
+    public static final String COOKIE_RESOURCE_LOAD_START = "resourceLoadStart";
 
     private Constants() {
     }

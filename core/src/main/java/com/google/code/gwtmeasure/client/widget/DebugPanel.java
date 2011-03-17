@@ -85,7 +85,7 @@ public class DebugPanel extends DialogBox {
                 StringBuilder builder = new StringBuilder();
                 for (String name : names) {
                     String value = object.getParameter(name);
-                    builder.append(name).append("=\"").append(value).append("\"");
+                    builder.append(name).append("=\"").append(value).append("\" ");
                 }
                 return builder.toString();
             }

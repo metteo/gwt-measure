@@ -9,9 +9,10 @@
 + slf4j on server
 + handle browser close and navigate to different url
 + pluggable server implementations
++ measurements groups support
 
 --- In Progress ---
-# measurements groups
+# client/server network events
 
 --- This Version ---
 # measuring static resource download
@@ -23,7 +24,6 @@
 # exception reporting
 # callback failure identification
 # messages in json format
-# network calculation
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery
 # uid injection with filter or remote servlet
