@@ -22,7 +22,9 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -107,6 +109,10 @@ public class PerformanceMetrics implements IsSerializable {
 
     public String getParameter(String name) {
         return parameters.get(name);
+    }
+
+    public Set<String> getParameterNames() {
+        return parameters.keySet();
     }
 
     public String getSessionId() {

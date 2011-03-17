@@ -19,6 +19,10 @@ package com.google.code.gwtmeasure.client;
 import com.google.code.gwtmeasure.client.internal.TimeUtils;
 import com.google.code.gwtmeasure.client.spi.MeasurementHub;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
@@ -30,6 +34,7 @@ public class PendingMeasurement {
     private String group;
     private MeasurementHub measurementHub;
     private boolean discarded;
+    private final Map<String, String> parameters = new HashMap<String, String>();
 
     {
         this.from = TimeUtils.current();
@@ -72,6 +77,18 @@ public class PendingMeasurement {
         return discarded;
     }
 
+    public void setParameter(String name, String value) {
+        parameters.put(name, value);
+    }
+
+    public String getParameter(String name) {
+        return parameters.get(name);
+    }
+
+    public Set<String> getParameterNames() {
+        return parameters.keySet();
+    }
+
     @Override
     public String toString() {
         return "PendingMeasurement{" +
@@ -82,5 +99,5 @@ public class PendingMeasurement {
                 ", discarded=" + discarded +
                 '}';
     }
-    
+
 }

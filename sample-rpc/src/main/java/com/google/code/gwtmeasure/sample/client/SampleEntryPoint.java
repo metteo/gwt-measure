@@ -47,7 +47,7 @@ public class SampleEntryPoint implements EntryPoint {
     private MyServiceAsync service = GWT.create(MyService.class);
 
     public void onModuleLoad() {        
-        PendingMeasurement measurement = Measurements.start("custom-mesurement");
+        PendingMeasurement measurement = Measurements.start("custom-measurement");
 
         RootPanel panel = RootPanel.get();
         panel.add(new Label("Measurements"));
@@ -64,6 +64,7 @@ public class SampleEntryPoint implements EntryPoint {
         measureButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 PendingMeasurement m = Measurements.start("test");
+                m.setParameter("user", "user1");
                 m.stop();
             }
         });

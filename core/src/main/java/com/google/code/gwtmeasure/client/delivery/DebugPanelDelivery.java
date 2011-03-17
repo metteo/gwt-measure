@@ -36,7 +36,7 @@ public class DebugPanelDelivery implements PerformanceEventHandler {
         }
 
         PerformanceMetrics metrics = event.getMetrics();
-        debugPanel.appendDebugLine(metrics.toString());
+        debugPanel.appendDebugLine(metrics);
     }
 
 }

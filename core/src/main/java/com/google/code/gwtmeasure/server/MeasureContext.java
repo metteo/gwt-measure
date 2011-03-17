@@ -36,7 +36,9 @@ public class MeasureContext {
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
 
     static {
-        instance.register(MetricsEventHandler.class, new CompositeMetricsEventHandler());
+        CompositeMetricsEventHandler eventHandler = new CompositeMetricsEventHandler();
+        eventHandler.addHandler(new LoggingHandler());
+        instance.register(MetricsEventHandler.class, eventHandler);
     }
 
     public static MeasureContext instance() {

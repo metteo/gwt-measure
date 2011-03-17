@@ -21,6 +21,8 @@ import com.google.code.gwtmeasure.shared.Constants;
 import com.google.code.gwtmeasure.shared.PerformanceMetrics;
 import com.google.gwt.core.client.GWT;
 
+import java.util.Set;
+
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
@@ -34,23 +36,35 @@ public class MeasurementToEvent {
 
         PerformanceMetrics[] result = new PerformanceMetrics[2];
 
-        result[0] = new PerformanceMetrics.Builder()
+        PerformanceMetrics.Builder beginBuilder = new PerformanceMetrics.Builder()
                 .setModuleName(moduleName())
                 .setMillis(from)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_START)
-                .setParameter(Constants.PARAM_METHOD, name)
-                .create();
+                .setEventGroup(name);
 
-        result[1] = new PerformanceMetrics.Builder()
+        appendParameters(measurement, beginBuilder);
+        result[0] = beginBuilder.create();
+
+        PerformanceMetrics.Builder endBuilder = new PerformanceMetrics.Builder()
                 .setModuleName(moduleName())
                 .setMillis(to)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_END)
-                .setParameter(Constants.PARAM_METHOD, name)
-                .create();
+                .setEventGroup(name);
+        
+        appendParameters(measurement, endBuilder);
+        result[1] = endBuilder.create();
 
         return result;
+    }
+
+    private void appendParameters(PendingMeasurement measurement, PerformanceMetrics.Builder builder) {
+        Set<String> parameterNames = measurement.getParameterNames();
+        for (String parameterName : parameterNames) {
+            String value = measurement.getParameter(parameterName);
+            builder.setParameter(parameterName, value);
+        }
     }
 
     String moduleName() {

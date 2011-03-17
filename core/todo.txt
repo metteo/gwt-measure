@@ -8,12 +8,12 @@
 + support custom event attributes (fragment, size, bytes, method, sessionId)
 + slf4j on server
 + handle browser close and navigate to different url
++ pluggable server implementations
 
 --- In Progress ---
-# pluggable server implementations
+# measurements groups
 
 --- This Version ---
-# measurements groups
 # measuring static resource download
 # compare with https://github.com/yahoo/boomerang/
 # compare with http://stevesouders.com/episodes/
