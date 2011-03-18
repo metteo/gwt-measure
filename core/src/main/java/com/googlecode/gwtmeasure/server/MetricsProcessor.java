@@ -34,17 +34,20 @@ public class MetricsProcessor {
         this.handler = handler;
     }
 
-    public void extractAndProcess(HttpServletRequest request) {
-        Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
-        if (Boolean.TRUE.equals(processed)) {
-            return;
-        }
-
+    public void extractAndProcess(HttpServletRequest request) {        
         String result = request.getHeader(Constants.HEADER_RESULT);
         if (null != result) {
             handleMetrics(result);
         }
+    }
+
+    public void markAsProcessed(HttpServletRequest request) {
         request.setAttribute(Constants.ATTR_PROCESSED, Boolean.TRUE);
+    }
+
+    public boolean isProcessed(HttpServletRequest request) {
+        Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
+        return Boolean.TRUE.equals(processed);
     }
 
     private void handleMetrics(String result) {

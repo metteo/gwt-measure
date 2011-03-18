@@ -19,11 +19,13 @@ package com.googlecode.gwtmeasure.server.servlet;
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.MetricsProcessor;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.gwtmeasure.server.internal.NetworkEventProducer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -32,18 +34,35 @@ import java.io.IOException;
 public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
 
     private MetricsProcessor metricsProcessor;
+    private NetworkEventProducer networkEventProducer;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
+        MeasureContext context = MeasureContext.instance();
+        metricsProcessor = context.getBean(MetricsProcessor.class);
+        networkEventProducer = context.getBean(NetworkEventProducer.class);
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        metricsProcessor.extractAndProcess(request);
-        super.service(request, response);
+        if (!metricsProcessor.isProcessed(request)) {
+            HttpSession session = request.getSession();
+            networkEventProducer.requestReceived(session);
+            metricsProcessor.extractAndProcess(request);
+            metricsProcessor.markAsProcessed(request);
+            super.service(request, response);            
+            networkEventProducer.reponseSent(session);
+        } else {
+            super.service(request, response);
+        }
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        MeasureContext.instance().reset();
     }
 
 }

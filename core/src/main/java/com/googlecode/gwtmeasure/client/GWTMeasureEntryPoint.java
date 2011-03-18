@@ -66,6 +66,8 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
         if (resourceStart == null) {
             return;
         }
+        Cookies.removeCookie(Constants.COOKIE_RESOURCE_LOAD_START);
+        
         PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RESOURCES)
@@ -103,7 +105,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{
-        $wnd.handleEvent = @com.googlecode.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Lcom/google/code/gwtmeasure/client/internal/JavaScriptEventObject;);
+        $wnd.handleEvent = @com.googlecode.gwtmeasure.client.GWTMeasureEntryPoint::handleEvent(Lcom/googlecode/gwtmeasure/client/internal/JavaScriptEventObject;);
         $wnd.__gwtStatsEvent = function(event) {
             $wnd.sinkGwtEvents();
             $wnd.handleEvent(event);

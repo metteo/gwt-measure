@@ -29,6 +29,8 @@ public final class Constants {
 
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
+    public static final String TYPE_RESPONSE_SENT = "responseSent";
+    public static final String TYPE_REQUEST_RECEIVED = "requestReceived";
 
     // Groups
     public static final String GRP_BOOTSTRAP = "bootstrap";

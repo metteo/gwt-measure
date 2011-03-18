@@ -69,14 +69,14 @@ public class SampleEntryPoint implements EntryPoint {
             }
         });
 
-        Button rpcButton = new Button("Submit RPC Request");
+        Button rpcButton = new Button("RPC Request");
         rpcButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 callServer();
             }
         });
 
-        Button xhrButton = new Button("Submit XHR Request");
+        Button xhrButton = new Button("XHR Request");
         xhrButton.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 callXhrServer();

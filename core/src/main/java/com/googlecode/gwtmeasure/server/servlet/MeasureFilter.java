@@ -2,9 +2,11 @@ package com.googlecode.gwtmeasure.server.servlet;
 
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.MetricsProcessor;
+import com.googlecode.gwtmeasure.server.internal.NetworkEventProducer;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -13,20 +15,30 @@ import java.io.IOException;
 public class MeasureFilter implements Filter {
 
     private MetricsProcessor metricsProcessor;
+    private NetworkEventProducer networkEventProducer;
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
+        MeasureContext context = MeasureContext.instance();
+        metricsProcessor = context.getBean(MetricsProcessor.class);
+        networkEventProducer = context.getBean(NetworkEventProducer.class);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if (request instanceof HttpServletRequest) {
-            metricsProcessor.extractAndProcess((HttpServletRequest) request);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        if (!metricsProcessor.isProcessed(httpRequest)) {
+            HttpSession session = httpRequest.getSession();
+            networkEventProducer.requestReceived(session);
+            metricsProcessor.extractAndProcess(httpRequest);
+            metricsProcessor.markAsProcessed(httpRequest);
+            chain.doFilter(request, response);
+            networkEventProducer.reponseSent(session);
+        } else {
+            chain.doFilter(request, response);
         }
-
-        chain.doFilter(request, response);
     }
 
     public void destroy() {
+        MeasureContext.instance().reset();
     }
 
 }

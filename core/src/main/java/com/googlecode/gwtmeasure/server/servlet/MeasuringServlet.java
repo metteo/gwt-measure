@@ -26,7 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/** 
+/**
+ * Standalone measurement event aggregator.
+ *  
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class MeasuringServlet extends HttpServlet {

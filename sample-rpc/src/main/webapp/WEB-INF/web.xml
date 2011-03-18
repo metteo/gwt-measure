@@ -54,7 +54,11 @@
     </filter>
     <filter-mapping>
         <filter-name>measure</filter-name>
-        <servlet-name>*</servlet-name>
+        <servlet-name>plainServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>measure</filter-name>
+        <servlet-name>rpcServlet</servlet-name>
     </filter-mapping>
 
 </web-app>
