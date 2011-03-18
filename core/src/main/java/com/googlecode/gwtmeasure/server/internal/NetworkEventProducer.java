@@ -20,6 +20,7 @@ import com.googlecode.gwtmeasure.server.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -27,31 +28,37 @@ import javax.servlet.http.HttpSession;
  */
 public class NetworkEventProducer {
 
-    private MetricsEventHandler eventHandler;
+    private MetricsEventHandler eventHandler;    
 
     public NetworkEventProducer(MetricsEventHandler eventHandler) {
         this.eventHandler = eventHandler;
     }
 
-    public void requestReceived(HttpSession session) {
+    public void requestReceived(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
         PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
 
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)
                 .setMillis(ServerTime.current())
                 .setType(Constants.TYPE_REQUEST_RECEIVED)
+                .setEventGroup(request.getHeader(Constants.HEADER_UID))
                 .setParameter(Constants.PARAM_SESSION_ID, session.getId());
 
         eventHandler.onEvent(builder.create());
     }
 
-    public void reponseSent(HttpSession session) {
+    public void reponseSent(HttpServletRequest response) {
+        HttpSession session = response.getSession();
+
         PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
 
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)
                 .setMillis(ServerTime.current())
                 .setType(Constants.TYPE_RESPONSE_SENT)
+                .setEventGroup(response.getHeader(Constants.HEADER_UID))
                 .setParameter(Constants.PARAM_SESSION_ID, session.getId());
 
         eventHandler.onEvent(builder.create());

@@ -26,12 +26,11 @@ public class MeasureFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         if (!metricsProcessor.isProcessed(httpRequest)) {
-            HttpSession session = httpRequest.getSession();
-            networkEventProducer.requestReceived(session);
+            networkEventProducer.requestReceived(httpRequest);
             metricsProcessor.extractAndProcess(httpRequest);
             metricsProcessor.markAsProcessed(httpRequest);
             chain.doFilter(request, response);
-            networkEventProducer.reponseSent(session);
+            networkEventProducer.reponseSent(httpRequest);
         } else {
             chain.doFilter(request, response);
         }

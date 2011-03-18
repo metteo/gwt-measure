@@ -47,13 +47,12 @@ public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!metricsProcessor.isProcessed(request)) {
-            HttpSession session = request.getSession();
-            networkEventProducer.requestReceived(session);
+        if (!metricsProcessor.isProcessed(request)) {            
+            networkEventProducer.requestReceived(request);
             metricsProcessor.extractAndProcess(request);
             metricsProcessor.markAsProcessed(request);
             super.service(request, response);            
-            networkEventProducer.reponseSent(session);
+            networkEventProducer.reponseSent(request);
         } else {
             super.service(request, response);
         }
