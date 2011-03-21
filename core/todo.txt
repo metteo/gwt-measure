@@ -11,35 +11,37 @@
 + pluggable server implementations
 + measurements groups support
 + measuring static resource download
++ client/server network events
 
 --- In Progress ---
-# client/server network events
+# uid injection with filter or remote servlet
 
 --- This Version ---
-# compare with https://github.com/yahoo/boomerang/
-# compare with http://stevesouders.com/episodes/
-# honor HTTP header limitations
 # disabling/enabling features
-# mention gwt-debug-panel in documentation
 # exception reporting
 # callback failure identification
 # messages in json format
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery
-# uid injection with filter or remote servlet
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # split client and server distributions
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
 # gwt logging on client
+# compare with https://github.com/yahoo/boomerang/
+# compare with http://stevesouders.com/episodes/
+# honor HTTP header limitations
+# mention gwt-debug-panel in documentation
 
 --- Next Versions ---
+# Perf4J integration
 # offline storage of incidents on client until browser is connected
 # exception diagnostics and categorization
 # measurements of HTTP Requests
 # measurements of Timers
 # measurements of RequestFactory
 # measurements of EntryPoints
+# measurements of ExternalResources
 # native js support (somehow)
 # resource bundle support
 # async storage on server not to stall the production

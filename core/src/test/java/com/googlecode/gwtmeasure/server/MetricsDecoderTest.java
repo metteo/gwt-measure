@@ -51,7 +51,7 @@ public class MetricsDecoderTest extends Assert {
         assertThat(metrics.getModuleName(), equalTo("moduleName"));
         assertThat(metrics.getSubSystem(), equalTo("subSystem"));
         assertThat(metrics.getEventGroup(), equalTo("eventGroup"));
-        assertThat(metrics.getMillis(), equalTo(100d));
+        assertThat(metrics.getMillis(), equalTo(100L));
         assertThat(metrics.getType(), equalTo("type"));
         assertThat(metrics.getParameter("param"), equalTo("value"));
     }

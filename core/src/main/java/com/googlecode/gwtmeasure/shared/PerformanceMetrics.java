@@ -33,7 +33,7 @@ public class PerformanceMetrics implements IsSerializable {
     private String moduleName = "";
     private String subSystem = "";
     private String eventGroup = "";
-    private double millis;
+    private long millis;
     private String type = "";
 
     private Map<String, String> parameters = new HashMap<String, String>();
@@ -64,7 +64,7 @@ public class PerformanceMetrics implements IsSerializable {
             return this;
         }
 
-        public Builder setMillis(double millis) {
+        public Builder setMillis(long millis) {
             this.event.millis = millis;
             return this;
         }
@@ -98,7 +98,7 @@ public class PerformanceMetrics implements IsSerializable {
         return eventGroup;
     }
 
-    public double getMillis() {
+    public long getMillis() {
         return millis;
     }
 

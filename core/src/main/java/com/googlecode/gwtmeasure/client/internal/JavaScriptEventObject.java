@@ -77,7 +77,7 @@ public final class JavaScriptEventObject extends JavaScriptObject {
         builder.setModuleName(getModuleName())
                 .setSubSystem(getSubSystem())
                 .setEventGroup(getEventGroup())
-                .setMillis(getMillis())
+                .setMillis(new Double(getMillis()).longValue())
                 .setType(getType());
 
         JsArrayString names = getParameterNames();

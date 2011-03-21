@@ -61,7 +61,7 @@ public class DebugPanel extends DialogBox {
         cellTable.addColumn(new TextColumn<PerformanceMetrics>() {
             @Override
             public String getValue(PerformanceMetrics object) {                
-                return (object.getMillis() % 10000)+ "ms";
+                return object.getMillis()+ "ms";
             }
         }, new TextHeader("Timestamp"));
         cellTable.addColumn(new TextColumn<PerformanceMetrics>() {

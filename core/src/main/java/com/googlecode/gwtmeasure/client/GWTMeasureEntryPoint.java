@@ -72,7 +72,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RESOURCES)
                 .setEventGroup(Constants.GRP_BOOTSTRAP)
-                .setMillis(Double.parseDouble(resourceStart));
+                .setMillis(Long.parseLong(resourceStart));
 
         hub.submit(builder.create());
     }
