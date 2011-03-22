@@ -16,10 +16,10 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.google.gson.reflect.TypeToken;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.lang.reflect.Type;
 import java.util.Collection;

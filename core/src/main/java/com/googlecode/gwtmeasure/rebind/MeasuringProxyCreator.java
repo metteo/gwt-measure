@@ -16,10 +16,10 @@
 
 package com.googlecode.gwtmeasure.rebind;
 
-import com.googlecode.gwtmeasure.client.rpc.MeasuringRemoteServiceProxy;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
 import com.google.gwt.user.rebind.rpc.ProxyCreator;
+import com.googlecode.gwtmeasure.client.rpc.MeasuringRemoteServiceProxy;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

@@ -16,7 +16,6 @@
 
 package com.googlecode.gwtmeasure.client.rpc;
 
-import com.googlecode.gwtmeasure.client.delivery.DeliveryRpcRequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
@@ -24,6 +23,7 @@ import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
 import com.google.gwt.user.client.rpc.impl.RequestCallbackAdapter;
 import com.google.gwt.user.client.rpc.impl.RpcStatsContext;
 import com.google.gwt.user.client.rpc.impl.Serializer;
+import com.googlecode.gwtmeasure.client.delivery.DeliveryRpcRequestBuilder;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

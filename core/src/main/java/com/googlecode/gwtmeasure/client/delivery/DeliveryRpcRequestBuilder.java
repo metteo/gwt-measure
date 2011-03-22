@@ -1,9 +1,9 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
  * @author dmitry.buzdin
@@ -30,7 +30,7 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
     protected void doFinish(RequestBuilder requestBuilder) {
         super.doFinish(requestBuilder);
 
-        MeasurementBuffer buffer = MeasurementBuffer.instance();
+        DeliveryBuffer buffer = DeliveryBuffer.instance();
         String results = serializer.serialize(buffer);
 
         if (!"".equals(results)) {

@@ -16,10 +16,10 @@
 
 package com.googlecode.gwtmeasure.client.rpc;
 
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

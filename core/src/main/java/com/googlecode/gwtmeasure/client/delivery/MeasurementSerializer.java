@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.client.delivery;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
@@ -24,7 +24,7 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
  */
 public class MeasurementSerializer {
 
-    public String serialize(MeasurementBuffer buffer) {
+    public String serialize(DeliveryBuffer buffer) {
         StringBuilder headerBuilder = new StringBuilder("[");
         if (!buffer.isEmpty()) {
             Object[] events = buffer.popAll();

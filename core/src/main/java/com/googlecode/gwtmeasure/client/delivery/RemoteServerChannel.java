@@ -18,7 +18,7 @@ package com.googlecode.gwtmeasure.client.delivery;
 
 import com.googlecode.gwtmeasure.client.PerformanceEvent;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
@@ -28,7 +28,7 @@ public class RemoteServerChannel implements PerformanceEventHandler {
 
     public void onPerformanceEvent(PerformanceEvent event) {
         PerformanceTiming timing = event.getMetrics();
-        MeasurementBuffer.instance().push(timing);
+        DeliveryBuffer.instance().push(timing);
     }
 
 }

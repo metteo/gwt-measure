@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.spi;
-
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+package com.googlecode.gwtmeasure.client.exception;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementHub {
+public class UnhandledException extends RuntimeException {
 
-    void submit(PendingMeasurement measurement);
-
-    void submit(PerformanceTiming event);
-
-    HandlerRegistration addHandler(PerformanceEventHandler handler);
+    public UnhandledException(Throwable cause) {
+        super("Unhandled client side exception. Register handler via GWT.setUncaughtExceptionHandler().", cause);        
+    }
 
 }

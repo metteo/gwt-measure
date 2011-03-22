@@ -16,13 +16,13 @@
 
 package com.googlecode.gwtmeasure.client.delivery;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -41,7 +41,7 @@ public class StandaloneDelivery {
     }
 
     public void deliver() {
-        MeasurementBuffer buffer = MeasurementBuffer.instance();
+        DeliveryBuffer buffer = DeliveryBuffer.instance();
         String data = serializer.serialize(buffer);
         if (!"".equals(data)) {
             sendToServer(data);

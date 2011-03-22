@@ -16,9 +16,9 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

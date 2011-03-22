@@ -14,51 +14,54 @@
 + disabling/enabling of features
 + measurements of HTTP RequestsBuilder
 + timing messages in json format
++ callback failure identification
 
 --- In Progress ---
 # uid injection with filter or remote servlet
 # event aggregation
 
 --- This Version ---
-# exception reporting
-# callback failure identification
+# uncaught exception reporting
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
-# nested custom measurements
 # gwt jdk logging on client
 # honor HTTP header limitations
-# mention gwt-debug-panel in documentation
 # user defined attributes
-# write documentation
+# mention gwt-debug-panel in documentation
+# write instrumentation manual
+# write roadmap
 # publish to maven repo
-# ensure extensibility
+# ensure extensibility via DI
+# provide gwt test cases
+# better sample application
+# improve test coverage
+# write JavaDocs
 
 --- Next Versions ---
 # split client and server distributions
 # compare with https://github.com/yahoo/boomerang/
 # compare with http://stevesouders.com/episodes/
 # Perf4J integration
-# offline storage of incidents on client until browser is connected
+# offline HTML5 storage of incidents on client until browser is connected
 # exception diagnostics and categorization
 # measurements of Timers
 # measurements of EntryPoints
 # measurements of ClientBundle ExternalResources
 # measurements of RequestFactory
 # native js measurement support (somehow)
-# async message storage on server not to stall the production
 # browser type and version recognition
 # Browser Web Timing API usage (IE9, Chrome, FFox)
+# aspect-like measurement proxy generation on client
+# JMX reporting and configuration support
+# GWT 2.2 support
 
 ----- Future -----
-# use HTML5 browser storage and cookies on older browsers
-# aspect-like measurement proxy generation on client
+# async message storage on server not to stall the production
 # Google App Engine integration
 # ip geomapping
 # sample reporting over embedded database
 # google chart api for reporting
-# JMX reporting and configuration support
-# reporting tooling integration
-# GWT 2.2 support
+# reporting tools integration
 # Migrate to Java 1.6 and use SPI feature

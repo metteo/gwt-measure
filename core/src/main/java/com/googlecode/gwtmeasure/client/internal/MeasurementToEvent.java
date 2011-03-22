@@ -16,10 +16,10 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
+import com.google.gwt.core.client.GWT;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import com.google.gwt.core.client.GWT;
 
 import java.util.Set;
 

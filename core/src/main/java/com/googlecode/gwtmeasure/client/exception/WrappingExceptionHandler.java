@@ -17,6 +17,10 @@
 package com.googlecode.gwtmeasure.client.exception;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
+import com.google.gwt.user.client.rpc.InvocationException;
+import com.google.gwt.user.client.rpc.StatusCodeException;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -29,11 +33,22 @@ public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
         this.handler = handler;
     }
 
-    public void onUncaughtException(Throwable e) {
-        // TODO Handle the exception
+    /**
+     * If application has own uncaughtExceptionHandler delegates to that. Otherwise wraps exception into
+     * UnhandledException and throws.
+     * @param exception cause
+     */
+    public void onUncaughtException(Throwable exception) {
+        IncidentReport report = IncidentReport.createReport(exception);
+        DeliveryBuffer.instance().register(report);
+
         if (handler != null) {
-            handler.onUncaughtException(e);
+            handler.onUncaughtException(exception);
+        } else {
+            throw new UnhandledException(exception);
         }
     }
+
+
 
 }

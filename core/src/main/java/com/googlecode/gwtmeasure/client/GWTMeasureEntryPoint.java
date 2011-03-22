@@ -16,6 +16,14 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.googlecode.gwtmeasure.client.delivery.DebugPanelChannel;
 import com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel;
 import com.googlecode.gwtmeasure.client.delivery.StandaloneDelivery;
@@ -25,14 +33,6 @@ import com.googlecode.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

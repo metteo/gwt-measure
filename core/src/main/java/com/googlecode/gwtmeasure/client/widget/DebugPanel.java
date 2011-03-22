@@ -16,11 +16,11 @@
 
 package com.googlecode.gwtmeasure.client.widget;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;
 import java.util.List;

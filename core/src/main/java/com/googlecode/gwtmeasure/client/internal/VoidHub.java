@@ -16,11 +16,11 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

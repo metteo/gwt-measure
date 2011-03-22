@@ -16,16 +16,15 @@
 
 package com.googlecode.gwtmeasure.server.servlet;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.MetricsProcessor;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.gwtmeasure.server.internal.NetworkEventProducer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**

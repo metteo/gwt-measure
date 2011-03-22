@@ -16,8 +16,8 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.event.shared.GwtEvent;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
