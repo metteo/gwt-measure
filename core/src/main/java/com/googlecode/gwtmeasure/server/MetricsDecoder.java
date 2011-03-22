@@ -16,18 +16,23 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.google.gson.reflect.TypeToken;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.lang.reflect.Type;
+import java.util.Collection;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class MetricsDecoder {
 
-    public PerformanceTiming decode(String metric) {
+    public Collection<PerformanceTiming> decode(String metric) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(metric, PerformanceTiming.class);
+        Type collectionType = new TypeToken<Collection<PerformanceTiming>>(){}.getType();
+        return gson.fromJson(metric, collectionType);
     }
 
 }

@@ -20,6 +20,7 @@ import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -51,11 +52,10 @@ public class MetricsProcessor {
     }
 
     private void handleMetrics(String result) {
-        String[] metrics = result.split("\\@");
-        for (String metric : metrics) {            
-            PerformanceTiming performanceTiming = decoder.decode(metric);
-            handler.onEvent(performanceTiming);
-        }                        
+        Collection<PerformanceTiming> performanceTiming = decoder.decode(result);
+        for (PerformanceTiming timing : performanceTiming) {
+            handler.onEvent(timing);
+        }
     }
 
 }

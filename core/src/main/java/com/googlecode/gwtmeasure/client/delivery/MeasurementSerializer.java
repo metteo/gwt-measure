@@ -23,21 +23,23 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class MeasurementSerializer {
-        
+
     public String serialize(MeasurementBuffer buffer) {
+        StringBuilder headerBuilder = new StringBuilder("[");
         if (!buffer.isEmpty()) {
-            StringBuilder headerBuilder = new StringBuilder("");
             Object[] events = buffer.popAll();
-            for (Object object : events) {
+            for (int i = 0, eventsLength = events.length; i < eventsLength; i++) {
+                Object object = events[i];
                 PerformanceTiming event = (PerformanceTiming) object;
                 String encodedEvent = event.jsonEncode();
                 headerBuilder.append(encodedEvent);
-                headerBuilder.append('@');
+                if (i != eventsLength - 1) {
+                    headerBuilder.append(',');
+                }
             }
-
-            return headerBuilder.toString();
         }
-        return "";
+        headerBuilder.append("]");
+        return headerBuilder.toString();
     }
 
 }

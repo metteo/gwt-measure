@@ -21,6 +21,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
@@ -33,21 +35,25 @@ public class MetricsDecoderTest extends Assert {
 
     @Before
     public void setUp() {
-        jsonValue = "{\"moduleName\":\"moduleName\",\n" +
+        jsonValue = "[{\"moduleName\":\"moduleName\",\n" +
                 "\"subSystem\":\"subSystem\",\n" +
                 "\"eventGroup\":\"eventGroup\",\n" +
                 "\"millis\":100,\n" +
                 "\"type\":\"type\",\n" +
                 "\"parameters\":{\n" +
                 "  \"param\":\"value\"\n" +
-                "}}";
+                "}}]";
         decoder = new MetricsDecoder();
     }
 
     @Test
     public void testDecode() throws Exception {
-        PerformanceTiming timing = decoder.decode(jsonValue);
-        
+        Collection<PerformanceTiming> timings = decoder.decode(jsonValue);
+
+        assertThat(timings.size(), equalTo(1));
+
+        PerformanceTiming timing = timings.iterator().next();
+
         assertThat(timing.getModuleName(), equalTo("moduleName"));
         assertThat(timing.getSubSystem(), equalTo("subSystem"));
         assertThat(timing.getEventGroup(), equalTo("eventGroup"));

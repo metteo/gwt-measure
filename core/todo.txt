@@ -13,6 +13,7 @@
 + client/server network events
 + disabling/enabling of features
 + measurements of HTTP RequestsBuilder
++ timing messages in json format
 
 --- In Progress ---
 # uid injection with filter or remote servlet
@@ -21,7 +22,6 @@
 --- This Version ---
 # exception reporting
 # callback failure identification
-# messages in json format
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
