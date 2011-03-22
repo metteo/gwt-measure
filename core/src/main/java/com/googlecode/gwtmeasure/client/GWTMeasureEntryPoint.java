@@ -24,7 +24,7 @@ import com.googlecode.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.googlecode.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -73,7 +73,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
         }
         Cookies.removeCookie(Constants.COOKIE_RESOURCE_LOAD_START);
         
-        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
+        PerformanceTiming.Builder builder = new PerformanceTiming.Builder();
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RESOURCES)
                 .setEventGroup(Constants.GRP_BOOTSTRAP)
@@ -105,8 +105,8 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
      * @param event JSON object representing performance event
      */
     public static void handleEvent(JavaScriptEventObject event) {
-        PerformanceMetrics metrics = event.asJavaObject();
-        hub.submit(metrics);
+        PerformanceTiming timing = event.asJavaObject();
+        hub.submit(timing);
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{

@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
@@ -72,8 +72,8 @@ public final class JavaScriptEventObject extends JavaScriptObject {
         return r;
   }-*/;
 
-    public PerformanceMetrics asJavaObject() {
-        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
+    public PerformanceTiming asJavaObject() {
+        PerformanceTiming.Builder builder = new PerformanceTiming.Builder();
         builder.setModuleName(getModuleName())
                 .setSubSystem(getSubSystem())
                 .setEventGroup(getEventGroup())

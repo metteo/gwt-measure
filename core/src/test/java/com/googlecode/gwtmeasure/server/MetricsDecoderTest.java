@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,14 +46,14 @@ public class MetricsDecoderTest extends Assert {
 
     @Test
     public void testDecode() throws Exception {
-        PerformanceMetrics metrics = decoder.decode(jsonValue);
+        PerformanceTiming timing = decoder.decode(jsonValue);
         
-        assertThat(metrics.getModuleName(), equalTo("moduleName"));
-        assertThat(metrics.getSubSystem(), equalTo("subSystem"));
-        assertThat(metrics.getEventGroup(), equalTo("eventGroup"));
-        assertThat(metrics.getMillis(), equalTo(100L));
-        assertThat(metrics.getType(), equalTo("type"));
-        assertThat(metrics.getParameter("param"), equalTo("value"));
+        assertThat(timing.getModuleName(), equalTo("moduleName"));
+        assertThat(timing.getSubSystem(), equalTo("subSystem"));
+        assertThat(timing.getEventGroup(), equalTo("eventGroup"));
+        assertThat(timing.getMillis(), equalTo(100L));
+        assertThat(timing.getType(), equalTo("type"));
+        assertThat(timing.getParameter("param"), equalTo("value"));
     }
 
 }

@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class PerformanceMetrics implements IsSerializable {
+public class PerformanceTiming implements IsSerializable {
 
     private String moduleName = "";
     private String subSystem = "";
@@ -38,15 +38,15 @@ public class PerformanceMetrics implements IsSerializable {
 
     private Map<String, String> parameters = new HashMap<String, String>();
 
-    public PerformanceMetrics() {
+    public PerformanceTiming() {
     }
 
     public static class Builder {
 
-        private PerformanceMetrics event;
+        private PerformanceTiming event;
 
         public Builder() {
-            this.event = new PerformanceMetrics();
+            this.event = new PerformanceTiming();
         }
 
         public Builder setModuleName(String moduleName) {
@@ -80,7 +80,7 @@ public class PerformanceMetrics implements IsSerializable {
             return this;
         }
 
-        public PerformanceMetrics create() {
+        public PerformanceTiming create() {
             return this.event;
         }
 
@@ -139,11 +139,11 @@ public class PerformanceMetrics implements IsSerializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PerformanceMetrics metrics = (PerformanceMetrics) o;
+        PerformanceTiming timing = (PerformanceTiming) o;
 
-        if (eventGroup != null ? !eventGroup.equals(metrics.eventGroup) : metrics.eventGroup != null) return false;
-        if (moduleName != null ? !moduleName.equals(metrics.moduleName) : metrics.moduleName != null) return false;
-        if (subSystem != null ? !subSystem.equals(metrics.subSystem) : metrics.subSystem != null) return false;
+        if (eventGroup != null ? !eventGroup.equals(timing.eventGroup) : timing.eventGroup != null) return false;
+        if (moduleName != null ? !moduleName.equals(timing.moduleName) : timing.moduleName != null) return false;
+        if (subSystem != null ? !subSystem.equals(timing.subSystem) : timing.subSystem != null) return false;
 
         return true;
     }

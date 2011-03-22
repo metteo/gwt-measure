@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client.delivery;
 import com.googlecode.gwtmeasure.client.PerformanceEvent;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.widget.DebugPanel;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -34,8 +34,8 @@ public class DebugPanelChannel implements PerformanceEventHandler {
             debugPanel.show();
         }
 
-        PerformanceMetrics metrics = event.getMetrics();
-        debugPanel.appendDebugLine(metrics);
+        PerformanceTiming timing = event.getMetrics();
+        debugPanel.appendDebugLine(timing);
     }
 
 }

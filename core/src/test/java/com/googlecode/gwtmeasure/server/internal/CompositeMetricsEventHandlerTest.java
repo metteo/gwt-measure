@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.server.internal;
 
 import com.googlecode.gwtmeasure.server.MetricsEventHandler;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,11 +43,11 @@ public class CompositeMetricsEventHandlerTest {
     public void testOnEvent() throws Exception {
         MetricsEventHandler eventHandler = mock(MetricsEventHandler.class);
         handler.addHandler(eventHandler);
-        PerformanceMetrics metrics = mock(PerformanceMetrics.class);
+        PerformanceTiming timing = mock(PerformanceTiming.class);
 
-        handler.onEvent(metrics);
+        handler.onEvent(timing);
         
-        verify(eventHandler).onEvent(metrics);
+        verify(eventHandler).onEvent(timing);
     }
 
     @Test

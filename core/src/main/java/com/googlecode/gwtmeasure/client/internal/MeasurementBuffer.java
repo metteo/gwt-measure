@@ -1,6 +1,6 @@
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +19,9 @@ public class MeasurementBuffer {
     private MeasurementBuffer() {
     }
 
-    private final List<PerformanceMetrics> buffer = new ArrayList<PerformanceMetrics>();
+    private final List<PerformanceTiming> buffer = new ArrayList<PerformanceTiming>();
 
-    public void push(PerformanceMetrics event) {
+    public void push(PerformanceTiming event) {
         buffer.add(event);
     }
 

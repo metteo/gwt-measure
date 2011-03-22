@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class LoggingHandler implements MetricsEventHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingHandler.class);
 
-    public void onEvent(PerformanceMetrics metric) {
+    public void onEvent(PerformanceTiming metric) {
         logger.info(metric.toString());
     }
     

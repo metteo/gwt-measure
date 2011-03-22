@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -29,7 +29,7 @@ public class MeasurementSerializer {
             StringBuilder headerBuilder = new StringBuilder("");
             Object[] events = buffer.popAll();
             for (Object object : events) {
-                PerformanceMetrics event = (PerformanceMetrics) object;
+                PerformanceTiming event = (PerformanceTiming) object;
                 String encodedEvent = event.jsonEncode();
                 headerBuilder.append(encodedEvent);
                 headerBuilder.append('@');

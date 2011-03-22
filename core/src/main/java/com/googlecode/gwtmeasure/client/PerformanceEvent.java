@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
@@ -26,10 +26,10 @@ public class PerformanceEvent extends GwtEvent<PerformanceEventHandler> {
     
     public static final Type<PerformanceEventHandler> TYPE = new Type<PerformanceEventHandler>();
 
-    private final PerformanceMetrics metrics;
+    private final PerformanceTiming timing;
 
-    public PerformanceEvent(PerformanceMetrics metrics) {
-        this.metrics = metrics;
+    public PerformanceEvent(PerformanceTiming timing) {
+        this.timing = timing;
     }
 
     @Override
@@ -42,8 +42,8 @@ public class PerformanceEvent extends GwtEvent<PerformanceEventHandler> {
         handler.onPerformanceEvent(this);
     }
 
-    public PerformanceMetrics getMetrics() {
-        return metrics;
+    public PerformanceTiming getMetrics() {
+        return timing;
     }
 
 }

@@ -18,7 +18,7 @@ package com.googlecode.gwtmeasure.client.spi;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
@@ -28,7 +28,7 @@ public interface MeasurementHub {
 
     void submit(PendingMeasurement measurement);
 
-    void submit(PerformanceMetrics event);
+    void submit(PerformanceTiming event);
 
     HandlerRegistration addHandler(PerformanceEventHandler handler);
 

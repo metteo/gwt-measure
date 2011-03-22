@@ -2,7 +2,7 @@ package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +32,7 @@ public class MeasurementToEventTest extends Assert {
         PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHub.class));
         measurement.stop();
 
-        PerformanceMetrics[] events = converter.convert(measurement);
+        PerformanceTiming[] events = converter.convert(measurement);
 
         assertThat(events.length, is(2));
 

@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,9 +25,9 @@ import com.google.gson.GsonBuilder;
  */
 public class MetricsDecoder {
 
-    public PerformanceMetrics decode(String metric) {
+    public PerformanceTiming decode(String metric) {
         Gson gson = new GsonBuilder().create();
-        return gson.fromJson(metric, PerformanceMetrics.class);
+        return gson.fromJson(metric, PerformanceTiming.class);
     }
 
 }

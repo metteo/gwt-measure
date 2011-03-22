@@ -25,7 +25,7 @@ import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -67,13 +67,13 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     private void requestSent() {
         MeasurementHub hub = Measurements.getMeasurementHub();
 
-        PerformanceMetrics metrics = new PerformanceMetrics.Builder()
+        PerformanceTiming timing = new PerformanceTiming.Builder()
                 .setMillis(TimeUtils.current())
                 .setModuleName(GWT.getModuleName())
                 .setSubSystem(Constants.SUB_SYSTEM_HTTP)
                 .setType(Constants.TYPE_REQUEST_SENT)
                 .create();
 
-        hub.submit(metrics);
+        hub.submit(timing);
     }
 }

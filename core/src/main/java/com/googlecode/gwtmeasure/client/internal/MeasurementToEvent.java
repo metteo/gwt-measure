@@ -18,7 +18,7 @@ package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.core.client.GWT;
 
 import java.util.Set;
@@ -28,15 +28,15 @@ import java.util.Set;
  */
 public class MeasurementToEvent {
 
-    public PerformanceMetrics[] convert(PendingMeasurement measurement) {
+    public PerformanceTiming[] convert(PendingMeasurement measurement) {
         long from = measurement.getFrom();
         long to = measurement.getTo();
         String group = measurement.getGroup();
         String name = measurement.getName();
 
-        PerformanceMetrics[] result = new PerformanceMetrics[2];
+        PerformanceTiming[] result = new PerformanceTiming[2];
 
-        PerformanceMetrics.Builder beginBuilder = new PerformanceMetrics.Builder()
+        PerformanceTiming.Builder beginBuilder = new PerformanceTiming.Builder()
                 .setModuleName(moduleName())
                 .setMillis(from)
                 .setSubSystem(group)
@@ -46,7 +46,7 @@ public class MeasurementToEvent {
         appendParameters(measurement, beginBuilder);
         result[0] = beginBuilder.create();
 
-        PerformanceMetrics.Builder endBuilder = new PerformanceMetrics.Builder()
+        PerformanceTiming.Builder endBuilder = new PerformanceTiming.Builder()
                 .setModuleName(moduleName())
                 .setMillis(to)
                 .setSubSystem(group)
@@ -59,7 +59,7 @@ public class MeasurementToEvent {
         return result;
     }
 
-    private void appendParameters(PendingMeasurement measurement, PerformanceMetrics.Builder builder) {
+    private void appendParameters(PendingMeasurement measurement, PerformanceTiming.Builder builder) {
         Set<String> parameterNames = measurement.getParameterNames();
         for (String parameterName : parameterNames) {
             String value = measurement.getParameter(parameterName);

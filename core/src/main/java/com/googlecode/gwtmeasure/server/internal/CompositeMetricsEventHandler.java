@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.server.internal;
 
 import com.googlecode.gwtmeasure.server.MetricsEventHandler;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ public class CompositeMetricsEventHandler implements MetricsEventHandler {
 
     final List<MetricsEventHandler> handlers = new ArrayList<MetricsEventHandler>();
 
-    public void onEvent(PerformanceMetrics metrics) {
+    public void onEvent(PerformanceTiming timing) {
         for (MetricsEventHandler handler : handlers) {
-            handler.onEvent(metrics);
+            handler.onEvent(timing);
         }
     }
 

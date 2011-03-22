@@ -12,10 +12,11 @@
 + measuring static resource download
 + client/server network events
 + disabling/enabling of features
++ measurements of HTTP RequestsBuilder
 
 --- In Progress ---
-# measurements of HTTP RequestsBuilder
 # uid injection with filter or remote servlet
+# event aggregation
 
 --- This Version ---
 # exception reporting
@@ -24,7 +25,6 @@
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
-# split client and server distributions
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
 # gwt jdk logging on client
@@ -33,8 +33,10 @@
 # user defined attributes
 # write documentation
 # publish to maven repo
+# ensure extensibility
 
 --- Next Versions ---
+# split client and server distributions
 # compare with https://github.com/yahoo/boomerang/
 # compare with http://stevesouders.com/episodes/
 # Perf4J integration

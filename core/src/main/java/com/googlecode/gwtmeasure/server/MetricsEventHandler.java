@@ -16,13 +16,13 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public interface MetricsEventHandler {
 
-    void onEvent(PerformanceMetrics metric);
+    void onEvent(PerformanceTiming metric);
 
 }

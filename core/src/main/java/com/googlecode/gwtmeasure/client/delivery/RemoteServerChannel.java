@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client.delivery;
 import com.googlecode.gwtmeasure.client.PerformanceEvent;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -27,8 +27,8 @@ import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
 public class RemoteServerChannel implements PerformanceEventHandler {
 
     public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceMetrics metrics = event.getMetrics();
-        MeasurementBuffer.instance().push(metrics);
+        PerformanceTiming timing = event.getMetrics();
+        MeasurementBuffer.instance().push(timing);
     }
 
 }

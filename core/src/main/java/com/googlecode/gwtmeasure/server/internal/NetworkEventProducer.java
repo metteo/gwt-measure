@@ -18,7 +18,7 @@ package com.googlecode.gwtmeasure.server.internal;
 
 import com.googlecode.gwtmeasure.server.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,7 +37,7 @@ public class NetworkEventProducer {
     public void requestReceived(HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
+        PerformanceTiming.Builder builder = new PerformanceTiming.Builder();
 
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)
@@ -52,7 +52,7 @@ public class NetworkEventProducer {
     public void reponseSent(HttpServletRequest response) {
         HttpSession session = response.getSession();
 
-        PerformanceMetrics.Builder builder = new PerformanceMetrics.Builder();
+        PerformanceTiming.Builder builder = new PerformanceTiming.Builder();
 
         builder
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)

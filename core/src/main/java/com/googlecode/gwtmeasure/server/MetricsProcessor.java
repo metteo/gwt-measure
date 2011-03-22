@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.server;
 
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -53,8 +53,8 @@ public class MetricsProcessor {
     private void handleMetrics(String result) {
         String[] metrics = result.split("\\@");
         for (String metric : metrics) {            
-            PerformanceMetrics performanceMetrics = decoder.decode(metric);
-            handler.onEvent(performanceMetrics);
+            PerformanceTiming performanceTiming = decoder.decode(metric);
+            handler.onEvent(performanceTiming);
         }                        
     }
 

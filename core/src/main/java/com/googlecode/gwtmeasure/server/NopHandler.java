@@ -16,14 +16,14 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class NopHandler implements MetricsEventHandler {
 
-    public void onEvent(PerformanceMetrics metric) {
+    public void onEvent(PerformanceTiming metric) {
     }
 
 }

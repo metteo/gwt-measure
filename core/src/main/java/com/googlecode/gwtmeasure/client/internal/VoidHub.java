@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client.internal;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
@@ -30,7 +30,7 @@ public class VoidHub implements MeasurementHub {
     public void submit(PendingMeasurement measurement) {
     }
 
-    public void submit(PerformanceMetrics event) {
+    public void submit(PerformanceTiming event) {
     }
 
     public HandlerRegistration addHandler(PerformanceEventHandler handler) {
