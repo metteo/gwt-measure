@@ -1,10 +1,9 @@
 --- Implemented ---
 + GWT 2.1.1 support
 + Apache 2.0 License
-+ integration with lightweight measurements
++ integration with GWT lightweight measurements
 + gwt event handler on client for easy plugins
-+ measurements of Callbacks
-+ measurements of RPC
++ measurements of RPC Callbacks
 + support custom event attributes (fragment, size, bytes, method, sessionId)
 + slf4j on server
 + handle browser close and navigate to different url
@@ -15,6 +14,7 @@
 + disabling/enabling of features
 
 --- In Progress ---
+# measurements of HTTP RequestsBuilder
 # uid injection with filter or remote servlet
 
 --- This Version ---
@@ -22,37 +22,39 @@
 # callback failure identification
 # messages in json format
 # support RunAsync measurements (fragment, size - attributes are new)
-# retry sequence of measurement delivery
+# retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # split client and server distributions
 # logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # nested custom measurements
-# gwt logging on client
-# compare with https://github.com/yahoo/boomerang/
-# compare with http://stevesouders.com/episodes/
+# gwt jdk logging on client
 # honor HTTP header limitations
 # mention gwt-debug-panel in documentation
+# user defined attributes
+# write documentation
+# publish to maven repo
 
 --- Next Versions ---
+# compare with https://github.com/yahoo/boomerang/
+# compare with http://stevesouders.com/episodes/
 # Perf4J integration
 # offline storage of incidents on client until browser is connected
 # exception diagnostics and categorization
-# measurements of HTTP Requests
 # measurements of Timers
-# measurements of RequestFactory
 # measurements of EntryPoints
-# measurements of ExternalResources
-# native js support (somehow)
-# resource bundle support
-# async storage on server not to stall the production
-# browser recognition
+# measurements of ClientBundle ExternalResources
+# measurements of RequestFactory
+# native js measurement support (somehow)
+# async message storage on server not to stall the production
+# browser type and version recognition
+# Browser Web Timing API usage (IE9, Chrome, FFox)
 
 ----- Future -----
 # use HTML5 browser storage and cookies on older browsers
-# aspect-like proxy generation
+# aspect-like measurement proxy generation on client
 # Google App Engine integration
 # ip geomapping
-# sample reporting over the embedded database
+# sample reporting over embedded database
 # google chart api for reporting
 # JMX reporting and configuration support
 # reporting tooling integration

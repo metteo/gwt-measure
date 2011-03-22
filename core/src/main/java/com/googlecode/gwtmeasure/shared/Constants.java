@@ -26,10 +26,13 @@ public final class Constants {
     public static final String SUB_SYSTEM_STARTUP = "startup";
     public static final String SUB_SYSTEM_RPC = "rpc";
     public static final String SUB_SYSTEM_RESOURCES = "resources";
+    public static final String SUB_SYSTEM_HTTP = "http";
 
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
     public static final String TYPE_RESPONSE_SENT = "responseSent";
+    public static final String TYPE_RESPONSE_RECEIVED = "responseReceived";
+    public static final String TYPE_REQUEST_SENT = "requestSent";
     public static final String TYPE_REQUEST_RECEIVED = "requestReceived";
 
     // Groups
