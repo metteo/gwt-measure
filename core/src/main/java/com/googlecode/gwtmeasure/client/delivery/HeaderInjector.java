@@ -16,32 +16,35 @@
 
 package com.googlecode.gwtmeasure.client.delivery;
 
+import com.google.gwt.http.client.RequestBuilder;
 import com.googlecode.gwtmeasure.client.exception.IncidentReport;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
-import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
+import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasurementSerializer {
+public class HeaderInjector {
 
-    public String serialize(List<? extends HasJsonRepresentation> objects) {
-        StringBuilder headerBuilder = new StringBuilder("[");
-        int size = objects.size();
-        for (int i = 0; i < size; i++) {
-            HasJsonRepresentation object = objects.get(i);
-            String encoded = object.jsonEncode();
-            headerBuilder.append(encoded);
-            if (i != size - 1) {
-                headerBuilder.append(',');
-            }
+    private static final MeasurementSerializer serializer = new MeasurementSerializer();         
+
+    public static void inject(RequestBuilder requestBuilder) {
+        DeliveryBuffer buffer = DeliveryBuffer.instance();
+        if (buffer.hasTimings()) {
+            List<PerformanceTiming> timings = buffer.popTimings();
+            String serializedTimings = serializer.serialize(timings);
+
+            requestBuilder.setHeader(Constants.HEADER_RESULT, serializedTimings);
         }
-        headerBuilder.append("]");
-        return headerBuilder.toString();
+        if (buffer.hasIncidents()) {
+            List<IncidentReport> incidents = buffer.popIncidents();
+            String serializedIncidents = serializer.serialize(incidents);
+
+            requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents);
+        }
     }
 
 }

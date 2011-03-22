@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class PerformanceTiming implements IsSerializable {
+public class PerformanceTiming implements HasJsonRepresentation {
 
     private String moduleName = "";
     private String subSystem = "";

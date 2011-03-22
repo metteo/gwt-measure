@@ -23,6 +23,9 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.List;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -30,8 +33,6 @@ import com.googlecode.gwtmeasure.shared.Constants;
 public class StandaloneDelivery {
 
     private static final StandaloneDelivery instance = new StandaloneDelivery();
-    
-    private final MeasurementSerializer serializer = new MeasurementSerializer();
 
     // TODO Make configurable
     private static final String SERVLET_LOCATION = "measurements";
@@ -41,24 +42,18 @@ public class StandaloneDelivery {
     }
 
     public void deliver() {
-        DeliveryBuffer buffer = DeliveryBuffer.instance();
-        String data = serializer.serialize(buffer);
-        if (!"".equals(data)) {
-            sendToServer(data);
-        }
-    }
-
-    private void sendToServer(String data) {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, SERVLET_LOCATION);
         builder.setCallback(new MeasurementRequestCallback());
-        builder.setHeader(Constants.HEADER_RESULT, data);
+        HeaderInjector.inject(builder);
+
         try {
             Request request = builder.send();
         } catch (RequestException e) {
-            // TODO Temporary solution
+            // TODO Temporary solution should put back to queue
         }
     }
 
+    // TODO Implement
     private static class MeasurementRequestCallback implements RequestCallback {
 
         public void onResponseReceived(Request request, Response response) {

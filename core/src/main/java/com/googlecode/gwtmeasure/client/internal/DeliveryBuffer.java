@@ -20,25 +20,35 @@ public class DeliveryBuffer {
     private DeliveryBuffer() {
     }
 
-    private final List<PerformanceTiming> buffer = new ArrayList<PerformanceTiming>();    
+    private final List<PerformanceTiming> timings = new ArrayList<PerformanceTiming>();
     private final List<IncidentReport> incidents = new ArrayList<IncidentReport>();
 
     public void push(PerformanceTiming timing) {
-        buffer.add(timing);
-    }
-
-    public Object[] popAll() {
-        Object[] result = buffer.toArray();
-        buffer.clear();
-        return result;
-    }
-
-    public boolean isEmpty() {
-        return buffer.isEmpty();
+        timings.add(timing);
     }
 
     public void register(IncidentReport report) {
         incidents.add(report);
+    }
+
+    public List<PerformanceTiming> popTimings() {
+        List<PerformanceTiming> result = new ArrayList<PerformanceTiming>(timings);
+        timings.clear();
+        return result;
+    }
+
+    public List<IncidentReport> popIncidents() {
+        List<IncidentReport> result = new ArrayList<IncidentReport>(incidents);
+        incidents.clear();
+        return result;
+    }
+
+    public boolean hasTimings() {
+        return !timings.isEmpty();
+    }
+
+    public boolean hasIncidents() {
+        return !incidents.isEmpty();
     }
 
 }

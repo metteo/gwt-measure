@@ -16,17 +16,27 @@
 
 package com.googlecode.gwtmeasure.client.exception;
 
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.StatusCodeException;
+import com.googlecode.gwtmeasure.client.internal.TimeUtils;
+import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class IncidentReport {
+public class IncidentReport implements HasJsonRepresentation {
 
+    private long timestamp;
     private String text;
     private String message;
+
+    public IncidentReport() {
+        this.timestamp = TimeUtils.current();
+    }
 
     public String getText() {
         return text;
@@ -80,6 +90,16 @@ public class IncidentReport {
         report.setText("Unhandled client side exception");
         report.setMessage(throwable.getMessage());
         return report;
+    }
+
+    public String jsonEncode() {
+        JSONObject object = new JSONObject();
+
+        object.put("timestamp", new JSONNumber(timestamp));
+        if (text != null) object.put("text", new JSONString(text));
+        if (message != null) object.put("message", new JSONString(message));
+
+        return object.toString();
     }
 
 }

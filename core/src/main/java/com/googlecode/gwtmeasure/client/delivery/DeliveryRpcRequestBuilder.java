@@ -2,8 +2,12 @@ package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
+import com.googlecode.gwtmeasure.client.exception.IncidentReport;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.List;
 
 /**
  * @author dmitry.buzdin
@@ -11,8 +15,6 @@ import com.googlecode.gwtmeasure.shared.Constants;
 public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
 
     private static final RpcRequestBuilder instance = new DeliveryRpcRequestBuilder();
-
-    private final MeasurementSerializer serializer = new MeasurementSerializer();
 
     public static RpcRequestBuilder instance() {
         return instance;
@@ -22,20 +24,14 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
     }
 
     /**
-     * Inject pending measurements if any are waiting.
+     * Inject pending measurements if any are in the queue.
      *
      * @param requestBuilder
      */
     @Override
     protected void doFinish(RequestBuilder requestBuilder) {
         super.doFinish(requestBuilder);
-
-        DeliveryBuffer buffer = DeliveryBuffer.instance();
-        String results = serializer.serialize(buffer);
-
-        if (!"".equals(results)) {
-            requestBuilder.setHeader(Constants.HEADER_RESULT, results);
-        }
+        HeaderInjector.inject(requestBuilder);
     }
 
     /**
