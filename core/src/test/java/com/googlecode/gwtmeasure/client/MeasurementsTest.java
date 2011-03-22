@@ -23,7 +23,7 @@ public class MeasurementsTest extends Assert {
     @Before
     public void setUp() {
         this.channel = mock(MeasurementHub.class);
-        Measurements.setDeliveryChannel(channel);
+        Measurements.setMeasurementHub(channel);
     }
 
     @Test

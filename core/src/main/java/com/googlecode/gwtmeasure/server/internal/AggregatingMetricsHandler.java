@@ -14,30 +14,15 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.internal;
+package com.googlecode.gwtmeasure.server.internal;
 
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.server.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
-import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class VoidControl implements MeasurementHub {
-
-    public void submit(PendingMeasurement measurement) {
+public class AggregatingMetricsHandler implements MetricsEventHandler {
+    public void onEvent(PerformanceMetrics metric) {
     }
-
-    public void submit(PerformanceMetrics event) {
-    }
-
-    public HandlerRegistration addHandler(PerformanceEventHandler handler) {
-        return new HandlerRegistration() {
-            public void removeHandler() {
-            }
-        };
-    }
-
 }

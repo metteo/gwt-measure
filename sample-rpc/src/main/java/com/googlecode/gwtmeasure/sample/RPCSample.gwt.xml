@@ -24,9 +24,12 @@
 
     <inherits name="com.google.gwt.user.theme.standard.Standard"/>
 
+    <!-- Disabled by default -->
+    <set-property name="gwtmeasure.channel.debugpanel" value="ENABLED"/>
+
     <source path="client"/>
     <source path="shared"/>    
     
     <entry-point class="com.googlecode.gwtmeasure.sample.client.SampleEntryPoint"/>
-    
+
 </module>

@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.delivery;
+package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PerformanceEvent;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.internal.MeasurementBuffer;
-import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class RemoteServerDelivery implements PerformanceEventHandler {
+public class VoidEventHandler implements PerformanceEventHandler {
 
     public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceMetrics metrics = event.getMetrics();
-        MeasurementBuffer.instance().push(metrics);
     }
-
+    
 }

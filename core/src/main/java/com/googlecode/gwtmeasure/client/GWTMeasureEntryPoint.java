@@ -16,8 +16,8 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.client.delivery.DebugPanelDelivery;
-import com.googlecode.gwtmeasure.client.delivery.RemoteServerDelivery;
+import com.googlecode.gwtmeasure.client.delivery.DebugPanelChannel;
+import com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel;
 import com.googlecode.gwtmeasure.client.delivery.StandaloneDelivery;
 import com.googlecode.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.googlecode.gwtmeasure.client.internal.JavaScriptEventObject;
@@ -43,12 +43,9 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
     private static final int TIMER_INTERVAL = 15000; // 15 seconds
 
     public void onModuleLoad() {
-        Measurements.setDeliveryChannel(hub);
+        Measurements.setMeasurementHub(hub);
 
-        // TODO Make configurable and extract
-        hub.addHandler(new RemoteServerDelivery());
-        hub.addHandler(new DebugPanelDelivery());
-
+        registerChannels();
         registerResourceStartEvent();
 
         // Measurement hooks
@@ -59,6 +56,14 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
 
         // Exception handling hooks
         hookExceptionHandler();
+    }
+
+    private void registerChannels() {
+        PerformanceEventHandler remoteHandler = GWT.create(RemoteServerChannel.class);
+        hub.addHandler(remoteHandler);
+        
+        PerformanceEventHandler debugPanelHandler = GWT.create(DebugPanelChannel.class);
+        hub.addHandler(debugPanelHandler);
     }
 
     private void registerResourceStartEvent() {

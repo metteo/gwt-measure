@@ -14,36 +14,30 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client;
+package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
+import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Measurements {
+public class VoidHub implements MeasurementHub {
 
-    private static MeasurementHub measurementHub = new VoidHub();
-
-    private Measurements() {
+    public void submit(PendingMeasurement measurement) {
     }
 
-    public static void setMeasurementHub(MeasurementHub measurementHub) {
-        Measurements.measurementHub = measurementHub;
+    public void submit(PerformanceMetrics event) {
     }
 
-    public static MeasurementHub getMeasurementHub() {
-        return measurementHub;
-    }
-
-    public static PendingMeasurement start(String name) {
-        return start(name, Constants.SUB_SYSTEM_DEFAULT);
-    }
-
-    public static PendingMeasurement start(String name, String group) {
-        return new PendingMeasurement(name, group, measurementHub);
+    public HandlerRegistration addHandler(PerformanceEventHandler handler) {
+        return new HandlerRegistration() {
+            public void removeHandler() {
+            }
+        };
     }
 
 }

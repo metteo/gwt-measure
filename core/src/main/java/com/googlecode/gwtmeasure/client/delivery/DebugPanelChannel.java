@@ -24,7 +24,7 @@ import com.googlecode.gwtmeasure.shared.PerformanceMetrics;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class DebugPanelDelivery implements PerformanceEventHandler {
+public class DebugPanelChannel implements PerformanceEventHandler {
 
     DebugPanel debugPanel;
 

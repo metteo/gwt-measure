@@ -12,12 +12,12 @@
 + measurements groups support
 + measuring static resource download
 + client/server network events
++ disabling/enabling of features
 
 --- In Progress ---
 # uid injection with filter or remote servlet
 
 --- This Version ---
-# disabling/enabling features
 # exception reporting
 # callback failure identification
 # messages in json format
