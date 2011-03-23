@@ -50,7 +50,8 @@ public final class Constants {
     public static final String PARAM_FRAGMENT = "fragment";
     public static final String PARAM_SIZE = "size";    
     public static final String PARAM_BYTES = "bytes";
-    public static final String PARAM_SESSION_ID = "sessionId";
+    public static final String PARAM_SESSION_ID = "sessionId";    
+    public static final String PARAM_WINDOWID = "windowId";
 
     // Cookies
     public static final String COOKIE_RESOURCE_LOAD_START = "resourceLoadStart";

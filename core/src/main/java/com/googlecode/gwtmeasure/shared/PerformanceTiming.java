@@ -134,6 +134,31 @@ public class PerformanceTiming implements HasJsonRepresentation {
         return parameters.get(Constants.PARAM_SIZE);
     }
 
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setSubSystem(String subSystem) {
+        this.subSystem = subSystem;
+    }
+
+    public void setEventGroup(String eventGroup) {
+        this.eventGroup = eventGroup;
+    }
+
+    public void setMillis(long millis) {
+        this.millis = millis;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setParameter(String name, Object value) {
+        String string = value == null ? "" : value.toString();
+        this.parameters.put(name, string);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -172,7 +197,7 @@ public class PerformanceTiming implements HasJsonRepresentation {
                 .append("', type='")
                 .append(type)
                 .append("', parameters=[");
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {            
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
             builder.append(entry.getKey());
             builder.append("=");
             builder.append(entry.getValue());

@@ -16,28 +16,22 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
+import org.junit.Assert;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.*;
+
 /**
- * Unique identifier for given browser window/tab
- * 
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class WindowId {
+public class WindowIdTest extends Assert {
 
-    private long value;
-
-    public WindowId() {
-        long time = TimeUtils.current();
-        double random = Math.random();
-        Double result = time * random;
-        value = result.longValue();
-    }
-
-    public void setValue(long value) {
-        this.value = value;
-    }
-
-    public long getValue() {
-        return value;
+    @Test
+    public void testGetValue() throws Exception {
+        long first = new WindowId().getValue();
+        long second = new WindowId().getValue();
+        
+        assertThat(first, not(equalTo(second)));
     }
 
 }

@@ -43,18 +43,20 @@ public class StandaloneDelivery {
 
     public void deliver() {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, SERVLET_LOCATION);
-        builder.setCallback(new MeasurementRequestCallback());
-        HeaderInjector.inject(builder);
-
-        try {
-            Request request = builder.send();
-        } catch (RequestException e) {
-            // TODO Temporary solution should put back to queue
-            // TODO Consider lost piggybacked timings as well
+        HeaderInjector injector = new HeaderInjector();
+        if (injector.inject(builder)) { // only send if there is pending data
+            builder.setCallback(new MeasurementRequestCallback());
+            try {
+                Request request = builder.send();
+            } catch (RequestException e) {
+                // TODO Temporary solution should put back to queue
+                // TODO Consider lost piggybacked timings as well
+            }
         }
     }
 
     // TODO Implement
+
     private static class MeasurementRequestCallback implements RequestCallback {
 
         public void onResponseReceived(Request request, Response response) {

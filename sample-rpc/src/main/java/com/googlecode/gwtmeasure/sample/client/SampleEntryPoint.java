@@ -54,7 +54,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
     private Button errorButton;
 
     public void onModuleLoad() {
-        PendingMeasurement measurement = Measurements.start("module-startup");
+        PendingMeasurement measurement = Measurements.start("onModuleLoad");
 
         RootPanel panel = RootPanel.get();
         panel.add(new Label("Measurements"));

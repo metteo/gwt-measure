@@ -17,15 +17,19 @@
 package com.googlecode.gwtmeasure.client;
 
 import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
+ * Public API for GWT Measurements.
+ *
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public final class Measurements {
 
-    private static MeasurementHub measurementHub = new VoidHub();
+    private static MeasurementHub measurementHub;
+    private static WindowId windowId;
 
     private Measurements() {
     }
@@ -42,8 +46,24 @@ public final class Measurements {
         return start(name, Constants.SUB_SYSTEM_DEFAULT);
     }
 
+    /**
+     * Starts recording of new measurement interval.
+     * 
+     * @param name name of the measured event
+     * @param group name of the event group
+     * @return measurement object
+     * @see com.googlecode.gwtmeasure.client.PendingMeasurement
+     */
     public static PendingMeasurement start(String name, String group) {
         return new PendingMeasurement(name, group, measurementHub);
+    }
+
+    public static void setWindowId(WindowId windowId) {
+        Measurements.windowId = windowId;
+    }
+
+    public static WindowId getWindowId() {
+        return windowId;
     }
 
 }

@@ -29,22 +29,35 @@ import java.util.List;
  */
 public class HeaderInjector {
 
-    private static final MeasurementSerializer serializer = new MeasurementSerializer();         
+    private MeasurementSerializer serializer;
+    private DeliveryBuffer buffer;
 
-    public static void inject(RequestBuilder requestBuilder) {
-        DeliveryBuffer buffer = DeliveryBuffer.instance();
+    public HeaderInjector() {
+        this(DeliveryBuffer.instance(), new MeasurementSerializer());
+    }
+
+    public HeaderInjector(DeliveryBuffer buffer, MeasurementSerializer serializer) {
+        this.buffer = buffer;
+        this.serializer = serializer;
+    }
+
+    public boolean inject(RequestBuilder requestBuilder) {
+        boolean result = false;
         if (buffer.hasTimings()) {
             List<PerformanceTiming> timings = buffer.popTimings();
             String serializedTimings = serializer.serialize(timings);
 
             requestBuilder.setHeader(Constants.HEADER_RESULT, serializedTimings);
+            result = true;
         }
         if (buffer.hasIncidents()) {
             List<IncidentReport> incidents = buffer.popIncidents();
             String serializedIncidents = serializer.serialize(incidents);
 
             requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents);
+            result = true;
         }
+        return result;
     }
 
 }

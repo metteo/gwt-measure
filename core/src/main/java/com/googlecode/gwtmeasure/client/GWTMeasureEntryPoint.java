@@ -29,6 +29,7 @@ import com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel;
 import com.googlecode.gwtmeasure.client.delivery.StandaloneDelivery;
 import com.googlecode.gwtmeasure.client.exception.WrappingExceptionHandler;
 import com.googlecode.gwtmeasure.client.internal.JavaScriptEventObject;
+import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -43,6 +44,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
     private static final int TIMER_INTERVAL = 15000; // 15 seconds
 
     public void onModuleLoad() {
+        Measurements.setWindowId(new WindowId());
         Measurements.setMeasurementHub(hub);
 
         registerChannels();

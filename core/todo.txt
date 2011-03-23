@@ -38,6 +38,9 @@
 # better sample application
 # improve test coverage
 # write JavaDocs
+# review public class and configuration naming
+# compress js file
+# bundle GSON in server distribution
 
 --- Next Versions ---
 # split client and server distributions

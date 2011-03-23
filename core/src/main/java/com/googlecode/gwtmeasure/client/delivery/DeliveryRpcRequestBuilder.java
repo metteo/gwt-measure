@@ -26,7 +26,8 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
     @Override
     protected void doFinish(RequestBuilder requestBuilder) {
         super.doFinish(requestBuilder);
-        HeaderInjector.inject(requestBuilder);
+        HeaderInjector injector = new HeaderInjector();
+        injector.inject(requestBuilder);
     }
 
     /**
