@@ -27,7 +27,7 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 public class RemoteServerChannel implements PerformanceEventHandler {
 
     public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceTiming timing = event.getMetrics();
+        PerformanceTiming timing = event.getTiming();
         DeliveryBuffer.instance().pushTiming(timing);
     }
 

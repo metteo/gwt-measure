@@ -19,13 +19,14 @@
         "http://google-web-toolkit.googlecode.com/svn/tags/2.1.1/distro-source/core/src/gwt-module.dtd">
 <module rename-to="samplerpc">
 
-    <inherits name='com.google.gwt.user.User'/>
+    <inherits name='com.google.gwt.user.User'/>    
+    <inherits name="com.google.gwt.user.theme.standard.Standard"/>
     <inherits name="com.googlecode.gwtmeasure.GWTMeasure"/>
 
-    <inherits name="com.google.gwt.user.theme.standard.Standard"/>
-
     <!-- Disabled by default -->
-    <set-property name="gwtmeasure.channel.debugpanel" value="ENABLED"/>
+    <set-property name="gwt.measure.debugHandler" value="ENABLED"/>
+
+    <set-property name="gwt.logging.logLevel" value="INFO"/>
 
     <source path="client"/>
     <source path="shared"/>    

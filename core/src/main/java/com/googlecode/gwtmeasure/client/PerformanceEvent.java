@@ -42,7 +42,7 @@ public class PerformanceEvent extends GwtEvent<PerformanceEventHandler> {
         handler.onPerformanceEvent(this);
     }
 
-    public PerformanceTiming getMetrics() {
+    public PerformanceTiming getTiming() {
         return timing;
     }
 

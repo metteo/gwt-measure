@@ -21,48 +21,57 @@
 
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name="com.google.gwt.logging.Logging"/>
 
     <source path="client"/>
     <source path="shared"/>
 
-    <entry-point class="com.googlecode.gwtmeasure.client.GWTMeasureEntryPoint"/>
+    <entry-point class="com.googlecode.gwtmeasure.client.MeasureConfiguration"/>
 
     <!-- Deferred Binding -->
-    <define-property name="gwtmeasure.instrumentation" values="ENABLED, DISABLED"/>
-    <define-property name="gwtmeasure.channel.debugpanel" values="ENABLED, DISABLED"/>
-    <define-property name="gwtmeasure.channel.remote" values="ENABLED, DISABLED"/>
+    <define-property name="gwt.measure.enabled" values="TRUE, FALSE"/>
+    <define-property name="gwt.measure.debugHandler" values="ENABLED, DISABLED"/>
+    <define-property name="gwt.measure.remoteHandler" values="ENABLED, DISABLED"/>
+    <define-property name="gwt.measure.loggingHandler" values="ENABLED, DISABLED"/>
 
-    <set-property name="gwtmeasure.instrumentation" value="ENABLED"/>
-    <set-property name="gwtmeasure.channel.debugpanel" value="DISABLED"/>
-    <set-property name="gwtmeasure.channel.remote" value="ENABLED"/>
+    <set-property name="gwt.measure.enabled" value="TRUE"/>
+    <set-property name="gwt.measure.debugHandler" value="DISABLED"/>
+    <set-property name="gwt.measure.remoteHandler" value="ENABLED"/>
+    <set-property name="gwt.measure.loggingHandler" value="ENABLED"/>
 
     <!-- Measurement Hub -->
     <replace-with class="com.googlecode.gwtmeasure.client.internal.MeasurementHubImpl">
-        <when-property-is name="gwtmeasure.instrumentation" value="ENABLED"/>
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.spi.MeasurementHub"/>
     </replace-with>
 
     <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidHub">
-        <when-property-is name="gwtmeasure.instrumentation" value="DISABLED"/>
+        <when-property-is name="gwt.measure.enabled" value="FALSE"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.spi.MeasurementHub"/>
     </replace-with>
 
     <!-- RPC Hooks -->
     <generate-with class="com.googlecode.gwtmeasure.rebind.MeasuringProxyGenerator">
-        <when-property-is name="gwtmeasure.instrumentation" value="ENABLED"/>
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService"/>
     </generate-with>
 
     <!-- Debug Panel -->   
     <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
-        <when-property-is name="gwtmeasure.channel.debugpanel" value="DISABLED"/>
+        <when-property-is name="gwt.measure.debugHandler" value="DISABLED"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.DebugPanelChannel"/>
     </replace-with>
 
     <!-- Remote Delivery -->
     <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
-        <when-property-is name="gwtmeasure.channel.remote" value="DISABLED"/>
+        <when-property-is name="gwt.measure.remoteHandler" value="DISABLED"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel"/>
+    </replace-with>
+
+    <!-- Logger -->
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
+        <when-property-is name="gwt.measure.loggingHandler" value="DISABLED"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.LoggingChannel"/>
     </replace-with>
 
 </module>

@@ -34,7 +34,7 @@ public class DebugPanelChannel implements PerformanceEventHandler {
             debugPanel.show();
         }
 
-        PerformanceTiming timing = event.getMetrics();
+        PerformanceTiming timing = event.getTiming();
         debugPanel.appendDebugLine(timing);
     }
 

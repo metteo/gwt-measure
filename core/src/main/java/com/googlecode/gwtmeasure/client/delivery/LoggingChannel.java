@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client;
+package com.googlecode.gwtmeasure.client.delivery;
+
+import com.googlecode.gwtmeasure.client.PerformanceEvent;
+import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.logging.Logger;
 
 /**
+ * GWT Logging implementation for measurements.
+ *
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface Measurable {
+public class LoggingChannel implements PerformanceEventHandler {
+
+    private static final Logger logger = Logger.getLogger("GWT-Measure");
+    
+    public void onPerformanceEvent(PerformanceEvent event) {
+        PerformanceTiming timing = event.getTiming();
+        logger.info(timing.toString());
+    }
+
 }

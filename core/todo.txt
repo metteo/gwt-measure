@@ -26,7 +26,6 @@
 # support RunAsync measurements (fragment, size - attributes are new)
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # gwt jdk logging on client
-# honor HTTP header limitations
 # user defined attributes
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
@@ -42,6 +41,7 @@
 # bundle GSON in server distribution
 
 --- Next Versions ---
+# Limit of 8K HTTP header size
 # exponential retry backoff period
 # split client and server distributions
 # compare with https://github.com/yahoo/boomerang/
