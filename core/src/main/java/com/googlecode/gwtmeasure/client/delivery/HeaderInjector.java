@@ -30,30 +30,24 @@ import java.util.List;
 public class HeaderInjector {
 
     private MeasurementSerializer serializer;
-    private DeliveryBuffer buffer;
 
     public HeaderInjector() {
-        this(DeliveryBuffer.instance(), new MeasurementSerializer());
+        this(new MeasurementSerializer());
     }
 
-    public HeaderInjector(DeliveryBuffer buffer, MeasurementSerializer serializer) {
-        this.buffer = buffer;
+    public HeaderInjector(MeasurementSerializer serializer) {
         this.serializer = serializer;
     }
 
-    public boolean inject(RequestBuilder requestBuilder) {
+    public boolean inject(RequestBuilder requestBuilder, List<PerformanceTiming> timings, List<IncidentReport> incidents) {
         boolean result = false;
-        if (buffer.hasTimings()) {
-            List<PerformanceTiming> timings = buffer.popTimings();
+        if (!timings.isEmpty()) {            
             String serializedTimings = serializer.serialize(timings);
-
             requestBuilder.setHeader(Constants.HEADER_RESULT, serializedTimings);
             result = true;
         }
-        if (buffer.hasIncidents()) {
-            List<IncidentReport> incidents = buffer.popIncidents();
+        if (!incidents.isEmpty()) {
             String serializedIncidents = serializer.serialize(incidents);
-
             requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents);
             result = true;
         }

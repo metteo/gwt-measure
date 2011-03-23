@@ -38,7 +38,7 @@ public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
      */
     public void onUncaughtException(Throwable exception) {
         IncidentReport report = IncidentReport.createReport(exception);
-        DeliveryBuffer.instance().register(report);
+        DeliveryBuffer.instance().pushIncident(report);
 
         if (handler != null) {
             handler.onUncaughtException(exception);

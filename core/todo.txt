@@ -20,12 +20,11 @@
 --- In Progress ---
 # uid injection with filter or remote servlet
 # event aggregation
+# retry sequence of measurement delivery
 
 --- This Version ---
 # support RunAsync measurements (fragment, size - attributes are new)
-# retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
-# logging mechanism (div, firebug, chrome, etc. see gwt-log example)
 # gwt jdk logging on client
 # honor HTTP header limitations
 # user defined attributes
@@ -43,10 +42,12 @@
 # bundle GSON in server distribution
 
 --- Next Versions ---
+# exponential retry backoff period
 # split client and server distributions
 # compare with https://github.com/yahoo/boomerang/
 # compare with http://stevesouders.com/episodes/
 # Perf4J integration
+# categorization of reaction to different types of incidents
 # offline HTML5 storage of incidents on client until browser is connected
 # exception diagnostics and categorization
 # measurements of Timers

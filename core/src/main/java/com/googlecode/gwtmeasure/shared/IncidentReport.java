@@ -64,7 +64,7 @@ public class IncidentReport implements HasJsonRepresentation {
             StatusCodeException statusCodeException = (StatusCodeException) throwable;
             int statusCode = statusCodeException.getStatusCode();
             if (statusCode != 0) {
-                report.setText("Response had unexpected http status code " + statusCode);
+                report.setText("Response has unexpected http status code " + statusCode);
             } else {
                 report.setText("Server is not available");
             }

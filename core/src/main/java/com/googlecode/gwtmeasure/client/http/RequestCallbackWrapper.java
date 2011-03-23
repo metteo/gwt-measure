@@ -32,9 +32,11 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 public class RequestCallbackWrapper implements RequestCallback {
     
     private RequestCallback callback;
+    private int requestId;
 
-    public RequestCallbackWrapper(RequestCallback callback) {
+    public RequestCallbackWrapper(RequestCallback callback, int requestId) {
         this.callback = callback;
+        this.requestId = requestId;
     }
 
     public void onResponseReceived(Request request, Response response) {
@@ -59,6 +61,7 @@ public class RequestCallbackWrapper implements RequestCallback {
                 .setModuleName(GWT.getModuleName())
                 .setSubSystem(Constants.SUB_SYSTEM_HTTP)                
                 .setType(Constants.TYPE_RESPONSE_RECEIVED)
+                .setEventGroup(Integer.toString(requestId))
                 .create();
 
         hub.submit(timing);

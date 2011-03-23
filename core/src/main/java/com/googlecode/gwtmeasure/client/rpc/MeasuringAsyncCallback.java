@@ -32,11 +32,12 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     final AsyncCallback<T> originalCallback;
     final PendingMeasurement measurement;
 
-    public MeasuringAsyncCallback(AsyncCallback<T> originalCallback) {
+    public MeasuringAsyncCallback(AsyncCallback<T> originalCallback, int requestId) {
         this.originalCallback = originalCallback;
         String callbackType = originalCallback.getClass().getName();
-        String measurementName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
-        this.measurement = Measurements.start(measurementName, Constants.SUB_SYSTEM_RPC);
+        String methodName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
+        this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
+        this.measurement.setParameter(Constants.PARAM_METHOD, methodName);
     }
 
     public void onSuccess(T result) {
@@ -52,7 +53,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     public void onFailure(Throwable caught) {
         IncidentReport report = IncidentReport.createRpcReport(caught);
-        DeliveryBuffer.instance().register(report);
+        DeliveryBuffer.instance().pushIncident(report);
         
         measurement.discard();
         originalCallback.onFailure(caught);

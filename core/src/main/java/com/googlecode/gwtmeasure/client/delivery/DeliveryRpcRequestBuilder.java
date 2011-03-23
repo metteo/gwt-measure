@@ -2,7 +2,12 @@ package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.List;
 
 /**
  * @author dmitry.buzdin
@@ -26,8 +31,13 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
     @Override
     protected void doFinish(RequestBuilder requestBuilder) {
         super.doFinish(requestBuilder);
+
+        DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
+        List<PerformanceTiming> timings = deliveryBuffer.popTimings();
+        List<IncidentReport> incidents = deliveryBuffer.popIncidents();        
+
         HeaderInjector injector = new HeaderInjector();
-        injector.inject(requestBuilder);
+        injector.inject(requestBuilder, timings, incidents);
     }
 
     /**

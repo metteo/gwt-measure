@@ -29,15 +29,12 @@ public class MeasuringRequestCallback implements RequestCallback {
     private RequestCallback callback;
     private MeasuringAsyncCallback wrappedCallback;
 
-    private long start = System.currentTimeMillis();
-
-    public MeasuringRequestCallback(String name, RequestCallback callback, MeasuringAsyncCallback wrappedCallback) {        
+    public MeasuringRequestCallback(RequestCallback callback, MeasuringAsyncCallback wrappedCallback) {        
         this.callback = callback;
         this.wrappedCallback = wrappedCallback;
     }
 
     public void onResponseReceived(Request request, Response response) {
-        String uidHeader = response.getHeader(Constants.HEADER_UID);
         this.callback.onResponseReceived(request, response);
     }
 

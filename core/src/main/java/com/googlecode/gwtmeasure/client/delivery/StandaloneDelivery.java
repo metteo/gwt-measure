@@ -22,7 +22,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
-import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.List;
@@ -43,26 +43,45 @@ public class StandaloneDelivery {
 
     public void deliver() {
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, SERVLET_LOCATION);
+
+        DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
+        List<PerformanceTiming> timings = deliveryBuffer.popTimings();
+        List<IncidentReport> incidents = deliveryBuffer.popIncidents();
+
         HeaderInjector injector = new HeaderInjector();
-        if (injector.inject(builder)) { // only send if there is pending data
-            builder.setCallback(new MeasurementRequestCallback());
+        if (injector.inject(builder, timings, incidents)) {
+            MeasurementRequestCallback callback = new MeasurementRequestCallback(timings, incidents);
+            builder.setCallback(callback);
             try {
-                Request request = builder.send();
+                builder.send();
             } catch (RequestException e) {
-                // TODO Temporary solution should put back to queue
+                deliveryBuffer.pushTiming(timings);
+                deliveryBuffer.pushIncident(incidents);
                 // TODO Consider lost piggybacked timings as well
             }
+
         }
     }
 
-    // TODO Implement
-
     private static class MeasurementRequestCallback implements RequestCallback {
 
+        private final List<PerformanceTiming> timings;
+        private final List<IncidentReport> incidents;
+
+        public MeasurementRequestCallback(List<PerformanceTiming> timings, List<IncidentReport> incidents) {
+            this.timings = timings;
+            this.incidents = incidents;
+        }
+
         public void onResponseReceived(Request request, Response response) {
+            // results are delivered
         }
 
         public void onError(Request request, Throwable exception) {
+            DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
+
+            deliveryBuffer.pushTiming(timings);
+            deliveryBuffer.pushIncident(incidents);
         }
 
     }

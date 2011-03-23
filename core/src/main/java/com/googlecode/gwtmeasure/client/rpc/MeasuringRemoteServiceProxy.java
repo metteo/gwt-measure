@@ -44,9 +44,10 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
                                                           String methodName,
                                                           RpcStatsContext statsContext,
                                                           AsyncCallback<T> callback) {
-        MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback);
+        int requestId = getRequestId() - 1;
+        MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback, requestId);
         RequestCallback originalRequest = super.doCreateRequestCallback(responseReader, methodName, statsContext, wrappedCallback);
-        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(methodName, originalRequest, wrappedCallback);
+        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(originalRequest, wrappedCallback);
         return requestCallback;
     }
 

@@ -20,11 +20,13 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -37,30 +39,32 @@ public class HeaderInjectorTest extends Assert {
 
     private RequestBuilder requestBuilder;
     private HeaderInjector injector;
-    private DeliveryBuffer buffer;
     private MeasurementSerializer serializer;
+    private ArrayList<PerformanceTiming> timings;
+    private ArrayList<IncidentReport> reports;
 
     @Before
     public void setUp() {
-        buffer = mock(DeliveryBuffer.class);
         serializer = mock(MeasurementSerializer.class);
-        injector = new HeaderInjector(buffer, serializer);
+        injector = new HeaderInjector(serializer);
         requestBuilder = mock(RequestBuilder.class);
+        timings = new ArrayList<PerformanceTiming>();
+        reports = new ArrayList<IncidentReport>();
     }
 
     @Test
     public void testInject() throws Exception {
-        boolean result = injector.inject(requestBuilder);
+        boolean result = injector.inject(requestBuilder, timings, reports);
         verifyNoMoreInteractions(requestBuilder);
         assertThat(result, equalTo(false));
     }
 
     @Test
     public void testInject_OnlyEvents() throws Exception {
-        when(buffer.hasTimings()).thenReturn(Boolean.TRUE);
+        timings.add(new PerformanceTiming());
         when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn("V");
         
-        boolean result = injector.inject(requestBuilder);
+        boolean result = injector.inject(requestBuilder, timings, reports);
 
         verify(requestBuilder).setHeader(Constants.HEADER_RESULT, "V");
         assertThat(result, equalTo(true));    
@@ -68,10 +72,10 @@ public class HeaderInjectorTest extends Assert {
 
     @Test
     public void testInject_OnlyErrors() throws Exception {
-        when(buffer.hasIncidents()).thenReturn(Boolean.TRUE);
+        reports.add(new IncidentReport());
         when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn("V");
 
-        boolean result = injector.inject(requestBuilder);
+        boolean result = injector.inject(requestBuilder, timings, reports);
 
         verify(requestBuilder).setHeader(Constants.HEADER_ERRORS, "V");
         assertThat(result, equalTo(true));

@@ -89,6 +89,7 @@ public class GWTMeasureEntryPoint implements EntryPoint, CloseHandler<Window> {
         GWT.setUncaughtExceptionHandler(new WrappingExceptionHandler(exceptionHandler));
     }
 
+    // TODO Exponential backoff
     private void hookTimer() {
         MeasurementDeliveryTimer timer = new MeasurementDeliveryTimer();
         timer.scheduleRepeating(TIMER_INTERVAL);

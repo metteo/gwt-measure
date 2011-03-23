@@ -14,21 +14,35 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.delivery;
-
-import com.googlecode.gwtmeasure.client.PerformanceEvent;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+package com.googlecode.gwtmeasure.client.http;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class RemoteServerChannel implements PerformanceEventHandler {
+public class HttpStatsContext {
 
-    public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceTiming timing = event.getMetrics();
-        DeliveryBuffer.instance().pushTiming(timing);
+    private static int requestIdCounter;
+
+    static int getNextRequestId() {
+        return requestIdCounter++;
+    }
+
+    static int getLastRequestId() {
+        return requestIdCounter;
+    }
+
+    private int requestId;
+
+    public HttpStatsContext() {
+        this(getNextRequestId());
+    }
+
+    private HttpStatsContext(int requestId) {
+        this.requestId = requestId;
+    }
+
+    public int getRequestId() {
+        return requestId;
     }
 
 }

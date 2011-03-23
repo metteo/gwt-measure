@@ -42,19 +42,27 @@ public class MeasuredRequestBuilder extends RequestBuilder {
 
     @Override
     public Request send() throws RequestException {
-        requestSent();
+        int id = HttpStatsContext.getNextRequestId();
+        attachHeaders(id);
+        requestSent(id);
+
         return super.send();
     }
 
     @Override
     public Request sendRequest(String requestData, RequestCallback callback) throws RequestException {
-        requestSent();
-        return super.sendRequest(requestData, callback);
+        int id = HttpStatsContext.getNextRequestId();
+        attachHeaders(id);
+        requestSent(id);
+
+        RequestCallbackWrapper wrapper = new RequestCallbackWrapper(callback, id);
+        return super.sendRequest(requestData, wrapper);
     }
 
     @Override
     public void setCallback(RequestCallback callback) {
-        super.setCallback(new RequestCallbackWrapper(callback));
+        int requestId = HttpStatsContext.getLastRequestId();
+        super.setCallback(new RequestCallbackWrapper(callback, requestId));
     }
 
     @Override
@@ -63,8 +71,11 @@ public class MeasuredRequestBuilder extends RequestBuilder {
         return wrapper.getCallback();
     }
 
-    // TODO EventGroup missing
-    private void requestSent() {
+    private void attachHeaders(int id) {
+        setHeader(Constants.HEADER_UID, Integer.toString(id));
+    }
+        
+    private void requestSent(int id) {
         MeasurementHub hub = Measurements.getMeasurementHub();
 
         PerformanceTiming timing = new PerformanceTiming.Builder()
@@ -72,6 +83,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
                 .setModuleName(GWT.getModuleName())
                 .setSubSystem(Constants.SUB_SYSTEM_HTTP)
                 .setType(Constants.TYPE_REQUEST_SENT)
+                .setEventGroup(Integer.toString(id))
                 .create();
 
         hub.submit(timing);

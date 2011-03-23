@@ -23,11 +23,19 @@ public class DeliveryBuffer {
     private final List<PerformanceTiming> timings = new ArrayList<PerformanceTiming>();
     private final List<IncidentReport> incidents = new ArrayList<IncidentReport>();
 
-    public void push(PerformanceTiming timing) {
+    public void pushTiming(List<PerformanceTiming> newTimings) {
+        timings.addAll(newTimings);
+    }
+
+    public void pushTiming(PerformanceTiming timing) {
         timings.add(timing);
     }
 
-    public void register(IncidentReport report) {
+    public void pushIncident(List<IncidentReport> reports) {
+        incidents.addAll(reports);
+    }
+
+    public void pushIncident(IncidentReport report) {
         incidents.add(report);
     }
 

@@ -23,6 +23,7 @@ import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 
 /**

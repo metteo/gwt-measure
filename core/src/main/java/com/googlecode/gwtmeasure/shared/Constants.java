@@ -41,7 +41,7 @@ public final class Constants {
     // HTTP Headers
     public static final String HEADER_UID = "X-GWT-Measure-uid";
     public static final String HEADER_RESULT = "X-GWT-Measure-result";
-    public static final String HEADER_ERRORS = "X-GWT-Measure-error";    
+    public static final String HEADER_ERRORS = "X-GWT-Measure-error";
 
     // Servlet Attributes
     public static final String ATTR_PROCESSED = "_processed";
