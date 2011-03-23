@@ -15,13 +15,13 @@
 + measurements of HTTP RequestsBuilder
 + timing messages in json format
 + callback failure identification
++ uncaught exception reporting
 
 --- In Progress ---
 # uid injection with filter or remote servlet
 # event aggregation
 
 --- This Version ---
-# uncaught exception reporting
 # support RunAsync measurements (fragment, size - attributes are new)
 # retry sequence of measurement delivery, exponential backoff period
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)

@@ -47,8 +47,14 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
     private MyServiceAsync service = GWT.create(MyService.class);
 
-    public void onModuleLoad() {        
-        PendingMeasurement measurement = Measurements.start("custom-measurement");
+    private Button customMeasureButton;
+    private Button rpcButton;
+    private Button xhrButton;
+    private Button asyncButton;
+    private Button errorButton;
+
+    public void onModuleLoad() {
+        PendingMeasurement measurement = Measurements.start("module-startup");
 
         RootPanel panel = RootPanel.get();
         panel.add(new Label("Measurements"));
@@ -61,55 +67,21 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
         vpanel.add(textArea);
 
-        Button measureButton = new Button("Add Measurement");
-        measureButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                PendingMeasurement m = Measurements.start("test");
-                m.setParameter("user", "user1");
-                m.stop();
-            }
-        });
+        customMeasureButton = new Button("Add Measurement");
+        rpcButton = new Button("RPC Request");
+        xhrButton = new Button("XHR Request");
+        asyncButton = new Button("Run Async");
+        errorButton = new Button("Exception");
 
-        Button rpcButton = new Button("RPC Request");
-        rpcButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                callServer();
-            }
-        });
-
-        Button xhrButton = new Button("XHR Request");
-        xhrButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                callXhrServer();
-            }
-        });
-
-        Button asyncButton = new Button("Run Async");
-        asyncButton.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent clickEvent) {
-                GWT.runAsync(new RunAsyncCallback() {
-                    public void onFailure(Throwable reason) {
-                        textArea.setText("Failure");
-                    }
-
-                    public void onSuccess() {
-                        AdditionalView additionalView = new AdditionalView();
-                        additionalView.render();
-                    }
-                });
-            }
-        });
-
-        Button error = new Button("Exception");
-        error.addClickHandler(new ClickHandler() {
-            public void onClick(ClickEvent event) {
-                throw new NullPointerException();
-            }
-        });
+        customMeasureButton.addClickHandler(this);
+        rpcButton.addClickHandler(this);
+        xhrButton.addClickHandler(this);
+        asyncButton.addClickHandler(this);
+        errorButton.addClickHandler(this);
 
         HorizontalPanel hpanel = new HorizontalPanel();
 
-        hpanel.add(measureButton);
+        hpanel.add(customMeasureButton);
         hpanel.add(rpcButton);
         hpanel.add(xhrButton);
         hpanel.add(asyncButton);
@@ -118,7 +90,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
         HorizontalPanel hpanel2 = new HorizontalPanel();
 
-        hpanel2.add(error);
+        hpanel2.add(errorButton);
 
         vpanel.add(hpanel2);
 
@@ -150,12 +122,36 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
     }
 
     public void onClick(ClickEvent event) {
+        Object source = event.getSource();
+        
+        if (source == errorButton) {
+            throw new NullPointerException();
+        } else if (source == customMeasureButton) {
+            PendingMeasurement m = Measurements.start("test");
+            m.setParameter("user", "user1");
+            m.stop();
+        } else if (source == rpcButton) {
+            callServer();
+        } else if (source == xhrButton) {
+            callXhrServer();
+        } else if (source == asyncButton) {
+            GWT.runAsync(new RunAsyncCallback() {
+                public void onFailure(Throwable reason) {
+                    textArea.setText("Failure");
+                }
+
+                public void onSuccess() {
+                    AdditionalView additionalView = new AdditionalView();
+                    additionalView.render();
+                }
+            });
+        }
     }
 
     public class MyCallback implements AsyncCallback<Model> {
 
         public void onFailure(Throwable caught) {
-            textArea.setText("Failure");            
+            textArea.setText("Failure");
         }
 
         public void onSuccess(Model result) {
