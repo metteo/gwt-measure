@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class SampleEntryPoint implements EntryPoint {
+public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
     private TextArea textArea;
 
@@ -100,6 +100,13 @@ public class SampleEntryPoint implements EntryPoint {
             }
         });
 
+        Button error = new Button("Exception");
+        error.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                throw new NullPointerException();
+            }
+        });
+
         HorizontalPanel hpanel = new HorizontalPanel();
 
         hpanel.add(measureButton);
@@ -108,6 +115,12 @@ public class SampleEntryPoint implements EntryPoint {
         hpanel.add(asyncButton);
 
         vpanel.add(hpanel);
+
+        HorizontalPanel hpanel2 = new HorizontalPanel();
+
+        hpanel2.add(error);
+
+        vpanel.add(hpanel2);
 
         callServer();
 
@@ -134,6 +147,9 @@ public class SampleEntryPoint implements EntryPoint {
 
     private void callServer() {
         service.doStuff(new Model(), new MyCallback());
+    }
+
+    public void onClick(ClickEvent event) {
     }
 
     public class MyCallback implements AsyncCallback<Model> {

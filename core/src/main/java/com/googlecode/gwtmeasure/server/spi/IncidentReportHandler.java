@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
+package com.googlecode.gwtmeasure.server.spi;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MetricsEventHandler {
+public interface IncidentReportHandler {
 
-    void onEvent(PerformanceTiming metric);
-
+    void onEvent(IncidentReport report);
+    
 }

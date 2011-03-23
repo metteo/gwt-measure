@@ -16,8 +16,11 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
 import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
 import com.googlecode.gwtmeasure.server.internal.MeasureException;
+import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
+import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -33,10 +36,13 @@ public class MeasureContext {
     private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
 
+    // Default implementations
     static {
         CompositeMetricsEventHandler eventHandler = new CompositeMetricsEventHandler();
         eventHandler.addHandler(new LoggingHandler());
+
         instance.register(MetricsEventHandler.class, eventHandler);
+        instance.register(IncidentReportHandler.class, LoggingIncidentReportHandler.class);
     }
 
     public static MeasureContext instance() {

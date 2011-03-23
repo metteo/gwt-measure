@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
+package com.googlecode.gwtmeasure.server.spi;
 
-import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class LoggingHandler implements MetricsEventHandler {
+public interface MetricsEventHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingHandler.class);
+    void onEvent(PerformanceTiming metric);
 
-    public void onEvent(PerformanceTiming metric) {
-        logger.info(metric.toString());
-    }
-    
 }

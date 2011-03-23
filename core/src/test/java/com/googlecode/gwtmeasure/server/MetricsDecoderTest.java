@@ -31,7 +31,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class MetricsDecoderTest extends Assert {
     
     private String jsonValue;
-    private MetricsDecoder decoder;
+    private JsonDecoder decoder;
 
     @Before
     public void setUp() {
@@ -43,12 +43,12 @@ public class MetricsDecoderTest extends Assert {
                 "\"parameters\":{\n" +
                 "  \"param\":\"value\"\n" +
                 "}}]";
-        decoder = new MetricsDecoder();
+        decoder = new JsonDecoder();
     }
 
     @Test
     public void testDecode() throws Exception {
-        Collection<PerformanceTiming> timings = decoder.decode(jsonValue);
+        Collection<PerformanceTiming> timings = decoder.decodeTimings(jsonValue);
 
         assertThat(timings.size(), equalTo(1));
 

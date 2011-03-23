@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.server.internal;
 
-import com.googlecode.gwtmeasure.server.MetricsEventHandler;
+import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Before;
 import org.junit.Test;

@@ -50,6 +50,7 @@ public class StandaloneDelivery {
             Request request = builder.send();
         } catch (RequestException e) {
             // TODO Temporary solution should put back to queue
+            // TODO Consider lost piggybacked timings as well
         }
     }
 

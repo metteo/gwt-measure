@@ -2,12 +2,7 @@ package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
-import com.googlecode.gwtmeasure.client.exception.IncidentReport;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-
-import java.util.List;
 
 /**
  * @author dmitry.buzdin

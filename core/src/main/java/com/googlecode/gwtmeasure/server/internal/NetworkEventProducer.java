@@ -16,7 +16,7 @@
 
 package com.googlecode.gwtmeasure.server.internal;
 
-import com.googlecode.gwtmeasure.server.MetricsEventHandler;
+import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 public class NetworkEventProducer {
 
-    private MetricsEventHandler eventHandler;    
+    private MetricsEventHandler eventHandler;
 
     public NetworkEventProducer(MetricsEventHandler eventHandler) {
         this.eventHandler = eventHandler;

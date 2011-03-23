@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client.rpc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
-import com.googlecode.gwtmeasure.client.exception.IncidentReport;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;

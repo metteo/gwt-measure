@@ -1,6 +1,6 @@
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.client.exception.IncidentReport;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;

@@ -17,10 +17,8 @@
 package com.googlecode.gwtmeasure.client.exception;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
-import com.google.gwt.user.client.rpc.InvocationException;
-import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>

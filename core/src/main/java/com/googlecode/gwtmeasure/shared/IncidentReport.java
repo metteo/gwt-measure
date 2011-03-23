@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.exception;
+package com.googlecode.gwtmeasure.shared;
 
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
@@ -23,7 +23,6 @@ import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
-import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -52,14 +51,6 @@ public class IncidentReport implements HasJsonRepresentation {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    @Override
-    public String toString() {
-        return "IncidentReport{" +
-                "text='" + text + '\'' +
-                ", message='" + message + '\'' +
-                '}';
     }
 
     public static IncidentReport createRpcReport(Throwable throwable) {
@@ -102,4 +93,13 @@ public class IncidentReport implements HasJsonRepresentation {
         return object.toString();
     }
 
+    @Override
+    public String toString() {
+        return "IncidentReport{" +
+                "timestamp=" + timestamp +
+                ", text='" + text + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
+    
 }

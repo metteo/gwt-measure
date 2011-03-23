@@ -16,12 +16,8 @@
 
 package com.googlecode.gwtmeasure.client.delivery;
 
-import com.googlecode.gwtmeasure.client.exception.IncidentReport;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

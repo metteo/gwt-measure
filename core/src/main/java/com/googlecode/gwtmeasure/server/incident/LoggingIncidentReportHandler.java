@@ -14,25 +14,22 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
+package com.googlecode.gwtmeasure.server.incident;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-
-import java.lang.reflect.Type;
-import java.util.Collection;
+import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MetricsDecoder {
+public class LoggingIncidentReportHandler implements IncidentReportHandler {
 
-    public Collection<PerformanceTiming> decode(String metric) {
-        Gson gson = new GsonBuilder().create();
-        Type collectionType = new TypeToken<Collection<PerformanceTiming>>(){}.getType();
-        return gson.fromJson(metric, collectionType);
+    private static final Logger logger = LoggerFactory.getLogger(LoggingIncidentReportHandler.class);
+
+    public void onEvent(IncidentReport report) {
+        logger.error(report.toString());
     }
 
 }

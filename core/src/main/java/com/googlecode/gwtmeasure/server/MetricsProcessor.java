@@ -16,7 +16,10 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
+import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +30,38 @@ import java.util.Collection;
  */
 public class MetricsProcessor {
 
-    private final MetricsDecoder decoder;
-    private final MetricsEventHandler handler;
+    private final JsonDecoder decoder;
+    private final MetricsEventHandler eventHandler;
+    private IncidentReportHandler reportHandler;
 
-    public MetricsProcessor(MetricsDecoder decoder, MetricsEventHandler handler) {
+    public MetricsProcessor(JsonDecoder decoder, MetricsEventHandler eventHandler, IncidentReportHandler reportHandler) {
         this.decoder = decoder;
-        this.handler = handler;
+        this.eventHandler = eventHandler;
+        this.reportHandler = reportHandler;
     }
 
     public void extractAndProcess(HttpServletRequest request) {        
         String result = request.getHeader(Constants.HEADER_RESULT);
         if (null != result) {
             handleMetrics(result);
+        }
+        String errors = request.getHeader(Constants.HEADER_ERRORS);
+        if (null != errors) {
+            handleErrors(errors);
+        }
+    }
+
+    private void handleErrors(String errors) {
+        Collection<IncidentReport> incidentReports = decoder.decodeErrors(errors);
+        for (IncidentReport report : incidentReports) {
+            reportHandler.onEvent(report);
+        }
+    }
+
+    private void handleMetrics(String result) {
+        Collection<PerformanceTiming> performanceTiming = decoder.decodeTimings(result);
+        for (PerformanceTiming timing : performanceTiming) {
+            eventHandler.onEvent(timing);
         }
     }
 
@@ -49,13 +72,6 @@ public class MetricsProcessor {
     public boolean isProcessed(HttpServletRequest request) {
         Object processed = request.getAttribute(Constants.ATTR_PROCESSED);
         return Boolean.TRUE.equals(processed);
-    }
-
-    private void handleMetrics(String result) {
-        Collection<PerformanceTiming> performanceTiming = decoder.decode(result);
-        for (PerformanceTiming timing : performanceTiming) {
-            handler.onEvent(timing);
-        }
     }
 
 }
