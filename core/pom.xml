@@ -9,11 +9,18 @@
     <artifactId>gwt-measure</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <name>gwt-measure</name>
     <url>http://code.google.com/p/gwt-measure/</url>
     <description>
         GWT Measure is an extension to Google Web Toolkit framework
         adding production monitoring and performance measurement capabilities.
     </description>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <licenses>
         <license>
@@ -152,8 +159,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:hf:https://gwt-measure.googlecode.com/hg/</connection>
-        <url>https://gwt-measure.googlecode.com/hg/</url>
+        <connection>scm:hg:http://gwt-measure.googlecode.com/hg/</connection>
+        <developerConnection>scm:hg:https://gwt-measure.googlecode.com/hg/</developerConnection>
+        <url>http://gwt-measure.googlecode.com/hg/</url>
     </scm>
 
 </project>

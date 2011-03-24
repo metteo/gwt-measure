@@ -44,6 +44,8 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 
     private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
+
+    // TODO Make configurable
     private static final int TIMER_INTERVAL = 15000; // 15 seconds
 
     public void onModuleLoad() {
@@ -104,7 +106,6 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
     }
 
     // TODO Exponential backoff
-
     private void hookTimer() {
         MeasurementDeliveryTimer timer = new MeasurementDeliveryTimer();
         timer.scheduleRepeating(TIMER_INTERVAL);
@@ -138,10 +139,12 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
         $wnd.sinkGwtEvents();
     }-*/;
 
+    // Trigger measurement delivery on browser closing
     public void onClose(CloseEvent<Window> windowCloseEvent) {
         StandaloneDelivery.instance().deliver();
     }
 
+    // Trigger measurement delivery on navigation
     private static class WindowUnloadCommand implements Command {
 
         public void execute() {
@@ -150,6 +153,7 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 
     }
 
+    // Time-based trigger for measurement delivery
     private static class MeasurementDeliveryTimer extends Timer {
 
         @Override

@@ -16,6 +16,7 @@
 + timing messages in json format
 + callback failure identification
 + uncaught exception reporting
++ gwt jdk logging on client
 
 --- In Progress ---
 # uid injection with filter or remote servlet
@@ -23,17 +24,16 @@
 # retry sequence of measurement delivery
 
 --- This Version ---
-# support RunAsync measurements (fragment, size - attributes are new)
+# support RunAsync measurements (fragment, size)
 # configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
-# gwt jdk logging on client
 # user defined attributes
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
 # write roadmap
 # publish to maven repo
-# ensure extensibility via DI
+# ensure extensibility
 # provide gwt test cases
-# better sample application
+# improve sample application
 # improve test coverage
 # write JavaDocs
 # review public class and configuration naming

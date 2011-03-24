@@ -28,6 +28,7 @@ public final class Constants {
     public static final String SUB_SYSTEM_RESOURCES = "resources";
     public static final String SUB_SYSTEM_HTTP = "http";
 
+    // Types
     public static final String TYPE_START = "begin";
     public static final String TYPE_END = "end";
     public static final String TYPE_RESPONSE_SENT = "responseSent";
@@ -46,6 +47,7 @@ public final class Constants {
     // Servlet Attributes
     public static final String ATTR_PROCESSED = "_processed";
 
+    // Custom parameters
     public static final String PARAM_METHOD = "method";
     public static final String PARAM_FRAGMENT = "fragment";
     public static final String PARAM_SIZE = "size";    
