@@ -7,7 +7,7 @@
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>7</version>
-    </parent>    
+    </parent>
 
     <groupId>com.googlecode</groupId>
     <artifactId>gwt-measure</artifactId>
@@ -41,7 +41,7 @@
         <module>core</module>
         <module>samples</module>
     </modules>
-  
+
     <developers>
         <developer>
             <roles>
@@ -61,5 +61,18 @@
         <developerConnection>scm:hg:https://gwt-measure.googlecode.com/hg/</developerConnection>
         <url>http://gwt-measure.googlecode.com/hg/</url>
     </scm>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
