@@ -39,6 +39,7 @@
 # compress js file
 # retry sequence of measurement delivery
 # bundle GSON in server distribution
+# write contributor guidelines
 
 --- Next Versions ---
 # Limit of 8K HTTP header size

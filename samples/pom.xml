@@ -20,9 +20,15 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.googlecode</groupId>
-    <artifactId>gwt-measure-sample-rpc</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>com.googlecode</groupId>
+        <artifactId>gwt-measure</artifactId>
+        <version>0.1.2-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.googlecode.gwt-measure</groupId>
+    <artifactId>gwt-measure-samples</artifactId>
+    <version>0.1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -33,9 +39,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.googlecode</groupId>
+            <groupId>${pom.groupId}</groupId>
             <artifactId>gwt-measure</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
 
         <dependency>

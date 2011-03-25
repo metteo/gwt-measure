@@ -2,38 +2,16 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.googlecode</groupId>
-    <artifactId>gwt-measure</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>gwt-measure</name>
-    <url>http://code.google.com/p/gwt-measure/</url>
-    <description>
-        GWT Measure is an extension to Google Web Toolkit framework
-        adding production monitoring and performance measurement capabilities.
-    </description>
-
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <groupId>com.googlecode</groupId>
+        <artifactId>gwt-measure</artifactId>
+        <version>0.1.2-SNAPSHOT</version>
     </parent>
 
-    <licenses>
-        <license>
-            <name>Apache 2</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-            <comments>A business-friendly Open Source license</comments>
-        </license>
-    </licenses>
-
-    <properties>
-        <maven.compiler.source>1.5</maven.compiler.source>
-        <maven.compiler.target>1.5</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <gwt-version>2.1.1</gwt-version>
-    </properties>
+    <groupId>com.googlecode.gwt-measure</groupId>
+    <artifactId>gwt-measure</artifactId>
+    <version>0.1.2-SNAPSHOT</version>
+    <packaging>jar</packaging>       
 
     <dependencies>
         <dependency>
@@ -147,25 +125,5 @@
         </resources>
 
     </build>
-
-    <developers>
-        <developer>
-            <roles>
-                <role>Project Lead</role>
-            </roles>
-            <name>Dmitry Buzdin</name>
-        </developer>
-    </developers>
-
-    <issueManagement>
-        <system>Google Code</system>
-        <url>http://code.google.com/p/gwt-measure/issues/list</url>
-    </issueManagement>
-
-    <scm>
-        <connection>scm:hg:http://gwt-measure.googlecode.com/hg/core</connection>
-        <developerConnection>scm:hg:https://gwt-measure.googlecode.com/hg/core</developerConnection>
-        <url>http://gwt-measure.googlecode.com/hg/core</url>
-    </scm>
 
 </project>
