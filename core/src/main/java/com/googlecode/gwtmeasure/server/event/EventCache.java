@@ -32,7 +32,7 @@ public class EventCache {
     private final Map<String,String> lookupTable = new HashMap<String, String>();
 
     {
-        lookupTable.put(Constants.TYPE_START, Constants.TYPE_END);
+        lookupTable.put(Constants.TYPE_BEGIN, Constants.TYPE_END);
     }
 
     private final Map<String, List<PerformanceTiming>> pendingTimings = new HashMap<String, List<PerformanceTiming>>();

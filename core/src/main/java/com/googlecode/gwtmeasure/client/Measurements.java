@@ -16,7 +16,6 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.client.internal.VoidHub;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -30,6 +29,8 @@ public final class Measurements {
 
     private static MeasurementHub measurementHub;
     private static WindowId windowId;
+    private static int deliveryInterval = 15000;
+    private static String endpointUrl = "measurements";
 
     private Measurements() {
     }
@@ -66,4 +67,27 @@ public final class Measurements {
         return windowId;
     }
 
+    /**
+     *
+     * @return milliseconds, defaults to 15 seconds.
+     */
+    public static int getDeliveryInterval() {
+        return deliveryInterval;
+    }
+
+    public static void setDeliveryInterval(int millis) {
+        Measurements.deliveryInterval = deliveryInterval;
+    }
+
+    /**
+     * Provides relative location of measurement delivery endpoint (e.g. servlet)
+     * @return defaults to "measurements"
+     */
+    public static String getEndpointUrl() {
+        return endpointUrl;
+    }
+
+    public static void setEndpointUrl(String endpointUrl) {
+        Measurements.endpointUrl = endpointUrl;
+    }
 }

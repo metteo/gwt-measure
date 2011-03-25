@@ -17,6 +17,8 @@
 package com.googlecode.gwtmeasure.shared;
 
 /**
+ * Common measurement types and other relevant constants.
+ *
  * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public final class Constants {
@@ -24,20 +26,21 @@ public final class Constants {
     // SubSystems
     public static final String SUB_SYSTEM_DEFAULT = "default";
     public static final String SUB_SYSTEM_STARTUP = "startup";
-    public static final String SUB_SYSTEM_RPC = "rpc";
-    public static final String SUB_SYSTEM_RESOURCES = "resources";
+    public static final String SUB_SYSTEM_RPC = "rpc";    
     public static final String SUB_SYSTEM_HTTP = "http";
 
     // Types
-    public static final String TYPE_START = "begin";
+    public static final String TYPE_BEGIN = "begin";
     public static final String TYPE_END = "end";
     public static final String TYPE_RESPONSE_SENT = "responseSent";
     public static final String TYPE_RESPONSE_RECEIVED = "responseReceived";
     public static final String TYPE_REQUEST_SENT = "requestSent";
     public static final String TYPE_REQUEST_RECEIVED = "requestReceived";
+    public static final String TYPE_PAGE_LOADED = "pageLoaded";
 
     // Groups
     public static final String GRP_BOOTSTRAP = "bootstrap";
+    public static final String GRP_MODULE_STARTUP = "moduleStartup";
 
     // HTTP Headers
     public static final String HEADER_UID = "X-GWT-Measure-uid";

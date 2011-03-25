@@ -83,6 +83,19 @@ public class MeasureContextTest extends Assert {
         assertThat(bean, sameInstance(result));
     }
 
+    @Test
+    public void testBeanReplacement() throws Exception {
+        Impl bean = new Impl();
+        context.register(I.class, bean);
+
+        Impl replacement = new Impl();
+        context.register(I.class, replacement);
+        
+        I result = context.getBean(I.class);
+
+        assertThat(replacement, sameInstance(result));
+    }
+
     public static interface I {
 
     }

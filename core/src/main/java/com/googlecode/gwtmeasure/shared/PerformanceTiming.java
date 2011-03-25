@@ -159,6 +159,13 @@ public class PerformanceTiming implements HasJsonRepresentation {
         this.parameters.put(name, string);
     }
 
+    public boolean isMatching(String subSystem, String eventGroup, String type) {
+        return subSystem.equals(this.subSystem)
+                && eventGroup.equals(this.eventGroup)
+                && type.equals(this.type);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

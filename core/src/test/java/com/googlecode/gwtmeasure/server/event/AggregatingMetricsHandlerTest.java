@@ -54,7 +54,7 @@ public class AggregatingMetricsHandlerTest extends Assert {
 
     @Test
     public void testOnEvent_Match() throws Exception {
-        PerformanceTiming timing = createMetric("A", Constants.SUB_SYSTEM_RPC, "0", Constants.TYPE_START, 1);
+        PerformanceTiming timing = createMetric("A", Constants.SUB_SYSTEM_RPC, "0", Constants.TYPE_BEGIN, 1);
         PerformanceTiming match = createMetric("A", Constants.SUB_SYSTEM_RPC, "0", Constants.TYPE_END, 3);
 
         when(cache.findMatch(timing)).thenReturn(match);

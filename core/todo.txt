@@ -17,11 +17,11 @@
 + callback failure identification
 + uncaught exception reporting
 + gwt jdk logging on client
++ publish to maven repo
 
 --- In Progress ---
 # uid injection with filter or remote servlet
 # event aggregation
-# retry sequence of measurement delivery
 
 --- This Version ---
 # support RunAsync measurements (fragment, size)
@@ -30,7 +30,6 @@
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
 # write roadmap
-# publish to maven repo
 # ensure extensibility
 # provide gwt test cases
 # improve sample application
@@ -38,6 +37,7 @@
 # write JavaDocs
 # review public class and configuration naming
 # compress js file
+# retry sequence of measurement delivery
 # bundle GSON in server distribution
 
 --- Next Versions ---

@@ -21,6 +21,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -34,15 +35,13 @@ public class StandaloneDelivery {
 
     private static final StandaloneDelivery instance = new StandaloneDelivery();
 
-    // TODO Make configurable
-    private static final String SERVLET_LOCATION = "measurements";
-
     public static StandaloneDelivery instance() {
         return instance;
     }
 
     public void deliver() {
-        RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, SERVLET_LOCATION);
+        String url = Measurements.getEndpointUrl();
+        RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 
         DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
         List<PerformanceTiming> timings = deliveryBuffer.popTimings();

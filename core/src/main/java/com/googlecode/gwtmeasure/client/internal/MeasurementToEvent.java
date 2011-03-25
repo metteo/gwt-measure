@@ -40,7 +40,7 @@ public class MeasurementToEvent {
                 .setModuleName(moduleName())
                 .setMillis(from)
                 .setSubSystem(group)
-                .setType(Constants.TYPE_START)
+                .setType(Constants.TYPE_BEGIN)
                 .setEventGroup(name);
 
         appendParameters(measurement, beginBuilder);

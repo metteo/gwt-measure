@@ -45,9 +45,6 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 
     private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
 
-    // TODO Make configurable
-    private static final int TIMER_INTERVAL = 15000; // 15 seconds
-
     public void onModuleLoad() {
         Measurements.setWindowId(new WindowId());
         Measurements.setMeasurementHub(hub);
@@ -93,8 +90,9 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 
         PerformanceTiming.Builder builder = new PerformanceTiming.Builder();
         builder
-                .setSubSystem(Constants.SUB_SYSTEM_RESOURCES)
+                .setSubSystem(Constants.SUB_SYSTEM_STARTUP)
                 .setEventGroup(Constants.GRP_BOOTSTRAP)
+                .setType(Constants.TYPE_PAGE_LOADED)
                 .setMillis(Long.parseLong(resourceStart));
 
         hub.submit(builder.create());
@@ -108,7 +106,8 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
     // TODO Exponential backoff
     private void hookTimer() {
         MeasurementDeliveryTimer timer = new MeasurementDeliveryTimer();
-        timer.scheduleRepeating(TIMER_INTERVAL);
+        int interval = Measurements.getDeliveryInterval();
+        timer.scheduleRepeating(interval);
     }
 
     private void hookToWindowUnload() {
