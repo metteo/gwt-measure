@@ -4,7 +4,7 @@
 
     <groupId>com.googlecode</groupId>
     <artifactId>gwt-measure</artifactId>
-    <version>0.1.1-SNAPSHOT</version>
+    <version>0.1.1</version>
     <packaging>jar</packaging>
     <name>gwt-measure</name>
     <url>http://code.google.com/p/gwt-measure/</url>
@@ -163,9 +163,9 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:hg:http://gwt-measure.googlecode.com/hg/</connection>
-        <developerConnection>scm:hg:https://gwt-measure.googlecode.com/hg/</developerConnection>
-        <url>http://gwt-measure.googlecode.com/hg/</url>
+        <connection>scm:hg:http://gwt-measure.googlecode.com/hg/core</connection>
+        <developerConnection>scm:hg:https://gwt-measure.googlecode.com/hg/core</developerConnection>
+        <url>http://gwt-measure.googlecode.com/hg/core</url>
     </scm>
 
 </project>
