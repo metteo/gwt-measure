@@ -42,6 +42,7 @@
 # write contributor guidelines
 
 --- Next Versions ---
+# add code checks (FindBugs, Checkstyle, PMD, Cobertura)
 # Limit of 8K HTTP header size
 # exponential retry backoff period
 # split client and server distributions
