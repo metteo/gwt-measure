@@ -22,10 +22,15 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.delivery.HeaderInjector;
+import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.List;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
@@ -44,6 +49,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     public Request send() throws RequestException {
         int id = HttpStatsContext.getNextRequestId();
         attachHeaders(id);
+        attachMeasurements();
         requestSent(id);
 
         return super.send();
@@ -53,6 +59,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     public Request sendRequest(String requestData, RequestCallback callback) throws RequestException {
         int id = HttpStatsContext.getNextRequestId();
         attachHeaders(id);
+        attachMeasurements();
         requestSent(id);
 
         RequestCallbackWrapper wrapper = new RequestCallbackWrapper(callback, id);
@@ -74,7 +81,16 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     private void attachHeaders(int id) {
         setHeader(Constants.HEADER_UID, Integer.toString(id));
     }
-        
+
+    private void attachMeasurements() {
+        DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
+        List<PerformanceTiming> timings = deliveryBuffer.popTimings();
+        List<IncidentReport> incidents = deliveryBuffer.popIncidents();
+
+        HeaderInjector injector = new HeaderInjector();
+        injector.inject(this, timings, incidents);
+    }
+
     private void requestSent(int id) {
         MeasurementHub hub = Measurements.getMeasurementHub();
 

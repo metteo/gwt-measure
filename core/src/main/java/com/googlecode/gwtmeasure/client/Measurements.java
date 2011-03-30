@@ -22,7 +22,7 @@ import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
- * Public API for GWT Measurements.
+ * Public API for controlling settings and creating new GWT Measurements.
  *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
@@ -36,14 +36,27 @@ public final class Measurements {
     private Measurements() {
     }
 
+    /**
+     * Sets centralized event routing hub.
+     * @param measurementHub implementation of event routing and propagation
+     */
     public static void setMeasurementHub(MeasurementHub measurementHub) {
         Measurements.measurementHub = measurementHub;
     }
 
+    /**      
+     * @return reference to current Hub implementation
+     */
     public static MeasurementHub getMeasurementHub() {
         return measurementHub;
     }
 
+    /**
+     * Starts recording of new measurement interval.
+     *
+     * @param name name of the measured event
+     * @return measurement object
+     */
     public static PendingMeasurement start(String name) {
         return start(name, Constants.SUB_SYSTEM_DEFAULT);
     }
@@ -60,10 +73,17 @@ public final class Measurements {
         return new PendingMeasurement(name, group, measurementHub);
     }
 
+    /**
+     * Sets uniquely identifying browser tab id for single-session/multi-tab measurements.
+     * @param windowId unique window id
+     */
     public static void setWindowId(WindowId windowId) {
         Measurements.windowId = windowId;
     }
 
+    /**
+     * @return current window unique window id
+     */
     public static WindowId getWindowId() {
         return windowId;
     }
@@ -76,6 +96,10 @@ public final class Measurements {
         return deliveryInterval;
     }
 
+    /**
+     * Sets piggiback measurement delivery interval.
+     * @param millis time period in millis
+     */
     public static void setDeliveryInterval(int millis) {
         Measurements.deliveryInterval = deliveryInterval;
     }
@@ -88,6 +112,10 @@ public final class Measurements {
         return endpointUrl;
     }
 
+    /**
+     * Sets relative endpoint url for sending standalone measurements after user's inactivity
+     * @param endpointUrl relative url
+     */
     public static void setEndpointUrl(String endpointUrl) {
         Measurements.endpointUrl = endpointUrl;
     }
