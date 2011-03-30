@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.shared;
 /**
  * Common measurement types and other relevant constants.
  *
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class Constants {
 

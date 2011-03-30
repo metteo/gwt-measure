@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class DebugPanel extends DialogBox {
 

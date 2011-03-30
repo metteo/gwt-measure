@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasureContext {
 
@@ -41,8 +41,8 @@ public class MeasureContext {
         CompositeMetricsEventHandler eventHandler = new CompositeMetricsEventHandler();
         eventHandler.addHandler(new LoggingHandler());
 
-        instance.register(MetricsEventHandler.class, eventHandler);
-        instance.register(IncidentReportHandler.class, LoggingIncidentReportHandler.class);
+        instance.registerEventHandler(eventHandler);
+        instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
     }
 
     public static MeasureContext instance() {
@@ -89,5 +89,22 @@ public class MeasureContext {
     public void reset() {
         beans.clear();
     }
+
+    public void registerEventHandler(Class<? extends MetricsEventHandler> eventHandler) {
+        register(MetricsEventHandler.class, eventHandler);
+    }
+
+    public void registerEventHandler(MetricsEventHandler eventHandler) {
+        register(MetricsEventHandler.class, eventHandler);
+    }
+
+    public void registerIncidentHandler(IncidentReportHandler incidentHandler) {
+        register(IncidentReportHandler.class, incidentHandler);
+    }
+
+    public void registerIncidentHandler(Class<? extends IncidentReportHandler> incidentHandler) {
+        register(IncidentReportHandler.class, incidentHandler);
+    }
+
 
 }

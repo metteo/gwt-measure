@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.shared;
 import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class Measurement implements IsSerializable {
 

@@ -20,7 +20,7 @@ import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class AggregatingMetricsHandler implements MetricsEventHandler {
 
@@ -33,7 +33,7 @@ public class AggregatingMetricsHandler implements MetricsEventHandler {
     }
 
     public void onEvent(PerformanceTiming timing) {
-        PerformanceTiming result = cache.findMatch(timing);
+        PerformanceTiming result = cache.findMatch(timing);        
         if (result == null) {
             cache.append(timing);
         } else {

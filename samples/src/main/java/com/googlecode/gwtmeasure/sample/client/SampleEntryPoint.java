@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
@@ -128,7 +128,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
             throw new NullPointerException();
         } else if (source == customMeasureButton) {
             PendingMeasurement m = Measurements.start("test");
-            m.setParameter("user", "user1");
+            m.setParameter("username", "user1");
             m.stop();
         } else if (source == rpcButton) {
             callServer();

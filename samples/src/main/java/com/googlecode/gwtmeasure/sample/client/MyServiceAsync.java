@@ -20,7 +20,7 @@ import com.googlecode.gwtmeasure.sample.shared.Model;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public interface MyServiceAsync {
 

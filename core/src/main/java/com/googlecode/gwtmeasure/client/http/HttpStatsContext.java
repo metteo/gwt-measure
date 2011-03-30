@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.http;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class HttpStatsContext {
 

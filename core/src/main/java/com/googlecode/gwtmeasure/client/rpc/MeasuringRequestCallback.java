@@ -22,7 +22,7 @@ import com.google.gwt.http.client.Response;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuringRequestCallback implements RequestCallback {
 

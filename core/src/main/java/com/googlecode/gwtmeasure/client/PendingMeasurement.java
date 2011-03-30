@@ -24,9 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class PendingMeasurement {
+public final class PendingMeasurement {
 
     private long from;
     private long to;
@@ -34,6 +34,7 @@ public class PendingMeasurement {
     private String group;
     private MeasurementHub measurementHub;
     private boolean discarded;
+    private boolean stopped;
     private final Map<String, String> parameters = new HashMap<String, String>();
 
     {
@@ -46,13 +47,21 @@ public class PendingMeasurement {
         this.measurementHub = measurementHub;
     }
 
+    /**
+     * Stops this measurement and propagates start and stop events to event queue
+     */
     public void stop() {
-        if (!discarded) {
+        assert !stopped;
+        if (!discarded && !stopped) {
             this.to = TimeUtils.current();
             measurementHub.submit(this);
         }
+        stopped = true;
     }
 
+    /**
+     * Discards this measurement. Further calls
+     */
     public void discard() {
         this.discarded = true;
     }
@@ -77,6 +86,11 @@ public class PendingMeasurement {
         return discarded;
     }
 
+    /**
+     * Sets context parameter to be attached resulting events
+     * @param name parameter name
+     * @param value parameter value
+     */
     public void setParameter(String name, String value) {
         parameters.put(name, value);
     }
@@ -87,17 +101,6 @@ public class PendingMeasurement {
 
     public Set<String> getParameterNames() {
         return parameters.keySet();
-    }
-
-    @Override
-    public String toString() {
-        return "PendingMeasurement{" +
-                "from=" + from +
-                ", to=" + to +
-                ", name='" + name + '\'' +
-                ", group='" + group + '\'' +
-                ", discarded=" + discarded +
-                '}';
     }
 
 }

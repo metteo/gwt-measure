@@ -14,22 +14,36 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
+package com.googlecode.gwtmeasure.sample.server;
 
+import com.googlecode.gwtmeasure.server.MeasureContext;
+import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class LoggingHandler implements MetricsEventHandler {
+public class FilterConfiguration implements ServletContextListener, MetricsEventHandler, IncidentReportHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoggingHandler.class);
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        MeasureContext.instance().registerEventHandler(this);
+        MeasureContext.instance().registerIncidentHandler(this);
+    }
+
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    }
 
     public void onEvent(PerformanceTiming metric) {
-        logger.info(metric.toString());
+        System.out.println(metric);
     }
-    
+
+    public void onEvent(IncidentReport report) {
+        System.out.println(report);
+    }
+
 }

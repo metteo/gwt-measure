@@ -22,7 +22,7 @@ import com.google.gwt.user.rebind.rpc.ProxyCreator;
 import com.googlecode.gwtmeasure.client.rpc.MeasuringRemoteServiceProxy;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuringProxyCreator extends ProxyCreator {
 

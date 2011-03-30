@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public interface PerformanceEventHandler extends EventHandler {
 

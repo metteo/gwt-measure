@@ -21,7 +21,7 @@ import com.googlecode.gwtmeasure.sample.client.MyService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 

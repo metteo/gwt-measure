@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class PerformanceTiming implements HasJsonRepresentation {
 

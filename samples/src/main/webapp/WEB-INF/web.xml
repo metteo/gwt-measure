@@ -61,4 +61,8 @@
         <servlet-name>rpcServlet</servlet-name>
     </filter-mapping>
 
+    <listener>
+        <listener-class>com.googlecode.gwtmeasure.sample.server.FilterConfiguration</listener-class>
+    </listener>
+
 </web-app>

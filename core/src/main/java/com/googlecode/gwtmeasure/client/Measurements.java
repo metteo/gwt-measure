@@ -23,7 +23,7 @@ import com.googlecode.gwtmeasure.shared.Constants;
 /**
  * Public API for GWT Measurements.
  *
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class Measurements {
 

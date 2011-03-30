@@ -19,7 +19,7 @@ package com.googlecode.gwtmeasure.client.internal;
 /**
  * Unique identifier for given browser window/tab
  * 
- * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class WindowId {
 

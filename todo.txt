@@ -1,4 +1,4 @@
---- Implemented ---
+--- Version 0.1.2 ---
 + GWT 2.1.1 support
 + Apache 2.0 License
 + integration with GWT lightweight measurements
@@ -22,10 +22,11 @@
 --- In Progress ---
 # uid injection with filter or remote servlet
 # event aggregation
+# retry after failed RPC calls
+# configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 
 --- This Version ---
 # support RunAsync measurements (fragment, size)
-# configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 # user defined attributes
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
