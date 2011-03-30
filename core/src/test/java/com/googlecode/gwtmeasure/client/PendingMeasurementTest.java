@@ -16,10 +16,13 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.matchers.GreaterThan;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
@@ -29,11 +32,11 @@ import static org.mockito.Mockito.*;
  */
 public class PendingMeasurementTest extends Assert {
 
-    private MeasurementHub hub;
+    private MeasurementHubAdapter hub;
 
     @Before
     public void setUp() {
-        hub = mock(MeasurementHub.class);
+        hub = mock(MeasurementHubAdapter.class);
     }
 
     @Test
@@ -73,5 +76,25 @@ public class PendingMeasurementTest extends Assert {
         assertThat(measurement.getParameter("A"), equalTo("V"));
     }
 
+    @Test
+    public void shouldMeasure() throws Exception {
+        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        pause();
+
+        measurement.stop();
+
+        verify(hub).submit(measurement);
+        assertThat(measurement.isDiscarded(), is(false));
+        assertThat(measurement.getName(), is("name"));
+        assertThat(measurement.getGroup(), is("group"));
+        assertThat(measurement.getTo(), new GreaterThan(measurement.getFrom()));
+    }
+
+    public static void pause() {
+        try {
+            Thread.sleep(15);
+        } catch (InterruptedException e) {
+        }
+    }
 
 }

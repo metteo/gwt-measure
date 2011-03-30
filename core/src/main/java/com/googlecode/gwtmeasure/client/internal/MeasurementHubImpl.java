@@ -14,18 +14,10 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
  * @author dmitry.buzdin
  */
 public class MeasurementHubImpl implements MeasurementHub {
-
-    private final MeasurementToEvent converter = new MeasurementToEvent();
+    
     private final SimpleEventBus eventBus = new SimpleEventBus();
 
     public MeasurementHubImpl() {
-    }
-
-    public void submit(PendingMeasurement measurement) {
-        PerformanceTiming[] events = converter.convert(measurement);
-        for (PerformanceTiming event : events) {
-            submit(event);
-        }
     }
 
     public void submit(PerformanceTiming timing) {

@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 
@@ -28,13 +29,16 @@ import java.util.Set;
  */
 public final class PendingMeasurement {
 
-    private long from;
-    private long to;
-    private String name;
-    private String group;
-    private MeasurementHub measurementHub;
+    private final String name;
+    private final String group;
+    private MeasurementHubAdapter hubAdapter;
+
     private boolean discarded;
     private boolean stopped;
+
+    private long from;
+    private long to;    
+
     private final Map<String, String> parameters = new HashMap<String, String>();
 
     {
@@ -42,25 +46,28 @@ public final class PendingMeasurement {
     }
 
     public PendingMeasurement(String name, String group, MeasurementHub measurementHub) {
+        this(name, group, new MeasurementHubAdapter(measurementHub));
+    }
+
+    public PendingMeasurement(String name, String group, MeasurementHubAdapter hubAdapter) {
         this.name = name;
         this.group = group;
-        this.measurementHub = measurementHub;
+        this.hubAdapter = hubAdapter;
     }
 
     /**
-     * Stops this measurement and propagates start and stop events to event queue
+     * Stops this measurement and propagates start and stop events to event queue.
      */
-    public void stop() {
-        assert !stopped;
+    public void stop() {        
         if (!discarded && !stopped) {
             this.to = TimeUtils.current();
-            measurementHub.submit(this);
+            hubAdapter.submit(this);
         }
         stopped = true;
     }
 
     /**
-     * Discards this measurement. Further calls
+     * Discards this measurement. Further calls to that will be ignored.
      */
     public void discard() {
         this.discarded = true;

@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -90,4 +91,5 @@ public final class Measurements {
     public static void setEndpointUrl(String endpointUrl) {
         Measurements.endpointUrl = endpointUrl;
     }
+
 }

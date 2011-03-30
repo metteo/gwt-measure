@@ -29,7 +29,7 @@ public class MeasurementToEventTest extends Assert {
 
     @Test
     public void testConvert() throws Exception {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHub.class));
+        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHubAdapter.class));
         measurement.stop();
 
         PerformanceTiming[] events = converter.convert(measurement);

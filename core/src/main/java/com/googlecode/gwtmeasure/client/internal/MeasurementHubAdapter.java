@@ -14,20 +14,29 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.spi;
+package com.googlecode.gwtmeasure.client.internal;
 
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
+import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementHub {    
+public class MeasurementHubAdapter {
 
-    void submit(PerformanceTiming event);
+    private final MeasurementHub hub;
+    private final MeasurementToEvent converter = new MeasurementToEvent();
 
-    HandlerRegistration addHandler(PerformanceEventHandler handler);
+    public MeasurementHubAdapter(MeasurementHub hub) {
+        this.hub = hub;
+    }
+
+    public void submit(PendingMeasurement measurement) {
+        PerformanceTiming[] events = converter.convert(measurement);
+        for (PerformanceTiming event : events) {
+            hub.submit(event);
+        }
+    }
 
 }
