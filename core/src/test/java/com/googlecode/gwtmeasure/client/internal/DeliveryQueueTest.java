@@ -14,21 +14,30 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.delivery;
+package com.googlecode.gwtmeasure.client.internal;
 
-import com.googlecode.gwtmeasure.client.PerformanceEvent;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.hamcrest.CoreMatchers.*;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class RemoteServerChannel implements PerformanceEventHandler {
+public class DeliveryQueueTest extends Assert {
 
-    public void onPerformanceEvent(PerformanceEvent event) {
-        PerformanceTiming timing = event.getTiming();
-        DeliveryQueue.instance().pushTiming(timing);
+    private DeliveryQueue queue;
+
+    @Before
+    public void setUp() {
+        queue = new DeliveryQueue();
+    }    
+
+    @Test
+    public void shouldBeEmpty() {
+        assertThat(queue.hasIncidents(), equalTo(Boolean.FALSE));
+        assertThat(queue.hasTimings(), equalTo(Boolean.FALSE));
     }
 
 }

@@ -9,15 +9,15 @@ import java.util.List;
 /**
  * @author dmitry.buzdin
  */
-public class DeliveryBuffer {
+public class DeliveryQueue {
 
-    private static final DeliveryBuffer instance = new DeliveryBuffer();
+    private static final DeliveryQueue instance = new DeliveryQueue();
 
-    public static DeliveryBuffer instance() {
+    public static DeliveryQueue instance() {
         return instance;
     }
 
-    private DeliveryBuffer() {
+    DeliveryQueue() {
     }
 
     private final List<PerformanceTiming> timings = new ArrayList<PerformanceTiming>();

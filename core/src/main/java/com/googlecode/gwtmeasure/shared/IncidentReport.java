@@ -24,7 +24,13 @@ import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.StatusCodeException;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
+ * Representation of application incident. Usually it means unexpected client-side exception.
+ * 
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class IncidentReport implements HasJsonRepresentation {
@@ -32,6 +38,7 @@ public class IncidentReport implements HasJsonRepresentation {
     private long timestamp;
     private String text;
     private String message;
+    private final Map<String, String> parameters = new HashMap<String, String>();
 
     public IncidentReport() {
         this.timestamp = TimeUtils.current();
@@ -51,6 +58,19 @@ public class IncidentReport implements HasJsonRepresentation {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getParameter(String name) {
+        return parameters.get(name);
+    }
+
+    public Set<String> getParameterNames() {
+        return parameters.keySet();
+    }
+
+    public void setParameter(String name, Object value) {
+        String string = value == null ? "" : value.toString();
+        this.parameters.put(name, string);
     }
 
     public static IncidentReport createRpcReport(Throwable throwable) {
@@ -90,16 +110,40 @@ public class IncidentReport implements HasJsonRepresentation {
         if (text != null) object.put("text", new JSONString(text));
         if (message != null) object.put("message", new JSONString(message));
 
+        if (!parameters.isEmpty()) {
+            JSONObject params = new JSONObject();
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                String name = entry.getKey();
+                String value = entry.getValue();
+                if (value != null) {
+                    params.put(name, new JSONString(value));
+                }
+            }
+            object.put("parameters", params);
+        }        
+
         return object.toString();
     }
 
     @Override
     public String toString() {
-        return "IncidentReport{" +
-                "timestamp=" + timestamp +
-                ", text='" + text + '\'' +
-                ", message='" + message + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append("IncidentReport{")
+                .append("timestamp='")
+                .append(timestamp)
+                .append("', text='")
+                .append(text)
+                .append("', message='")
+                .append(message)
+                .append("', parameters=[");
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            builder.append(entry.getKey());
+            builder.append("=");
+            builder.append(entry.getValue());
+            builder.append(",");
+        }
+        builder.append("]}");
+        return builder.toString();
     }
-    
+
 }

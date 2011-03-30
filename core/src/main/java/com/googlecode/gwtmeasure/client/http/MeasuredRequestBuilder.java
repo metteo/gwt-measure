@@ -23,7 +23,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.delivery.HeaderInjector;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -33,6 +33,9 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import java.util.List;
 
 /**
+ * Instrumented implemenation of RequestBuilder. Use it instead of the standard one to recieve
+ * measurements of the http requests and piggibacked delivery of results via HTTP headers.
+ *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuredRequestBuilder extends RequestBuilder {
@@ -83,9 +86,9 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     }
 
     private void attachMeasurements() {
-        DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
-        List<PerformanceTiming> timings = deliveryBuffer.popTimings();
-        List<IncidentReport> incidents = deliveryBuffer.popIncidents();
+        DeliveryQueue deliveryQueue = DeliveryQueue.instance();
+        List<PerformanceTiming> timings = deliveryQueue.popTimings();
+        List<IncidentReport> incidents = deliveryQueue.popIncidents();
 
         HeaderInjector injector = new HeaderInjector();
         injector.inject(this, timings, incidents);

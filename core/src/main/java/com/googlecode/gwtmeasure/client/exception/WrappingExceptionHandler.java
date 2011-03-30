@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.exception;
 
 import com.google.gwt.core.client.GWT;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 
 /**
@@ -38,7 +38,7 @@ public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
      */
     public void onUncaughtException(Throwable exception) {
         IncidentReport report = IncidentReport.createReport(exception);
-        DeliveryBuffer.instance().pushIncident(report);
+        DeliveryQueue.instance().pushIncident(report);
 
         if (handler != null) {
             handler.onUncaughtException(exception);

@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Performance measurement of discrete application event.
+ *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class PerformanceTiming implements HasJsonRepresentation {

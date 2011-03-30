@@ -22,7 +22,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.googlecode.gwtmeasure.client.Measurements;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
@@ -43,9 +43,9 @@ public class StandaloneDelivery {
         String url = Measurements.getEndpointUrl();
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 
-        DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
-        List<PerformanceTiming> timings = deliveryBuffer.popTimings();
-        List<IncidentReport> incidents = deliveryBuffer.popIncidents();
+        DeliveryQueue deliveryQueue = DeliveryQueue.instance();
+        List<PerformanceTiming> timings = deliveryQueue.popTimings();
+        List<IncidentReport> incidents = deliveryQueue.popIncidents();
 
         HeaderInjector injector = new HeaderInjector();
         if (injector.inject(builder, timings, incidents)) {
@@ -54,8 +54,8 @@ public class StandaloneDelivery {
             try {
                 builder.send();
             } catch (RequestException e) {
-                deliveryBuffer.pushTiming(timings);
-                deliveryBuffer.pushIncident(incidents);
+                deliveryQueue.pushTiming(timings);
+                deliveryQueue.pushIncident(incidents);
                 // TODO Consider lost piggybacked timings as well
             }
 
@@ -77,10 +77,10 @@ public class StandaloneDelivery {
         }
 
         public void onError(Request request, Throwable exception) {
-            DeliveryBuffer deliveryBuffer = DeliveryBuffer.instance();
+            DeliveryQueue deliveryQueue = DeliveryQueue.instance();
 
-            deliveryBuffer.pushTiming(timings);
-            deliveryBuffer.pushIncident(incidents);
+            deliveryQueue.pushTiming(timings);
+            deliveryQueue.pushIncident(incidents);
         }
 
     }

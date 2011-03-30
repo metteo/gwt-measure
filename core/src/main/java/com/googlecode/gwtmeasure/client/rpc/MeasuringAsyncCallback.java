@@ -20,7 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
+import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
 
@@ -53,7 +53,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     public void onFailure(Throwable caught) {
         IncidentReport report = IncidentReport.createRpcReport(caught);
-        DeliveryBuffer.instance().pushIncident(report);
+        DeliveryQueue.instance().pushIncident(report);
         
         measurement.discard();
         originalCallback.onFailure(caught);

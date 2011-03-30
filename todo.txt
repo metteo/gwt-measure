@@ -19,14 +19,14 @@
 + gwt jdk logging on client
 + publish to maven repo
 + user defined context parameters
++ piggybacking requests for measurement delivery (rpc, request builder)
 
 --- In Progress ---
-# uid injection with filter or remote servlet
-# event aggregation via eventGroups
 # retry after failed RPC calls
-# configurable measurement transport (direct rpc, servlet, rpc piggyback, servlet piggyback, custom)
 
 --- This Version ---
+# uid injection with filter or remote servlet
+# event aggregation via eventGroups
 # support RunAsync measurements (fragment, size)
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
@@ -41,6 +41,8 @@
 # retry sequence of measurement delivery
 # bundle GSON in server distribution
 # write contributor guidelines
+# filtering of exception types to be reported
+# ensure incident could be injected with context data
 
 --- Next Versions ---
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)

@@ -17,7 +17,6 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
-import com.googlecode.gwtmeasure.client.internal.DeliveryBuffer;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
