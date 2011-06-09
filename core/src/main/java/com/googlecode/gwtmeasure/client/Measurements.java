@@ -30,8 +30,9 @@ public final class Measurements {
 
     private static MeasurementHub measurementHub;
     private static WindowId windowId;
-    private static int deliveryInterval = 15000;
+    private static int deliveryInterval = 15000; // in milliseconds
     private static String endpointUrl = "measurements";
+    private static int headerLimit = 4 * 1024; // in bytes
 
     private Measurements() {
     }
@@ -97,11 +98,31 @@ public final class Measurements {
     }
 
     /**
-     * Sets piggiback measurement delivery interval.
+     * Sets piggyback measurement delivery interval.
      * @param millis time period in millis
      */
     public static void setDeliveryInterval(int millis) {
         Measurements.deliveryInterval = deliveryInterval;
+    }
+
+    /**
+     * Provides the maximum size of HTTP header sent by the framework.
+     * If the limit is reached header will be split in several portions.
+     *
+     * Jetty has 10KB of header content limit by default.
+     * @return header limit in bytes
+     */
+    public static int getHeaderLimit() {
+        return headerLimit;
+    }
+
+    /**
+     * Sets the maximum single HTTP header content size.
+     * One character in JavaScript corresponds to two bytes according to ECMA Script spec.
+     * @param headerLimit size of header in bytes.
+     */
+    public static void setHeaderLimit(int headerLimit) {
+        Measurements.headerLimit = headerLimit;
     }
 
     /**

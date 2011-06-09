@@ -64,4 +64,10 @@ public class MeasurementsTest extends Assert {
         assertThat(Measurements.getEndpointUrl(), equalTo("x"));
     }
 
+    @Test
+    public void testSetHeaderLimit() throws Exception {
+        Measurements.setHeaderLimit(1024);
+        assertThat(Measurements.getHeaderLimit(), equalTo(1024));
+    }
+
 }

@@ -18,6 +18,7 @@ package com.googlecode.gwtmeasure.client.delivery;
 
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +26,42 @@ import java.util.List;
  */
 public class MeasurementSerializer {
 
-    public String serialize(List<? extends HasJsonRepresentation> objects) {
-        StringBuilder headerBuilder = new StringBuilder("[");
+    private int byteLimit;
+
+    public MeasurementSerializer(int byteLimit) {
+        this.byteLimit = byteLimit;
+    }
+
+    public String[] serialize(List<? extends HasJsonRepresentation> objects) {
+        List<String> result = new ArrayList<String>();
+        checkAndSplit(objects, result);
+        return result.toArray(new String[] {});
+    }
+
+    private void checkAndSplit(List<? extends HasJsonRepresentation> objects, List<String> result) {
+        String jsonObjects = prepareJsonObjects(objects);
+        if (splitRequired(objects, jsonObjects)) {
+            List<? extends HasJsonRepresentation> left = objects.subList(0, objects.size() / 2);
+            List<? extends HasJsonRepresentation> right = objects.subList(objects.size() / 2, objects.size());
+
+            checkAndSplit(left, result);
+            checkAndSplit(right, result);
+        } else {
+            String jsonArray = wrapObjectsInArray(jsonObjects);
+            result.add(jsonArray);
+        }
+    }
+
+    private boolean splitRequired(List<? extends HasJsonRepresentation> objects, String jsonObjects) {
+        return lengthInBytes(jsonObjects) + 2 > byteLimit && objects.size() > 1;
+    }
+
+    private int lengthInBytes(String jsonArray) {
+        return jsonArray.length() * 2;
+    }
+
+    private String prepareJsonObjects(List<? extends HasJsonRepresentation> objects) {
+        StringBuilder headerBuilder = new StringBuilder();
         int size = objects.size();
         for (int i = 0; i < size; i++) {
             HasJsonRepresentation object = objects.get(i);
@@ -36,8 +71,13 @@ public class MeasurementSerializer {
                 headerBuilder.append(',');
             }
         }
-        headerBuilder.append("]");
         return headerBuilder.toString();
+    }
+
+    private String wrapObjectsInArray(String jsonObjects) {
+        StringBuilder builder = new StringBuilder("[");
+        builder.append(jsonObjects).append("]");
+        return builder.toString();
     }
 
 }

@@ -41,10 +41,14 @@ public class MetricsProcessor {
         this.reportHandler = reportHandler;
     }
 
-    public void extractAndProcess(HttpServletRequest request) {        
-        String result = request.getHeader(Constants.HEADER_RESULT);
-        if (null != result) {
-            handleMetrics(result);
+    public void extractAndProcess(HttpServletRequest request) {
+        for (int i = 0; ; i++) {
+            String result = request.getHeader(Constants.HEADER_RESULT + "-" + i);
+            if (null == result) { // No more headers
+                break;
+            }
+            Collection<PerformanceTiming> performanceTimings = decoder.decodeTimings(result);
+            sinkEvents(performanceTimings);
         }
         String errors = request.getHeader(Constants.HEADER_ERRORS);
         if (null != errors) {
@@ -59,8 +63,8 @@ public class MetricsProcessor {
         }
     }
 
-    private void handleMetrics(String result) {
-        Collection<PerformanceTiming> performanceTiming = decoder.decodeTimings(result);
+
+    private void sinkEvents(Collection<PerformanceTiming> performanceTiming) {
         for (PerformanceTiming timing : performanceTiming) {
             eventHandler.onEvent(timing);
         }

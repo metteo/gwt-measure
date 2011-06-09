@@ -61,18 +61,21 @@ public class HeaderInjectorTest extends Assert {
     @Test
     public void testInject_OnlyEvents() throws Exception {
         timings.add(new PerformanceTiming());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn("V");
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any()))
+                .thenReturn(new String[]{"first", "second"});
         
         boolean result = injector.inject(requestBuilder, timings, reports);
 
-        verify(requestBuilder).setHeader(Constants.HEADER_RESULT, "V");
-        assertThat(result, equalTo(true));    
+        verify(requestBuilder).setHeader(Constants.HEADER_RESULT + "-0", "first");
+        verify(requestBuilder).setHeader(Constants.HEADER_RESULT + "-1", "second");
+
+        assertThat(result, equalTo(true));
     }
 
     @Test
     public void testInject_OnlyErrors() throws Exception {
         reports.add(new IncidentReport());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn("V");
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn(new String[]{"V"});
 
         boolean result = injector.inject(requestBuilder, timings, reports);
 

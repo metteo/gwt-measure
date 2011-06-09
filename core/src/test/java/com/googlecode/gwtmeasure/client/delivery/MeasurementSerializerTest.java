@@ -35,11 +35,11 @@ public class MeasurementSerializerTest extends Assert {
 
     @Before
     public void setUp() {
-        serializer = new MeasurementSerializer();
+        serializer = new MeasurementSerializer(10 * 1024);
     }
 
     @Test
-    public void testSerialize() throws Exception {
+    public void shouldSerialize() throws Exception {
         ArrayList<HasJsonRepresentation> jsonList = new ArrayList<HasJsonRepresentation>();
         HasJsonRepresentation jsonRepresentation = mock(HasJsonRepresentation.class);
         when(jsonRepresentation.jsonEncode()).thenReturn("X");
@@ -48,9 +48,35 @@ public class MeasurementSerializerTest extends Assert {
         jsonList.add(jsonRepresentation);
         jsonList.add(jsonRepresentation);
 
-        String result = serializer.serialize(jsonList);
+        String[] result = serializer.serialize(jsonList);
 
-        assertThat(result, equalTo("[X,X,X]"));
+        assertThat(result[0], equalTo("[X,X,X]"));
+    }
+
+    @Test
+    public void shouldSplitByChunks() throws Exception {
+        serializer = new MeasurementSerializer(10 * 2);
+
+        ArrayList<HasJsonRepresentation> jsonList = new ArrayList<HasJsonRepresentation>();
+
+        jsonList.add(prepareJsonObject("value1"));
+        jsonList.add(prepareJsonObject("value2"));
+        jsonList.add(prepareJsonObject("value3"));
+        jsonList.add(prepareJsonObject("value4"));
+
+        String[] result = serializer.serialize(jsonList);
+
+        assertThat(result.length, equalTo(4));
+        assertThat(result[0], equalTo("[value1]"));
+        assertThat(result[1], equalTo("[value2]"));
+        assertThat(result[2], equalTo("[value3]"));
+        assertThat(result[3], equalTo("[value4]"));
+    }
+
+    private HasJsonRepresentation prepareJsonObject(String value) {
+        HasJsonRepresentation jsonRepresentation = mock(HasJsonRepresentation.class);
+        when(jsonRepresentation.jsonEncode()).thenReturn(value);
+        return jsonRepresentation;
     }
 
 }

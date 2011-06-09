@@ -20,13 +20,14 @@
 + publish to maven repo
 + user defined context parameters
 + piggybacking requests for measurement delivery (rpc, request builder)
++ Limit of 8K HTTP header size
 
 --- In Progress ---
 # retry after failed RPC calls
+# event aggregation via eventGroups
 
 --- This Version ---
 # uid injection with filter or remote servlet
-# event aggregation via eventGroups
 # support RunAsync measurements (fragment, size)
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
@@ -46,7 +47,6 @@
 
 --- Next Versions ---
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)
-# Limit of 8K HTTP header size
 # exponential retry backoff period
 # split client and server distributions
 # compare with https://github.com/yahoo/boomerang/

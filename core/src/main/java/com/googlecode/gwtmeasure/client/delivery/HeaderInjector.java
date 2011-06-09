@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
+import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -31,7 +32,7 @@ public class HeaderInjector {
     private MeasurementSerializer serializer;
 
     public HeaderInjector() {
-        this(new MeasurementSerializer());
+        this(new MeasurementSerializer(Measurements.getHeaderLimit()));
     }
 
     public HeaderInjector(MeasurementSerializer serializer) {
@@ -41,13 +42,16 @@ public class HeaderInjector {
     public boolean inject(RequestBuilder requestBuilder, List<PerformanceTiming> timings, List<IncidentReport> incidents) {
         boolean result = false;
         if (!timings.isEmpty()) {            
-            String serializedTimings = serializer.serialize(timings);
-            requestBuilder.setHeader(Constants.HEADER_RESULT, serializedTimings);
+            String[] serializedTimings = serializer.serialize(timings);
+            for (int i = 0; i < serializedTimings.length; i++) {
+                String timing = serializedTimings[i];
+                requestBuilder.setHeader(Constants.HEADER_RESULT + "-" + i, timing);
+            }
             result = true;
         }
         if (!incidents.isEmpty()) {
-            String serializedIncidents = serializer.serialize(incidents);
-            requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents);
+            String[] serializedIncidents = serializer.serialize(incidents);
+            requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents[0]);
             result = true;
         }
         return result;
