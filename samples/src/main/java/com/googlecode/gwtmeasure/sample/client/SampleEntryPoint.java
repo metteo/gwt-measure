@@ -18,7 +18,9 @@ package com.googlecode.gwtmeasure.sample.client;
 
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
 import com.googlecode.gwtmeasure.client.http.MeasuredRequestBuilder;
+import com.googlecode.gwtmeasure.client.rpc.RpcContext;
 import com.googlecode.gwtmeasure.sample.shared.Model;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -103,7 +105,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
         RequestBuilder builder = new MeasuredRequestBuilder(RequestBuilder.POST, "/servlet");
         builder.setCallback(new RequestCallback() {
             public void onResponseReceived(Request request, Response response) {
-                textArea.setText("Success");
+                textArea.setText("Success with request id " + HttpStatsContext.getLastResolvedRequestId());
             }
 
             public void onError(Request request, Throwable exception) {
@@ -155,7 +157,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
         }
 
         public void onSuccess(Model result) {
-            textArea.setText("Success");
+            textArea.setText("Success with id " + RpcContext.getLastResolvedRequestId());
         }
 
     }

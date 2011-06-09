@@ -40,6 +40,7 @@ public class RequestCallbackWrapper implements RequestCallback {
     }
 
     public void onResponseReceived(Request request, Response response) {
+        HttpStatsContext.setLastResolvedRequestId(requestId);
         responseReceived();
         callback.onResponseReceived(request, response);
     }

@@ -29,11 +29,13 @@ import com.googlecode.gwtmeasure.shared.Constants;
  */
 public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
+    private final int requestId;
     final AsyncCallback<T> originalCallback;
     final PendingMeasurement measurement;
 
     public MeasuringAsyncCallback(AsyncCallback<T> originalCallback, int requestId) {
         this.originalCallback = originalCallback;
+        this.requestId = requestId;
         String callbackType = originalCallback.getClass().getName();
         String methodName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
         this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
@@ -41,6 +43,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     }
 
     public void onSuccess(T result) {
+        RpcContext.setLastResolvedRequestId(requestId);
         try {
             originalCallback.onSuccess(result);
         } catch (RuntimeException exception) {

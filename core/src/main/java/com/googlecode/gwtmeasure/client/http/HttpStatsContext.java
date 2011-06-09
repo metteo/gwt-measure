@@ -19,19 +19,28 @@ package com.googlecode.gwtmeasure.client.http;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class HttpStatsContext {
+public final class HttpStatsContext {
 
     private static int requestIdCounter;
+    private static int lastResolvedRequestId;
 
-    static int getNextRequestId() {
+    private int requestId;
+
+    public static int getNextRequestId() {
         return requestIdCounter++;
     }
 
-    static int getLastRequestId() {
+    public static int getLastRequestId() {
         return requestIdCounter;
     }
 
-    private int requestId;
+    public static int getLastResolvedRequestId() {
+        return lastResolvedRequestId;
+    }
+
+    static void setLastResolvedRequestId(int requestId) {
+        HttpStatsContext.lastResolvedRequestId = requestId;
+    }
 
     public HttpStatsContext() {
         this(getNextRequestId());
