@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
+import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
@@ -96,6 +97,11 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
         vpanel.add(hpanel2);
 
+        for (int i = 0; i < 100; i++) {
+            PendingMeasurement random = Measurements.start("random");
+            random.stop();
+        }
+
         callServer();
 
         measurement.stop();
@@ -125,7 +131,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
     public void onClick(ClickEvent event) {
         Object source = event.getSource();
-        
+
         if (source == errorButton) {
             throw new NullPointerException();
         } else if (source == customMeasureButton) {

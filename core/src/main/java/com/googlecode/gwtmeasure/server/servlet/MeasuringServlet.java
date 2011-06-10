@@ -43,7 +43,7 @@ public class MeasuringServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        metricsProcessor.extractAndProcess(request);
+        metricsProcessor.extractAndProcess(request, MetricsProcessor.Mode.BODY);
     }
 
 }

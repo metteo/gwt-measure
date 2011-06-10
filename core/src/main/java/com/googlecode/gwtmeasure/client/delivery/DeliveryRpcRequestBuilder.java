@@ -36,8 +36,10 @@ public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
         List<PerformanceTiming> timings = deliveryQueue.popTimings();
         List<IncidentReport> incidents = deliveryQueue.popIncidents();
 
-        HeaderInjector injector = new HeaderInjector();
-        injector.inject(requestBuilder, timings, incidents);
+        ResultInjector injector = new HeaderInjector();
+        HeaderInjector.Result result = injector.inject(requestBuilder, timings, incidents);
+
+        deliveryQueue.pushTiming(result.getExcessTimings());
     }
 
     /**

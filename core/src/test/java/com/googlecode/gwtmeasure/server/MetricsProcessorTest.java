@@ -55,19 +55,15 @@ public class MetricsProcessorTest extends Assert {
 
     @Test
     public void shouldExtractFromMultipleHeaders() {
-        when(request.getHeader(Constants.HEADER_RESULT + "-0")).thenReturn("1");
-        when(request.getHeader(Constants.HEADER_RESULT + "-1")).thenReturn("2");
-        when(request.getHeader(Constants.HEADER_RESULT + "-2")).thenReturn("3");
+        when(request.getHeader(Constants.HEADER_RESULT)).thenReturn("1");
 
         PerformanceTiming timing = new PerformanceTiming();
 
         when(decoder.decodeTimings("1")).thenReturn(Collections.singletonList(timing));
-        when(decoder.decodeTimings("2")).thenReturn(Collections.singletonList(timing));
-        when(decoder.decodeTimings("3")).thenReturn(Collections.singletonList(timing));
 
         processor.extractAndProcess(request);
 
-        verify(handler, times(3)).onEvent(any(PerformanceTiming.class));
+        verify(handler, times(1)).onEvent(any(PerformanceTiming.class));
     }
 
 }

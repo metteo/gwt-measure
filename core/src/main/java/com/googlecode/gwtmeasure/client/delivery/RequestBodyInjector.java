@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,35 +17,32 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
-import com.googlecode.gwtmeasure.client.Measurements;
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.List;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class HeaderInjector extends ResultInjector {
+public class RequestBodyInjector extends ResultInjector {
 
-    public HeaderInjector() {
+    private static final int NO_LIMIT = -1;
+
+    public RequestBodyInjector() {
         this(new MeasurementSerializer());
     }
 
-    public HeaderInjector(MeasurementSerializer serializer) {
+    public RequestBodyInjector(MeasurementSerializer serializer) {
         super(serializer);
     }
 
     public Result inject(RequestBuilder requestBuilder, List<PerformanceTiming> timings, List<IncidentReport> incidents) {
-        int headerLimit = Measurements.getHeaderLimit();
         Result result = new Result();
 
-        if (!timings.isEmpty()) {            
-            String serializedTimings = serializer.serialize(timings, headerLimit);
-            requestBuilder.setHeader(Constants.HEADER_RESULT, serializedTimings);
-
-            result.timings.addAll(timings); // the ones, which are left are returned to queue
+        if (!timings.isEmpty()) {
+            String serializedTimings = serializer.serialize(timings, NO_LIMIT);
+            requestBuilder.setRequestData(serializedTimings);
             result.shouldSend = true;
         }
 

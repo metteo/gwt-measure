@@ -35,7 +35,7 @@ public class MeasurementSerializerTest extends Assert {
 
     @Before
     public void setUp() {
-        serializer = new MeasurementSerializer(10 * 1024);
+        serializer = new MeasurementSerializer();
     }
 
     @Test
@@ -48,29 +48,37 @@ public class MeasurementSerializerTest extends Assert {
         jsonList.add(jsonRepresentation);
         jsonList.add(jsonRepresentation);
 
-        String[] result = serializer.serialize(jsonList);
+        String result = serializer.serialize(jsonList, 10 * 1024);
 
-        assertThat(result[0], equalTo("[X,X,X]"));
+        assertThat(result, equalTo("[X,X,X]"));
     }
 
     @Test
-    public void shouldSplitByChunks() throws Exception {
-        serializer = new MeasurementSerializer(10 * 2);
-
+    public void shouldConsiderSizeLimt() throws Exception {
         ArrayList<HasJsonRepresentation> jsonList = new ArrayList<HasJsonRepresentation>();
 
-        jsonList.add(prepareJsonObject("value1"));
+        HasJsonRepresentation first = prepareJsonObject("value1");
+        jsonList.add(first);
         jsonList.add(prepareJsonObject("value2"));
         jsonList.add(prepareJsonObject("value3"));
         jsonList.add(prepareJsonObject("value4"));
 
-        String[] result = serializer.serialize(jsonList);
+        String result = serializer.serialize(jsonList, 10 * 2);
 
-        assertThat(result.length, equalTo(4));
-        assertThat(result[0], equalTo("[value1]"));
-        assertThat(result[1], equalTo("[value2]"));
-        assertThat(result[2], equalTo("[value3]"));
-        assertThat(result[3], equalTo("[value4]"));
+        assertThat(result, equalTo("[value1]"));
+
+        assertThat(jsonList.size(), equalTo(3));
+        assertThat(jsonList.contains(first), equalTo(false));
+    }
+
+    @Test
+    public void shouldHaveNoLimits() {
+        ArrayList<HasJsonRepresentation> jsonList = new ArrayList<HasJsonRepresentation>();
+        jsonList.add(prepareJsonObject("value1"));
+
+        String result = serializer.serialize(jsonList, -1);
+
+        assertThat(result, equalTo("[value1]"));
     }
 
     private HasJsonRepresentation prepareJsonObject(String value) {

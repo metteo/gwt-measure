@@ -22,8 +22,11 @@ import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -41,12 +44,22 @@ public class MetricsProcessor {
         this.reportHandler = reportHandler;
     }
 
+    public enum Mode {
+        HEADER, BODY
+    }
+
     public void extractAndProcess(HttpServletRequest request) {
-        for (int i = 0; ; i++) {
-            String result = request.getHeader(Constants.HEADER_RESULT + "-" + i);
-            if (null == result) { // No more headers
-                break;
-            }
+        extractAndProcess(request, Mode.HEADER);
+    }
+
+    public void extractAndProcess(HttpServletRequest request, Mode mode) {
+        String result;
+        if (Mode.HEADER.equals(mode)) {
+            result = request.getHeader(Constants.HEADER_RESULT);
+        } else {
+            result = readRequestContent(request);
+        }
+        if (null != result) {
             Collection<PerformanceTiming> performanceTimings = decoder.decodeTimings(result);
             sinkEvents(performanceTimings);
         }
@@ -54,6 +67,21 @@ public class MetricsProcessor {
         if (null != errors) {
             handleErrors(errors);
         }
+    }
+
+    private String readRequestContent(HttpServletRequest request) {
+        StringBuilder builder = new StringBuilder();
+        try {
+            BufferedReader reader = request.getReader();
+            char[] buf = new char[4 * 1024];
+            int len;
+            while ((len = reader.read(buf, 0, buf.length)) != -1) {
+                builder.append(buf, 0, len);
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return builder.toString();
     }
 
     private void handleErrors(String errors) {

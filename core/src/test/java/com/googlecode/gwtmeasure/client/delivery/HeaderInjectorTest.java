@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
+import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
@@ -53,34 +54,35 @@ public class HeaderInjectorTest extends Assert {
 
     @Test
     public void testInject() throws Exception {
-        boolean result = injector.inject(requestBuilder, timings, reports);
+        HeaderInjector.Result result = injector.inject(requestBuilder, timings, reports);
         verifyNoMoreInteractions(requestBuilder);
-        assertThat(result, equalTo(false));
+        assertThat(result.shouldSend(), equalTo(false));
+        assertThat(result.getExcessTimings().isEmpty(), equalTo(true));
     }
 
     @Test
     public void testInject_OnlyEvents() throws Exception {
         timings.add(new PerformanceTiming());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any()))
-                .thenReturn(new String[]{"first", "second"});
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Measurements.getHeaderLimit())))
+                .thenReturn("first");
         
-        boolean result = injector.inject(requestBuilder, timings, reports);
+        HeaderInjector.Result result = injector.inject(requestBuilder, timings, reports);
 
-        verify(requestBuilder).setHeader(Constants.HEADER_RESULT + "-0", "first");
-        verify(requestBuilder).setHeader(Constants.HEADER_RESULT + "-1", "second");
+        verify(requestBuilder).setHeader(Constants.HEADER_RESULT, "first");
 
-        assertThat(result, equalTo(true));
+        assertThat(result.shouldSend(), equalTo(true));
     }
 
     @Test
     public void testInject_OnlyErrors() throws Exception {
         reports.add(new IncidentReport());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any())).thenReturn(new String[]{"V"});
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Measurements.getHeaderLimit())))
+                .thenReturn("V");
 
-        boolean result = injector.inject(requestBuilder, timings, reports);
+        HeaderInjector.Result result = injector.inject(requestBuilder, timings, reports);
 
         verify(requestBuilder).setHeader(Constants.HEADER_ERRORS, "V");
-        assertThat(result, equalTo(true));
+        assertThat(result.shouldSend(), equalTo(true));
     }
 
 }

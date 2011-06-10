@@ -21,6 +21,7 @@
 + user defined context parameters
 + piggybacking requests for measurement delivery (rpc, request builder)
 + Limit of 8K HTTP header size
++ Sending measurements in request body to the servlet
 
 --- In Progress ---
 # retry after failed RPC calls

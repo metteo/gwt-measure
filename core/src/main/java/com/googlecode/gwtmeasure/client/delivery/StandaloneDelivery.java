@@ -47,8 +47,10 @@ public class StandaloneDelivery {
         List<PerformanceTiming> timings = deliveryQueue.popTimings();
         List<IncidentReport> incidents = deliveryQueue.popIncidents();
 
-        HeaderInjector injector = new HeaderInjector();
-        if (injector.inject(builder, timings, incidents)) {
+        ResultInjector injector = new RequestBodyInjector();
+        HeaderInjector.Result result = injector.inject(builder, timings, incidents);
+
+        if (result.shouldSend()) {
             MeasurementRequestCallback callback = new MeasurementRequestCallback(timings, incidents);
             builder.setCallback(callback);
             try {
