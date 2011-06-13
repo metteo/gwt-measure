@@ -29,8 +29,8 @@ import java.util.Set;
  */
 public final class PendingMeasurement {
 
-    private final String name;
-    private final String group;
+    private String name;
+    private String group;
     private MeasurementHubAdapter hubAdapter;
 
     private boolean discarded;
@@ -93,12 +93,17 @@ public final class PendingMeasurement {
         return discarded;
     }
 
+    public boolean isStopped() {
+        return stopped;
+    }
+
     /**
      * Sets context parameter to be attached resulting events
      * @param name parameter name
      * @param value parameter value
      */
     public void setParameter(String name, String value) {
+        checkIfValid();
         parameters.put(name, value);
     }
 
@@ -108,6 +113,23 @@ public final class PendingMeasurement {
 
     public Set<String> getParameterNames() {
         return parameters.keySet();
+    }
+
+    public void setName(String name) {
+        checkIfValid();
+        this.name = name;
+    }
+
+    public void setGroup(String group) {
+        checkIfValid();
+        this.group = group;
+    }
+
+    private void checkIfValid() {
+        if (discarded || stopped) {
+            throw new IllegalStateException("Measurement already invalidated." +
+                    " Set properties before calling stop() or discard().");
+        }
     }
 
 }

@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.matchers.GreaterThan;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -40,25 +42,36 @@ public class PendingMeasurementTest extends Assert {
     }
 
     @Test
+    public void shouldHaveDefaults() {
+        PendingMeasurement measurement = createMeasurement();
+
+        assertThat(measurement.isStopped(), equalTo(FALSE));
+        assertThat(measurement.isDiscarded(), equalTo(FALSE));
+    }
+
+    @Test
     public void shouldRegisterInHub() {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        PendingMeasurement measurement = createMeasurement();
         measurement.stop();
 
         verify(hub).submit(measurement);
+        assertThat(measurement.isStopped(), equalTo(TRUE));
     }
 
     @Test
     public void shouldDiscard() {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        PendingMeasurement measurement = createMeasurement();
         measurement.discard();
         measurement.stop();
 
         verifyZeroInteractions(hub);
+        assertThat(measurement.isStopped(), equalTo(TRUE));
+        assertThat(measurement.isDiscarded(), equalTo(TRUE));
     }
 
     @Test
     public void shouldAvoidDoubleStops() {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        PendingMeasurement measurement = createMeasurement();
         measurement.stop();
         measurement.stop();
 
@@ -68,7 +81,7 @@ public class PendingMeasurementTest extends Assert {
 
     @Test
     public void shouldSetParameter() {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        PendingMeasurement measurement = createMeasurement();
         assertThat(measurement.getParameter("A"), nullValue());
 
         measurement.setParameter("A", "V");
@@ -78,7 +91,7 @@ public class PendingMeasurementTest extends Assert {
 
     @Test
     public void shouldMeasure() throws Exception {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", hub);
+        PendingMeasurement measurement = createMeasurement();
         pause();
 
         measurement.stop();
@@ -88,6 +101,42 @@ public class PendingMeasurementTest extends Assert {
         assertThat(measurement.getName(), is("name"));
         assertThat(measurement.getGroup(), is("group"));
         assertThat(measurement.getTo(), new GreaterThan(measurement.getFrom()));
+    }
+
+    @Test
+    public void shouldChangeNameAndGroupId() {
+        PendingMeasurement measurement = createMeasurement();
+
+        measurement.setName("newName");
+        measurement.setGroup("newGroup");
+
+        assertThat(measurement.getName(), is("newName"));
+        assertThat(measurement.getGroup(), is("newGroup"));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldFailOnAttemptToModifyGroup() {
+        PendingMeasurement measurement = createMeasurement();
+        measurement.stop();
+        measurement.setGroup("A");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldFailOnAttemptToModifyName() {
+        PendingMeasurement measurement = createMeasurement();
+        measurement.stop();
+        measurement.setName("A");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void shouldFailOnAttemptToModifyParam() {
+        PendingMeasurement measurement = createMeasurement();
+        measurement.stop();
+        measurement.setParameter("A", "B");
+    }
+
+    private PendingMeasurement createMeasurement() {
+        return new PendingMeasurement("name", "group", hub);
     }
 
     public static void pause() {

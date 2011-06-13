@@ -175,9 +175,11 @@ public class PerformanceTiming implements HasJsonRepresentation {
 
         PerformanceTiming timing = (PerformanceTiming) o;
 
+        if (millis != timing.millis) return false;
         if (eventGroup != null ? !eventGroup.equals(timing.eventGroup) : timing.eventGroup != null) return false;
         if (moduleName != null ? !moduleName.equals(timing.moduleName) : timing.moduleName != null) return false;
         if (subSystem != null ? !subSystem.equals(timing.subSystem) : timing.subSystem != null) return false;
+        if (type != null ? !type.equals(timing.type) : timing.type != null) return false;
 
         return true;
     }
@@ -187,7 +189,8 @@ public class PerformanceTiming implements HasJsonRepresentation {
         int result = moduleName != null ? moduleName.hashCode() : 0;
         result = 31 * result + (subSystem != null ? subSystem.hashCode() : 0);
         result = 31 * result + (eventGroup != null ? eventGroup.hashCode() : 0);
-
+        result = 31 * result + (int) (millis ^ (millis >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 
@@ -201,16 +204,16 @@ public class PerformanceTiming implements HasJsonRepresentation {
                 .append(subSystem)
                 .append("', eventGroup='")
                 .append(eventGroup)
-                .append("', millis=")
+                .append("', millis='")
                 .append(millis)
                 .append("', type='")
                 .append(type)
                 .append("', parameters=[");
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             builder.append(entry.getKey());
-            builder.append("=");
+            builder.append("='");
             builder.append(entry.getValue());
-            builder.append(",");
+            builder.append("',");
         }
         builder.append("]}");
         return builder.toString();
