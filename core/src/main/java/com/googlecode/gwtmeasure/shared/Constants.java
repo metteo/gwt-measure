@@ -45,9 +45,10 @@ public final class Constants {
     public static final String GRP_MODULE_STARTUP = "moduleStartup";
 
     // HTTP Headers
-    public static final String HEADER_UID = "X-GWT-Measure-uid";
-    public static final String HEADER_RESULT = "X-GWT-Measure-result";
-    public static final String HEADER_ERRORS = "X-GWT-Measure-error";
+    public static final String HEADER_UID = "X-GWT-Perf-uid";
+    public static final String HEADER_RESULT = "X-GWT-Perf-result";
+    public static final String HEADER_ERRORS = "X-GWT-Perf-error";
+    public static final String HEADER_WND_ID = "X-GWT-Perf-wnd-id";
 
     // Servlet Attributes
     public static final String ATTR_PROCESSED = "_processed";

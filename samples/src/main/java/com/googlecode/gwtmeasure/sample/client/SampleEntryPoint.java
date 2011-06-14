@@ -97,7 +97,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
         vpanel.add(hpanel2);
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             PendingMeasurement random = Measurements.start("random");
             random.stop();
         }

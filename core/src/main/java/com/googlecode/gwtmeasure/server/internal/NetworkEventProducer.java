@@ -43,8 +43,9 @@ public class NetworkEventProducer {
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)
                 .setMillis(ServerTime.current())
                 .setType(Constants.TYPE_REQUEST_RECEIVED)
+                .setParameter(Constants.PARAM_SESSION_ID, session.getId())
                 .setEventGroup(request.getHeader(Constants.HEADER_UID))
-                .setParameter(Constants.PARAM_SESSION_ID, session.getId());
+                .setParameter(Constants.PARAM_WINDOWID, request.getHeader(Constants.HEADER_WND_ID));
 
         eventHandler.onEvent(builder.create());
     }
@@ -58,7 +59,6 @@ public class NetworkEventProducer {
                 .setSubSystem(Constants.SUB_SYSTEM_RPC)
                 .setMillis(ServerTime.current())
                 .setType(Constants.TYPE_RESPONSE_SENT)
-                .setEventGroup(response.getHeader(Constants.HEADER_UID))
                 .setParameter(Constants.PARAM_SESSION_ID, session.getId());
 
         eventHandler.onEvent(builder.create());
