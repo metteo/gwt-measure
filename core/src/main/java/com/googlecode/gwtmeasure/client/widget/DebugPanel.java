@@ -89,7 +89,9 @@ public class DebugPanel extends DialogBox {
     public void appendDebugLine(PerformanceTiming metric) {
         if (isShowing()) {
             data.add(metric);
-            cellTable.setRowData(data);
+            cellTable.setRowCount(data.size());
+            cellTable.setVisibleRange(0, data.size());
+            cellTable.setRowData(0, data);
         }
     }
 
