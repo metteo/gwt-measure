@@ -19,8 +19,10 @@ package com.googlecode.gwtmeasure.server;
 import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
 import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
 import com.googlecode.gwtmeasure.server.internal.MeasureException;
+import com.googlecode.gwtmeasure.server.internal.NullPerformanceEventFilter;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
+import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -43,6 +45,7 @@ public class MeasureContext {
 
         instance.registerEventHandler(eventHandler);
         instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
+        instance.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
     }
 
     public static MeasureContext instance() {

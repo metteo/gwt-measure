@@ -18,8 +18,6 @@ package com.googlecode.gwtmeasure.server.servlet;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.gwtmeasure.server.MeasureContext;
-import com.googlecode.gwtmeasure.server.MetricsProcessor;
-import com.googlecode.gwtmeasure.server.internal.NetworkEventProducer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -32,29 +30,23 @@ import java.io.IOException;
  */
 public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
 
-    private MetricsProcessor metricsProcessor;
-    private NetworkEventProducer networkEventProducer;
+    private HttpRequestHandler handler;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         MeasureContext context = MeasureContext.instance();
-        metricsProcessor = context.getBean(MetricsProcessor.class);
-        networkEventProducer = context.getBean(NetworkEventProducer.class);
+        handler = context.getBean(HttpRequestHandler.class);
     }
 
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response)
+    protected void service(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
-        if (!metricsProcessor.isProcessed(request)) {            
-            networkEventProducer.requestReceived(request);
-            metricsProcessor.extractAndProcess(request);
-            metricsProcessor.markAsProcessed(request);
-            super.service(request, response);            
-            networkEventProducer.reponseSent(request);
-        } else {
-            super.service(request, response);
-        }
+        handler.process(request, new HttpRequestHandler.ServletClosure() {
+            public void execute() throws IOException, ServletException {
+                MeasuringRemoteServiceServlet.super.service(request, response);
+            }
+        });
     }
 
     @Override

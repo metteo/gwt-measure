@@ -16,7 +16,6 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -55,23 +54,23 @@ public final class Measurements {
     /**
      * Starts recording of new measurement interval.
      *
-     * @param name name of the measured event
+     * @param eventGroup eventGroup of the measured event
      * @return measurement object
      */
-    public static PendingMeasurement start(String name) {
-        return start(name, Constants.SUB_SYSTEM_DEFAULT);
+    public static PendingMeasurement start(String eventGroup) {
+        return start(eventGroup, Constants.SUB_SYSTEM_DEFAULT);
     }
 
     /**
      * Starts recording of new measurement interval.
      * 
-     * @param name name of the measured event
-     * @param group name of the event group
+     * @param eventGroup eventGroup of the measured event
+     * @param subSystem name of the measured event
      * @return measurement object
      * @see com.googlecode.gwtmeasure.client.PendingMeasurement
      */
-    public static PendingMeasurement start(String name, String group) {
-        return new PendingMeasurement(name, group, measurementHub);
+    public static PendingMeasurement start(String eventGroup, String subSystem) {
+        return new PendingMeasurement(eventGroup, subSystem, measurementHub);
     }
 
     /**

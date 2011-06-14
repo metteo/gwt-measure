@@ -17,8 +17,6 @@
 package com.googlecode.gwtmeasure.client;
 
 import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
-import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -98,8 +96,8 @@ public class PendingMeasurementTest extends Assert {
 
         verify(hub).submit(measurement);
         assertThat(measurement.isDiscarded(), is(false));
-        assertThat(measurement.getName(), is("name"));
-        assertThat(measurement.getGroup(), is("group"));
+        assertThat(measurement.getEventGroup(), is("name"));
+        assertThat(measurement.getSubSystem(), is("group"));
         assertThat(measurement.getTo(), new GreaterThan(measurement.getFrom()));
     }
 
@@ -107,25 +105,25 @@ public class PendingMeasurementTest extends Assert {
     public void shouldChangeNameAndGroupId() {
         PendingMeasurement measurement = createMeasurement();
 
-        measurement.setName("newName");
-        measurement.setGroup("newGroup");
+        measurement.setEventGroup("newName");
+        measurement.setSubSystem("newGroup");
 
-        assertThat(measurement.getName(), is("newName"));
-        assertThat(measurement.getGroup(), is("newGroup"));
+        assertThat(measurement.getEventGroup(), is("newName"));
+        assertThat(measurement.getSubSystem(), is("newGroup"));
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailOnAttemptToModifyGroup() {
         PendingMeasurement measurement = createMeasurement();
         measurement.stop();
-        measurement.setGroup("A");
+        measurement.setSubSystem("A");
     }
 
     @Test(expected = IllegalStateException.class)
     public void shouldFailOnAttemptToModifyName() {
         PendingMeasurement measurement = createMeasurement();
         measurement.stop();
-        measurement.setName("A");
+        measurement.setEventGroup("A");
     }
 
     @Test(expected = IllegalStateException.class)

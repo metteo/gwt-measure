@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -38,14 +39,16 @@ public class MetricsProcessorTest extends Assert {
     private JsonDecoder decoder;
     private MetricsEventHandler handler;
     private HttpServletRequest request;
+    private PerformanceEventFilter filter;
 
     @Before
     public void setUp() {
         decoder = mock(JsonDecoder.class);
         handler = mock(MetricsEventHandler.class);
         request = mock(HttpServletRequest.class);
+        filter = mock(PerformanceEventFilter.class);
 
-        processor = new MetricsProcessor(decoder, handler, null);
+        processor = new MetricsProcessor(decoder, handler, null, filter);
     }
 
     @Test

@@ -29,8 +29,8 @@ import java.util.Set;
  */
 public final class PendingMeasurement {
 
-    private String name;
-    private String group;
+    private String eventGroup;
+    private String subSystem;
     private MeasurementHubAdapter hubAdapter;
 
     private boolean discarded;
@@ -45,13 +45,13 @@ public final class PendingMeasurement {
         this.from = TimeUtils.current();
     }
 
-    public PendingMeasurement(String name, String group, MeasurementHub measurementHub) {
-        this(name, group, new MeasurementHubAdapter(measurementHub));
+    public PendingMeasurement(String eventGroup, String subSystem, MeasurementHub measurementHub) {
+        this(eventGroup, subSystem, new MeasurementHubAdapter(measurementHub));
     }
 
-    public PendingMeasurement(String name, String group, MeasurementHubAdapter hubAdapter) {
-        this.name = name;
-        this.group = group;
+    public PendingMeasurement(String eventGroup, String subSystem, MeasurementHubAdapter hubAdapter) {
+        this.eventGroup = eventGroup;
+        this.subSystem = subSystem;
         this.hubAdapter = hubAdapter;
     }
 
@@ -81,12 +81,12 @@ public final class PendingMeasurement {
         return to;
     }
 
-    public String getName() {
-        return name;
+    public String getEventGroup() {
+        return eventGroup;
     }
 
-    public String getGroup() {
-        return group;
+    public String getSubSystem() {
+        return subSystem;
     }
 
     public boolean isDiscarded() {
@@ -115,14 +115,14 @@ public final class PendingMeasurement {
         return parameters.keySet();
     }
 
-    public void setName(String name) {
+    public void setEventGroup(String eventGroup) {
         checkIfValid();
-        this.name = name;
+        this.eventGroup = eventGroup;
     }
 
-    public void setGroup(String group) {
+    public void setSubSystem(String subSystem) {
         checkIfValid();
-        this.group = group;
+        this.subSystem = subSystem;
     }
 
     private void checkIfValid() {

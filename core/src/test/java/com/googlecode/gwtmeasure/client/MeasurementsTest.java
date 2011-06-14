@@ -40,15 +40,15 @@ public class MeasurementsTest extends Assert {
     @Test
     public void testStart() throws Exception {
         PendingMeasurement measurement = Measurements.start("A");
-        assertThat(measurement.getName(), equalTo("A"));
-        assertThat(measurement.getGroup(), equalTo(Constants.SUB_SYSTEM_DEFAULT));
+        assertThat(measurement.getEventGroup(), equalTo("A"));
+        assertThat(measurement.getSubSystem(), equalTo(Constants.SUB_SYSTEM_DEFAULT));
     }
 
     @Test
     public void testStartGroup() throws Exception {
         PendingMeasurement measurement = Measurements.start("A", "B");
-        assertThat(measurement.getName(), equalTo("A"));
-        assertThat(measurement.getGroup(), equalTo("B"));
+        assertThat(measurement.getEventGroup(), equalTo("A"));
+        assertThat(measurement.getSubSystem(), equalTo("B"));
     }
 
     @Test

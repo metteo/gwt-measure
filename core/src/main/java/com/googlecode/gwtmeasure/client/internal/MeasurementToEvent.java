@@ -31,8 +31,8 @@ public class MeasurementToEvent {
     public PerformanceTiming[] convert(PendingMeasurement measurement) {
         long from = measurement.getFrom();
         long to = measurement.getTo();
-        String group = measurement.getGroup();
-        String name = measurement.getName();
+        String group = measurement.getSubSystem();
+        String name = measurement.getEventGroup();
 
         PerformanceTiming[] result = new PerformanceTiming[2];
 

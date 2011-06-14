@@ -19,26 +19,21 @@ import java.io.IOException;
  */
 public class MeasureFilter implements Filter {
 
-    private MetricsProcessor metricsProcessor;
-    private NetworkEventProducer networkEventProducer;
+    private HttpRequestHandler handler;
 
     public void init(FilterConfig filterConfig) throws ServletException {
         MeasureContext context = MeasureContext.instance();
-        metricsProcessor = context.getBean(MetricsProcessor.class);
-        networkEventProducer = context.getBean(NetworkEventProducer.class);
+        handler = context.getBean(HttpRequestHandler.class);
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        if (!metricsProcessor.isProcessed(httpRequest)) {
-            networkEventProducer.requestReceived(httpRequest);
-            metricsProcessor.extractAndProcess(httpRequest);
-            metricsProcessor.markAsProcessed(httpRequest);
-            chain.doFilter(request, response);
-            networkEventProducer.reponseSent(httpRequest);
-        } else {
-            chain.doFilter(request, response);
-        }
+    public void doFilter(final ServletRequest request, final ServletResponse response,
+                            final FilterChain chain) throws IOException, ServletException {
+        final HttpServletRequest httpRequest = (HttpServletRequest) request;
+        handler.process(httpRequest, new HttpRequestHandler.ServletClosure() {
+            public void execute() throws IOException, ServletException {
+                chain.doFilter(request, response);
+            }
+        });
     }
 
     public void destroy() {

@@ -16,15 +16,14 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
-import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Collection;
@@ -36,12 +35,17 @@ public class MetricsProcessor {
 
     private final JsonDecoder decoder;
     private final MetricsEventHandler eventHandler;
-    private IncidentReportHandler reportHandler;
+    private final IncidentReportHandler reportHandler;
+    private final PerformanceEventFilter filter;
 
-    public MetricsProcessor(JsonDecoder decoder, MetricsEventHandler eventHandler, IncidentReportHandler reportHandler) {
+    public MetricsProcessor(JsonDecoder decoder,
+                            MetricsEventHandler eventHandler,
+                            IncidentReportHandler reportHandler,
+                            PerformanceEventFilter filter) {
         this.decoder = decoder;
         this.eventHandler = eventHandler;
         this.reportHandler = reportHandler;
+        this.filter = filter;
     }
 
     public enum Mode {
@@ -61,6 +65,7 @@ public class MetricsProcessor {
         }
         if (null != result) {
             Collection<PerformanceTiming> performanceTimings = decoder.decodeTimings(result);
+            filter.apply(request, performanceTimings);
             sinkEvents(performanceTimings);
         }
         String errors = request.getHeader(Constants.HEADER_ERRORS);
