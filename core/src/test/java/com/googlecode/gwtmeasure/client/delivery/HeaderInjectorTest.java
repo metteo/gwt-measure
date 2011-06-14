@@ -45,6 +45,7 @@ public class HeaderInjectorTest extends Assert {
 
     @Before
     public void setUp() {
+        Measurements.setWindowId(null);
         serializer = mock(MeasurementSerializer.class);
         injector = new HeaderInjector(serializer);
         requestBuilder = mock(RequestBuilder.class);
