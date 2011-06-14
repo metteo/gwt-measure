@@ -16,6 +16,9 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
+import com.google.gwt.core.client.Duration;
+import com.google.gwt.core.client.GWT;
+
 import java.util.Date;
 
 /**
@@ -23,11 +26,49 @@ import java.util.Date;
  */
 public final class TimeUtils {
 
+    private static TimeProvider timeProvider;
+
+    static {
+        if (GWT.isClient()) {
+            timeProvider = new ClientTimeProvider();
+        } else {
+            timeProvider = new ServerTimeProvider();
+        }
+    }
+
     private TimeUtils() {
     }
 
     public static long current() {
-        return new Date().getTime();
+        return timeProvider.currentTime();
+    }
+
+    /**
+     * Sets alternative time provider if the time in your system is not determined via System.currentTimeMillis()
+     * @param timeProvider implementation
+     */
+    public static void setTimeProvider(TimeProvider timeProvider) {
+        TimeUtils.timeProvider = timeProvider;
+    }
+
+    public static interface TimeProvider {
+        long currentTime();
+    }
+
+    private static class ClientTimeProvider implements TimeProvider {
+
+        public long currentTime() {
+            return (long) Duration.currentTimeMillis();
+        }
+
+    }
+
+    private static class ServerTimeProvider implements TimeProvider {
+
+        public long currentTime() {
+            return System.currentTimeMillis();
+        }
+
     }
 
 }
