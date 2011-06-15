@@ -22,13 +22,14 @@
 + piggybacking requests for measurement delivery (rpc, request builder)
 + Limit of 8K HTTP header size
 + Sending measurements in request body to the servlet
++ uid injection with filter or remote servlet
++ measurements of EntryPoints
 
 --- In Progress ---
-# retry after failed RPC calls
 # event aggregation via eventGroups
 
 --- This Version ---
-# uid injection with filter or remote servlet
+# retry after failed RPC calls
 # support RunAsync measurements (fragment, size)
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
@@ -45,6 +46,8 @@
 # write contributor guidelines
 # filtering of exception types to be reported
 # ensure incident could be injected with context data
+# support for deobfuscating stack traces
+# support for HttpThrowableReporter
 
 --- Next Versions ---
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)
@@ -57,7 +60,6 @@
 # offline HTML5 storage of incidents on client until browser is connected
 # exception diagnostics and categorization
 # measurements of Timers
-# measurements of EntryPoints
 # measurements of ClientBundle ExternalResources
 # measurements of RequestFactory
 # native js measurement support (somehow)
@@ -65,6 +67,7 @@
 # Browser Web Timing API usage (IE9, Chrome, FFox)
 # aspect-like measurement proxy generation on client
 # JMX reporting and configuration support
+# remote configuration of client
 # GWT 2.2 support
 
 ----- Future -----
@@ -78,3 +81,4 @@
 # internal event correlation DSL
 # dynaTrace integration
 # Chrome SpeedTracer JSON reports producer
+# websockets
