@@ -24,6 +24,7 @@ public final class RpcContext {
     private RpcContext() {
     }
 
+    private static int requestIdCounter;
     private static int lastResolvedRequestId;
 
     public static int getLastResolvedRequestId() {
@@ -34,4 +35,11 @@ public final class RpcContext {
         RpcContext.lastResolvedRequestId = lastResolvedRequestId;
     }
 
+    public static int getRequestIdCounter() {
+        return requestIdCounter;
+    }
+
+    static void setRequestIdCounter(int requestIdCounter) {
+        RpcContext.requestIdCounter = requestIdCounter;
+    }
 }

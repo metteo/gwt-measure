@@ -39,6 +39,7 @@ public final class Constants {
     public static final String TYPE_PAGE_LOADED = "pageLoaded";
     public static final String TYPE_REQUEST_SERIALIZED = "requestSerialized";
     public static final String TYPE_RESPONSE_DESERIALIZED = "responseDeserialized";
+    public static final String TYPE_MODULE_LOAD = "onModuleLoadStart";
 
     // Groups
     public static final String GRP_BOOTSTRAP = "bootstrap";

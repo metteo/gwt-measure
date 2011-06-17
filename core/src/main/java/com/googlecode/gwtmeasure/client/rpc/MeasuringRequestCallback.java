@@ -27,11 +27,9 @@ import com.googlecode.gwtmeasure.shared.Constants;
 public class MeasuringRequestCallback implements RequestCallback {
 
     private RequestCallback callback;
-    private MeasuringAsyncCallback wrappedCallback;
 
-    public MeasuringRequestCallback(RequestCallback callback, MeasuringAsyncCallback wrappedCallback) {
+    public MeasuringRequestCallback(RequestCallback callback) {
         this.callback = callback;
-        this.wrappedCallback = wrappedCallback;
     }
 
     public void onResponseReceived(Request request, Response response) {

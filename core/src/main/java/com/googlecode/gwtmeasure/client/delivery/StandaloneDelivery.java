@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class StandaloneDelivery {
+public final class StandaloneDelivery {
 
     private static final StandaloneDelivery instance = new StandaloneDelivery();
 
@@ -39,11 +39,29 @@ public class StandaloneDelivery {
         return instance;
     }
 
+    private final DeliveryQueue deliveryQueue;
+
+    private DeliveryHandler deliveryHandler = new DeliveryHandler() {
+        public void onDelivery(Request request, Response response) {
+        }
+    };
+
+    public interface DeliveryHandler {
+        void onDelivery(Request request, Response response);
+    }
+
+    public StandaloneDelivery() {
+        deliveryQueue = DeliveryQueue.instance();
+    }
+
+    public void setDeliveryHandler(DeliveryHandler deliveryHandler) {
+        this.deliveryHandler = deliveryHandler;
+    }
+
     public void deliver() {
         String url = Measurements.getEndpointUrl();
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 
-        DeliveryQueue deliveryQueue = DeliveryQueue.instance();
         List<PerformanceTiming> timings = deliveryQueue.popTimings();
         List<IncidentReport> incidents = deliveryQueue.popIncidents();
 
@@ -64,7 +82,11 @@ public class StandaloneDelivery {
         }
     }
 
-    private static class MeasurementRequestCallback implements RequestCallback {
+    void measurementsDelivered(Request request, Response response) {
+        deliveryHandler.onDelivery(request, response);
+    }
+
+    private class MeasurementRequestCallback implements RequestCallback {
 
         private final List<PerformanceTiming> timings;
         private final List<IncidentReport> incidents;
@@ -75,7 +97,7 @@ public class StandaloneDelivery {
         }
 
         public void onResponseReceived(Request request, Response response) {
-            // results are delivered
+            measurementsDelivered(request, response);
         }
 
         public void onError(Request request, Throwable exception) {
