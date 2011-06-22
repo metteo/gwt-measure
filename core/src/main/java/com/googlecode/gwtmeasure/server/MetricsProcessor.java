@@ -66,7 +66,9 @@ public class MetricsProcessor {
         if (null != result) {
             Collection<PerformanceTiming> performanceTimings = decoder.decodeTimings(result);
             filter.apply(request, performanceTimings);
-            sinkEvents(performanceTimings);
+            if (performanceTimings != null) {
+                sinkEvents(performanceTimings);
+            }
         }
         String errors = request.getHeader(Constants.HEADER_ERRORS);
         if (null != errors) {

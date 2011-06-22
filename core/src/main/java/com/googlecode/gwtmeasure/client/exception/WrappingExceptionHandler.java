@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.client.exception;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.HttpThrowableReporter;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 

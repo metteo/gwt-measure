@@ -16,9 +16,13 @@
 
 package com.googlecode.gwtmeasure.shared;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsonUtils;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONNumber;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONString;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.StatusCodeException;
@@ -30,18 +34,22 @@ import java.util.Set;
 
 /**
  * Representation of application incident. Usually it means unexpected client-side exception.
- * 
+ *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class IncidentReport implements HasJsonRepresentation {
 
+    // TODO Incident unique id
     private long timestamp;
     private String text;
     private String message;
+    private String strongName;
+    private String url;
+    private String[] stackTrace;
+
     private final Map<String, String> parameters = new HashMap<String, String>();
 
     public IncidentReport() {
-        this.timestamp = TimeUtils.current();
     }
 
     public String getText() {
@@ -68,39 +76,96 @@ public class IncidentReport implements HasJsonRepresentation {
         return parameters.keySet();
     }
 
+    public String getStrongName() {
+        return strongName;
+    }
+
+    public void setStrongName(String strongName) {
+        this.strongName = strongName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public void setParameter(String name, Object value) {
         String string = value == null ? "" : value.toString();
         this.parameters.put(name, string);
     }
 
-    public static IncidentReport createRpcReport(Throwable throwable) {
-        IncidentReport report = new IncidentReport();
-        report.setMessage(throwable.getMessage());
-        try {
-            throw throwable;
-        } catch (IncompatibleRemoteServiceException e) {
-            report.setText("Client version is not compatible with server version");
-        } catch (StatusCodeException e) {
-            StatusCodeException statusCodeException = (StatusCodeException) throwable;
-            int statusCode = statusCodeException.getStatusCode();
-            if (statusCode != 0) {
-                report.setText("Response has unexpected http status code " + statusCode);
-            } else {
-                report.setText("Server is not available");
-            }
-        } catch (InvocationException e) {
-            report.setText("Server is not available");
-        } catch (Throwable e) {
-            report.setText("Internal server error");
-        }
-        return report;
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String[] getStackTrace() {
+        return stackTrace;
+    }
+
+    public void setStackTrace(String[] stackTrace) {
+        this.stackTrace = stackTrace;
     }
 
     public static IncidentReport createReport(Throwable throwable) {
         IncidentReport report = new IncidentReport();
         report.setText("Unhandled client side exception");
-        report.setMessage(throwable.getMessage());
+
+        prepareCommonAttributes(throwable, report);
+
         return report;
+    }
+
+    public static IncidentReport createRpcReport(Throwable throwable) {
+        IncidentReport report = new IncidentReport();
+        String cause = determineRpcErrorCause(throwable);
+        report.setText(cause);
+
+        prepareCommonAttributes(throwable, report);
+
+        return report;
+    }
+
+    private static String determineRpcErrorCause(Throwable throwable) {
+        try {
+            throw throwable;
+        } catch (IncompatibleRemoteServiceException e) {
+            return "Client version is not compatible with server version";
+        } catch (StatusCodeException e) {
+            StatusCodeException statusCodeException = (StatusCodeException) throwable;
+            int statusCode = statusCodeException.getStatusCode();
+            if (statusCode != 0) {
+                return "Response has unexpected http status code " + statusCode;
+            } else {
+                return "Server is not available";
+            }
+        } catch (InvocationException e) {
+            return "Server is not available";
+        } catch (Throwable e) {
+            return "Internal server error";
+        }
+    }
+
+    private static void prepareCommonAttributes(Throwable throwable, IncidentReport report) {
+        report.setTimestamp(TimeUtils.current());
+        report.setMessage(JsonUtils.escapeValue(throwable.getMessage()));
+        report.setStrongName(JsonUtils.escapeValue(GWT.getPermutationStrongName()));
+        report.setUrl(Window.Location.getHref());
+
+        int length = throwable.getStackTrace().length;
+        String[] stackTrace = new String[length];
+        StackTraceElement[] stackTrace1 = throwable.getStackTrace();
+        for (int i = 0, stackTrace1Length = stackTrace1.length; i < stackTrace1Length; i++) {
+            StackTraceElement element = stackTrace1[i];
+            stackTrace[i] = JsonUtils.escapeValue(element.getMethodName());
+        }
+        report.setStackTrace(stackTrace);
     }
 
     public String jsonEncode() {
@@ -109,6 +174,17 @@ public class IncidentReport implements HasJsonRepresentation {
         object.put("timestamp", new JSONNumber(timestamp));
         if (text != null) object.put("text", new JSONString(text));
         if (message != null) object.put("message", new JSONString(message));
+        if (strongName != null) object.put("strongName", new JSONString(strongName));
+        if (url != null) object.put("url", new JSONString(url));
+
+        if (stackTrace != null) {
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0, stackTraceLength = stackTrace.length; i < stackTraceLength; i++) {
+                String element = stackTrace[i];
+                jsonArray.set(i, new JSONString(element));
+            }
+            object.put("stackTrace", jsonArray);
+        }
 
         if (!parameters.isEmpty()) {
             JSONObject params = new JSONObject();
@@ -120,7 +196,7 @@ public class IncidentReport implements HasJsonRepresentation {
                 }
             }
             object.put("parameters", params);
-        }        
+        }
 
         return object.toString();
     }
@@ -135,7 +211,18 @@ public class IncidentReport implements HasJsonRepresentation {
                 .append(text)
                 .append("', message='")
                 .append(message)
-                .append("', parameters=[");
+                .append("', strongName='")
+                .append(strongName)
+                .append("', url='")
+                .append(url)
+                .append("', stackTrace=[");
+
+        for (String element : stackTrace) {
+            builder.append(element);
+            builder.append(",");
+        }
+
+        builder.append("', parameters=[");
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             builder.append(entry.getKey());
             builder.append("=");
