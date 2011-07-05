@@ -5,7 +5,7 @@
 + gwt event handler on client for easy plugins
 + measurements of RPC Callbacks
 + support custom event attributes (fragment, size, bytes, method, sessionId)
-+ slf4j on server
++ slf4j api support on server
 + handle browser close and navigate to different url
 + pluggable server implementations
 + measurements groups support
@@ -17,13 +17,14 @@
 + callback failure identification
 + uncaught exception reporting
 + gwt jdk logging on client
-+ publish to maven repo
++ publish to maven repository
 + user defined context parameters
 + piggybacking requests for measurement delivery (rpc, request builder)
 + Limit of 8K HTTP header size
 + Sending measurements in request body to the servlet
 + uid injection with filter or remote servlet
 + measurements of EntryPoints
++ similar level of functionality as in HttpThrowableReporter
 
 --- In Progress ---
 # event aggregation via eventGroups
@@ -38,16 +39,15 @@
 # provide gwt test cases
 # improve sample application
 # improve test coverage
-# write JavaDocs
+# write JavaDocs for the public classes
 # review public class and configuration naming
-# compress js file
+# compress js code, which should be included
 # retry sequence of measurement delivery
 # bundle GSON in server distribution
 # write contributor guidelines
 # filtering of exception types to be reported
 # ensure incident could be injected with context data
 # support for deobfuscating stack traces
-# support for HttpThrowableReporter
 
 --- Next Versions ---
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)
@@ -68,7 +68,7 @@
 # aspect-like measurement proxy generation on client
 # JMX reporting and configuration support
 # remote configuration of client
-# GWT 2.2 support
+# GWT 2.3 support
 
 ----- Future -----
 # async message storage on server not to stall the production
