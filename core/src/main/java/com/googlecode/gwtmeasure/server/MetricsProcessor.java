@@ -16,9 +16,9 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
+import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;

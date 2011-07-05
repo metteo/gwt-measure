@@ -16,11 +16,7 @@
 
 package com.googlecode.gwtmeasure.client.delivery;
 
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.*;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;

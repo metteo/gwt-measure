@@ -19,7 +19,6 @@ package com.googlecode.gwtmeasure.client.rpc;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
-import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>

@@ -19,10 +19,10 @@ package com.googlecode.gwtmeasure.client.rpc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
-import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.IncidentReport;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>

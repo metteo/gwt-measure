@@ -19,8 +19,6 @@ package com.googlecode.gwtmeasure.client.internal;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.GWT;
 
-import java.util.Date;
-
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */

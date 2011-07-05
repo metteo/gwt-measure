@@ -3,7 +3,6 @@ package com.googlecode.gwtmeasure.client.internal;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.googlecode.gwtmeasure.client.Measurements;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.PerformanceEvent;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;

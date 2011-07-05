@@ -17,7 +17,6 @@
 package com.googlecode.gwtmeasure.client.spi;
 
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
