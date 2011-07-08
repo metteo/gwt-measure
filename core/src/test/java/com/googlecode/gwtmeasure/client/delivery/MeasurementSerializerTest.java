@@ -17,12 +17,15 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
+import com.googlecode.gwtmeasure.shared.JsonEncoder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 
 import java.util.ArrayList;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +45,7 @@ public class MeasurementSerializerTest extends Assert {
     public void shouldSerialize() throws Exception {
         ArrayList<HasJsonRepresentation> jsonList = new ArrayList<HasJsonRepresentation>();
         HasJsonRepresentation jsonRepresentation = mock(HasJsonRepresentation.class);
-        when(jsonRepresentation.jsonEncode()).thenReturn("X");
+        when(jsonRepresentation.jsonEncode((JsonEncoder) Matchers.any())).thenReturn("X");
 
         jsonList.add(jsonRepresentation);
         jsonList.add(jsonRepresentation);
@@ -83,7 +86,7 @@ public class MeasurementSerializerTest extends Assert {
 
     private HasJsonRepresentation prepareJsonObject(String value) {
         HasJsonRepresentation jsonRepresentation = mock(HasJsonRepresentation.class);
-        when(jsonRepresentation.jsonEncode()).thenReturn(value);
+        when(jsonRepresentation.jsonEncode((JsonEncoder) Matchers.any())).thenReturn(value);
         return jsonRepresentation;
     }
 

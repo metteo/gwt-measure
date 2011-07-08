@@ -21,6 +21,6 @@ package com.googlecode.gwtmeasure.shared;
  */
 public interface HasJsonRepresentation {
 
-    String jsonEncode();
+    String jsonEncode(JsonEncoder encoder);
 
 }

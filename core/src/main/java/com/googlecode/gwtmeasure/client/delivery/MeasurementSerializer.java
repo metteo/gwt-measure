@@ -41,7 +41,7 @@ public class MeasurementSerializer {
         List<String> encodedObjects = new ArrayList<String>();
         for (Iterator<? extends HasJsonRepresentation> iterator = objects.iterator(); iterator.hasNext();) {
             HasJsonRepresentation object = iterator.next();
-            String encoded = object.jsonEncode();
+            String encoded = object.jsonEncode(new JsonEncoderImpl());
             size += encoded.length() + 1;
 
             if (byteLimit == -1 || size * BYTES_IN_JS_CHAR <= byteLimit) {

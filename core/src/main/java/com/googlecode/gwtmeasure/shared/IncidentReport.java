@@ -18,10 +18,6 @@ package com.googlecode.gwtmeasure.shared;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsonUtils;
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONNumber;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
@@ -168,37 +164,8 @@ public class IncidentReport implements HasJsonRepresentation {
         report.setStackTrace(stackTrace);
     }
 
-    public String jsonEncode() {
-        JSONObject object = new JSONObject();
-
-        object.put("timestamp", new JSONNumber(timestamp));
-        if (text != null) object.put("text", new JSONString(text));
-        if (message != null) object.put("message", new JSONString(message));
-        if (strongName != null) object.put("strongName", new JSONString(strongName));
-        if (url != null) object.put("url", new JSONString(url));
-
-        if (stackTrace != null) {
-            JSONArray jsonArray = new JSONArray();
-            for (int i = 0, stackTraceLength = stackTrace.length; i < stackTraceLength; i++) {
-                String element = stackTrace[i];
-                jsonArray.set(i, new JSONString(element));
-            }
-            object.put("stackTrace", jsonArray);
-        }
-
-        if (!parameters.isEmpty()) {
-            JSONObject params = new JSONObject();
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String name = entry.getKey();
-                String value = entry.getValue();
-                if (value != null) {
-                    params.put(name, new JSONString(value));
-                }
-            }
-            object.put("parameters", params);
-        }
-
-        return object.toString();
+    public String jsonEncode(JsonEncoder encoder) {
+        return encoder.encode(this);
     }
 
     @Override

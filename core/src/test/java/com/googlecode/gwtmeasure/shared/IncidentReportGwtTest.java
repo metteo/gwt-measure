@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.shared;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.googlecode.gwtmeasure.client.delivery.JsonEncoderImpl;
 
 /**
  * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -43,7 +44,7 @@ public class IncidentReportGwtTest extends GWTTestCase {
         report.setMessage("message");
         report.setStackTrace(new String[] {"a", "b"});
 
-        String json = report.jsonEncode();
+        String json = report.jsonEncode(new JsonEncoderImpl());
 
         String expected = "{'timestamp':123, 'text':'text', 'message':'message', 'strongName':'name', " +
                 "'url':'url', 'stackTrace':['a','b']}";

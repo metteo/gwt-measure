@@ -16,10 +16,6 @@
 
 package com.googlecode.gwtmeasure.shared;
 
-import com.google.gwt.json.client.JSONNumber;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -193,6 +189,10 @@ public class PerformanceTiming implements HasJsonRepresentation {
         return result;
     }
 
+    public String jsonEncode(JsonEncoder encoder) {
+        return encoder.encode(this);
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -216,30 +216,6 @@ public class PerformanceTiming implements HasJsonRepresentation {
         }
         builder.append("]}");
         return builder.toString();
-    }
-
-    public String jsonEncode() {
-        JSONObject object = new JSONObject();
-
-        if (moduleName != null) object.put("moduleName", new JSONString(moduleName));
-        if (subSystem != null) object.put("subSystem", new JSONString(subSystem));
-        if (eventGroup != null) object.put("eventGroup", new JSONString(eventGroup));
-        object.put("millis", new JSONNumber(millis));
-        if (type != null) object.put("type", new JSONString(type));
-
-        if (!parameters.isEmpty()) {
-            JSONObject params = new JSONObject();
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String name = entry.getKey();
-                String value = entry.getValue();
-                if (value != null) {
-                    params.put(name, new JSONString(value));
-                }
-            }
-            object.put("parameters", params);
-        }
-
-        return object.toString();
     }
 
 }
