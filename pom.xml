@@ -10,7 +10,7 @@
 
     <groupId>com.googlecode.gwt-measure</groupId>
     <artifactId>gwt-measure-parent</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>gwt-measure</name>
     <url>http://code.google.com/p/gwt-measure/</url>
