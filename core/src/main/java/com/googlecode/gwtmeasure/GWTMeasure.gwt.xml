@@ -19,21 +19,25 @@
         "http://google-web-toolkit.googlecode.com/svn/tags/2.1.1/distro-source/core/src/gwt-module.dtd">
 <module>
 
+    <!-- Project Dependencies -->
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.google.gwt.json.JSON"/>
     <inherits name="com.google.gwt.logging.Logging"/>
 
+    <!-- Project Layout -->
     <source path="client"/>
     <source path="shared"/>
 
+    <!-- The Entry Point -->
     <entry-point class="com.googlecode.gwtmeasure.client.MeasureConfiguration"/>
 
-    <!-- Deferred Binding -->
+    <!-- Deferred Binding Properties -->
     <define-property name="gwt.measure.enabled" values="TRUE, FALSE"/>
     <define-property name="gwt.measure.debugHandler" values="ENABLED, DISABLED"/>
     <define-property name="gwt.measure.remoteHandler" values="ENABLED, DISABLED"/>
     <define-property name="gwt.measure.loggingHandler" values="ENABLED, DISABLED"/>
 
+    <!-- Property Default Values -->
     <set-property name="gwt.measure.enabled" value="TRUE"/>
     <set-property name="gwt.measure.debugHandler" value="DISABLED"/>
     <set-property name="gwt.measure.remoteHandler" value="ENABLED"/>
@@ -73,5 +77,11 @@
         <when-property-is name="gwt.measure.loggingHandler" value="DISABLED"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.LoggingChannel"/>
     </replace-with>
+
+    <!-- AOP -->
+    <generate-with class="com.googlecode.gwtmeasure.rebind.aop.MeasuredTypeGenerator">
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.aop.Measured"/>
+    </generate-with>
 
 </module>

@@ -25,31 +25,35 @@
 + uid injection with filter or remote servlet
 + measurements of EntryPoints
 + similar level of functionality as in HttpThrowableReporter
++ support RunAsync measurements in Web mode (fragment, size)
 
 --- In Progress ---
 # event aggregation via eventGroups
 
 --- This Version ---
 # retry after failed RPC calls
-# support RunAsync measurements (fragment, size)
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
 # write roadmap
-# ensure extensibility
+# ensure extensibility and spi interfaces
 # provide gwt test cases
-# improve sample application
-# improve test coverage
+# improve sample application to look realistic
+# gather and improve test coverage
 # write JavaDocs for the public classes
 # review public class and configuration naming
-# compress js code, which should be included
+# compress js code, which should be included for instrumentation
 # retry sequence of measurement delivery
 # bundle GSON in server distribution
 # write contributor guidelines
+# make sure server part is optional
 # filtering of exception types to be reported
-# ensure incident could be injected with context data
+# ensure incident report could be injected with context data
 # support for deobfuscating stack traces
+# create separate module for integration tests
 
 --- Next Versions ---
+# granular disabling of the features
+# write http servlet, which instruments the host html page
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)
 # exponential retry backoff period
 # split client and server distributions
@@ -61,17 +65,20 @@
 # exception diagnostics and categorization
 # measurements of Timers
 # measurements of ClientBundle ExternalResources
-# measurements of RequestFactory
+# measurements of native RequestFactory
 # native js measurement support (somehow)
 # browser type and version recognition
 # Browser Web Timing API usage (IE9, Chrome, FFox)
 # aspect-like measurement proxy generation on client
 # JMX reporting and configuration support
-# remote configuration of client
+# remote configuration of the client
+# write dependency checks between client/server/shared and libs (JDepend?)
 # GWT 2.3 support
+# create project logo
+# performance test on how much overhead the instrumentation brings
 
 ----- Future -----
-# async message storage on server not to stall the production
+# async message storage on server for large scale apps
 # Google App Engine integration
 # ip geomapping
 # sample reporting over embedded database
