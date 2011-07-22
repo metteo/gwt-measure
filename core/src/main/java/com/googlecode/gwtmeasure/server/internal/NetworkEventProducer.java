@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class NetworkEventProducer {
+public final class NetworkEventProducer {
 
     private MetricsEventHandler eventHandler;
 
@@ -50,7 +50,7 @@ public class NetworkEventProducer {
         eventHandler.onEvent(builder.create());
     }
 
-    public void reponseSent(HttpServletRequest response) {
+    public void responseSent(HttpServletRequest response) {
         HttpSession session = response.getSession();
 
         PerformanceTiming.Builder builder = new PerformanceTiming.Builder();

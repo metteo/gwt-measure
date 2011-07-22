@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author dmitry.buzdin
  */
-public class JsonEncoderImpl implements JsonEncoder {
+public final class JsonEncoderImpl implements JsonEncoder {
 
     public String encode(IncidentReport value) {
         JSONObject object = new JSONObject();

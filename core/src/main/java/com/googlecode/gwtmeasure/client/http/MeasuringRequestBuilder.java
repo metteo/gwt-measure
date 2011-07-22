@@ -33,18 +33,14 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import java.util.List;
 
 /**
- * Instrumented implemenation of RequestBuilder. Use it instead of the standard one to recieve
- * measurements of the http requests and piggibacked delivery of results via HTTP headers.
+ * Instrumented implementation of RequestBuilder. Use it instead of the standard one to recieve
+ * measurements of the http requests and piggybacked delivery of results via HTTP headers.
  *
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasuredRequestBuilder extends RequestBuilder {
+public class MeasuringRequestBuilder extends RequestBuilder {
 
-    public MeasuredRequestBuilder(Method httpMethod, String url) {
-        super(httpMethod, url);
-    }
-
-    protected MeasuredRequestBuilder(String httpMethod, String url) {
+    public MeasuringRequestBuilder(Method httpMethod, String url) {
         super(httpMethod, url);
     }
 

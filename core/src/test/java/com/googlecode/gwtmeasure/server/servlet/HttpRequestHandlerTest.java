@@ -57,7 +57,7 @@ public class HttpRequestHandlerTest {
         verify(processor).extractAndProcess(request);
         verify(processor).markAsProcessed(request);
         verify(closure).execute();
-        verify(producer).reponseSent(request);
+        verify(producer).responseSent(request);
     }
 
     @Test

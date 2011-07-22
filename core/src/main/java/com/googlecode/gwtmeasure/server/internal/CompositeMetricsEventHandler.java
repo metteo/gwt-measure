@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class CompositeMetricsEventHandler implements MetricsEventHandler {
+public final class CompositeMetricsEventHandler implements MetricsEventHandler {
 
     final List<MetricsEventHandler> handlers = new ArrayList<MetricsEventHandler>();
 

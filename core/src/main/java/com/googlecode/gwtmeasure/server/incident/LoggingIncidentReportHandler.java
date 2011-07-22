@@ -22,14 +22,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class LoggingIncidentReportHandler implements IncidentReportHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingIncidentReportHandler.class);
 
     public void onEvent(IncidentReport report) {
-        logger.error(report.toString());
+        if (logger.isErrorEnabled()) {
+            logger.error(report.toString());
+        }
     }
 
 }

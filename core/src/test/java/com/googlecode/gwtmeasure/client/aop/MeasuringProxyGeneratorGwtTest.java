@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author dmitry.buzdin
  */
-public class MeasuredTypeGwtTest extends GWTTestCase {
+public class MeasuringProxyGeneratorGwtTest extends GWTTestCase {
 
     final Set<PerformanceTiming> triggeredEvents = new HashSet<PerformanceTiming>();
     MeasuredClass measured;

@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.rebind;
+package com.googlecode.gwtmeasure.rebind.rpc;
 
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.user.rebind.rpc.ProxyCreator;
 import com.google.gwt.user.rebind.rpc.ServiceInterfaceProxyGenerator;
+import com.googlecode.gwtmeasure.rebind.rpc.MeasuringProxyCreator;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuringProxyGenerator extends ServiceInterfaceProxyGenerator {
 

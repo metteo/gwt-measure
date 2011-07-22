@@ -25,9 +25,9 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import java.util.List;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class HeaderInjector extends ResultInjector {
+public final class HeaderInjector extends ResultInjector {
 
     public HeaderInjector() {
         this(new MeasurementSerializer());

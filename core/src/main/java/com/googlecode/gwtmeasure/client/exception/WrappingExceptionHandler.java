@@ -21,7 +21,7 @@ import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
 

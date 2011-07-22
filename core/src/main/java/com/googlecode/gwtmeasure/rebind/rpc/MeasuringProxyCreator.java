@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.rebind;
+package com.googlecode.gwtmeasure.rebind.rpc;
 
-import com.google.gwt.core.ext.Generator;
-import com.google.gwt.core.ext.GeneratorContext;
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.UnableToCompleteException;
+import com.google.gwt.core.ext.typeinfo.JClassType;
+import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
+import com.google.gwt.user.rebind.rpc.ProxyCreator;
+import com.googlecode.gwtmeasure.client.rpc.MeasuringRemoteServiceProxy;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasurableProxyCreator extends Generator {
+public class MeasuringProxyCreator extends ProxyCreator {
+
+    public MeasuringProxyCreator(JClassType type) {
+        super(type);
+    }
 
     @Override
-    public String generate(TreeLogger logger, GeneratorContext context, String requestedClass) throws UnableToCompleteException {
-        return "";
+    protected Class<? extends RemoteServiceProxy> getProxySupertype() {
+        return MeasuringRemoteServiceProxy.class;
     }
 
 }

@@ -27,7 +27,7 @@ import com.google.gwt.user.client.rpc.impl.Serializer;
 import com.googlecode.gwtmeasure.client.delivery.DeliveryRpcRequestBuilder;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
 

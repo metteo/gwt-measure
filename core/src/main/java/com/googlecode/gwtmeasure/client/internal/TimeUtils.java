@@ -20,7 +20,7 @@ import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.GWT;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class TimeUtils {
 

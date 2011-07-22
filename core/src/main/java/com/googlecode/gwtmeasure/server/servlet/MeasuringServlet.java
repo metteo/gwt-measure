@@ -29,9 +29,9 @@ import java.io.IOException;
 /**
  * Standalone measurement event aggregator.
  *  
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasuringServlet extends HttpServlet {
+public final class MeasuringServlet extends HttpServlet {
 
     MetricsProcessor metricsProcessor;
 

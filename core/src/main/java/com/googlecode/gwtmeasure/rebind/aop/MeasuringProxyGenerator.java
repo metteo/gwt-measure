@@ -15,9 +15,10 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 /**
+ *
  * @author dmitry.buzdin
  */
-public class MeasuredTypeGenerator extends Generator {
+public class MeasuringProxyGenerator extends Generator {
 
     @Override
     public String generate(TreeLogger logger, GeneratorContext context, String className) throws UnableToCompleteException {

@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.server.event;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class PerformanceMetric {
 

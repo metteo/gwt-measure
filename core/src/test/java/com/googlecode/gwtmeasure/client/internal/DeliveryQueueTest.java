@@ -23,7 +23,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class DeliveryQueueTest extends Assert {
 

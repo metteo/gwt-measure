@@ -23,7 +23,7 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import java.util.List;
 
 /**
- * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class RequestBodyInjector extends ResultInjector {
 

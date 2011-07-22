@@ -21,9 +21,9 @@ import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
- * Public API for controlling settings and creating new GWT Measurements.
+ * Public API for controlling settings and creating new custom measurements.
  *
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class Measurements {
 

@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.internal;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class TypeUtils {
 

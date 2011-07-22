@@ -17,11 +17,11 @@
 package com.googlecode.gwtmeasure.client.internal;
 
 /**
- * Unique identifier for given browser window/tab
+ * Uniquely generated identifier for given browser window/tab
  * 
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class WindowId {
+public final class WindowId {
 
     private long value;
 
@@ -30,10 +30,6 @@ public class WindowId {
         double random = Math.random();
         Double result = time * random;
         value = result.longValue();
-    }
-
-    public void setValue(long value) {
-        this.value = value;
     }
 
     public long getValue() {

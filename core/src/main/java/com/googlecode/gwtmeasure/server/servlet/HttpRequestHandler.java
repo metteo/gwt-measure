@@ -46,7 +46,7 @@ public final class HttpRequestHandler {
             metricsProcessor.extractAndProcess(request);
             metricsProcessor.markAsProcessed(request);
             closure.execute();
-            networkEventProducer.reponseSent(request);
+            networkEventProducer.responseSent(request);
         } else {
             closure.execute();
         }

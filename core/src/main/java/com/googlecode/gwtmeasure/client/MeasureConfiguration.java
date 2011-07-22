@@ -39,7 +39,9 @@ import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * Library startup class. Instantiated and executed by GWT when you inherit GWTMeasure module.
+ *
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 

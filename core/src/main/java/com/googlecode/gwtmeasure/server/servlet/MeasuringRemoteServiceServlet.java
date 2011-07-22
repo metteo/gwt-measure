@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
+public final class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
 
     private HttpRequestHandler handler;
 

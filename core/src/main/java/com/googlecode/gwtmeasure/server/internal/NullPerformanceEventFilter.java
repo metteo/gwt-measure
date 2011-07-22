@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 /**
- * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class NullPerformanceEventFilter implements PerformanceEventFilter {
 

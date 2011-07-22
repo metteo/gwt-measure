@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * Intermediate measurement object. The actual timings will be registered after stop() method is called.
+ *
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class PendingMeasurement {
 

@@ -16,11 +16,10 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
-import com.googlecode.gwtmeasure.client.http.MeasuredRequestBuilder;
+import com.googlecode.gwtmeasure.client.http.MeasuringRequestBuilder;
 import com.googlecode.gwtmeasure.client.rpc.RpcContext;
 import com.googlecode.gwtmeasure.sample.shared.Model;
 import com.google.gwt.core.client.EntryPoint;
@@ -42,7 +41,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
@@ -108,7 +107,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
     }
 
     private void callXhrServer() {
-        RequestBuilder builder = new MeasuredRequestBuilder(RequestBuilder.POST, "/servlet");
+        RequestBuilder builder = new MeasuringRequestBuilder(RequestBuilder.POST, "/servlet");
         builder.setCallback(new RequestCallback() {
             public void onResponseReceived(Request request, Response response) {
                 textArea.setText("Success with request id " + HttpStatsContext.getLastResolvedRequestId());

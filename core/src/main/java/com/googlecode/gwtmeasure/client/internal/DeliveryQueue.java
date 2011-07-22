@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author dmitry.buzdin
  */
-public class DeliveryQueue {
+public final class DeliveryQueue {
 
     private static final DeliveryQueue instance = new DeliveryQueue();
 

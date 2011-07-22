@@ -17,10 +17,11 @@
 package com.googlecode.gwtmeasure.server.internal;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class ServerTime {
-    
+
+    // TODO should use the same class that on client side
     public static long current() {
         return System.currentTimeMillis();
     }

@@ -55,7 +55,7 @@
     </replace-with>
 
     <!-- RPC Hooks -->
-    <generate-with class="com.googlecode.gwtmeasure.rebind.MeasuringProxyGenerator">
+    <generate-with class="com.googlecode.gwtmeasure.rebind.rpc.MeasuringProxyGenerator">
         <when-property-is name="gwt.measure.enabled" value="TRUE"/>
         <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService"/>
     </generate-with>
@@ -79,9 +79,9 @@
     </replace-with>
 
     <!-- AOP -->
-    <generate-with class="com.googlecode.gwtmeasure.rebind.aop.MeasuredTypeGenerator">
+    <generate-with class="com.googlecode.gwtmeasure.rebind.aop.MeasuringProxyGenerator">
         <when-property-is name="gwt.measure.enabled" value="TRUE"/>
-        <when-type-assignable class="com.googlecode.gwtmeasure.client.aop.Measured"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.aop.IsMeasured"/>
     </generate-with>
 
 </module>

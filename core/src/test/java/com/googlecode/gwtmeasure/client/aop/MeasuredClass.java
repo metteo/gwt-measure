@@ -1,14 +1,13 @@
 package com.googlecode.gwtmeasure.client.aop;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author dmitry.buzdin
  */
-public class MeasuredClass<T> implements Measured {
+public class MeasuredClass<T> implements IsMeasured {
 
     public boolean called;
     public Object object;

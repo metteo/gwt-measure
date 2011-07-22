@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasurementSerializer {
+public final class MeasurementSerializer {
 
     private static final int BYTES_IN_JS_CHAR = 2;
 

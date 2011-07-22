@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * @author dmitry.buzdin
  */
-public class MeasureFilter implements Filter {
+public final class MeasureFilter implements Filter {
 
     private HttpRequestHandler handler;
 
