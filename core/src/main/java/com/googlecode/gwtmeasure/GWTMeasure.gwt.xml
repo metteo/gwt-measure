@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2011 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.1.1//EN"
+        "http://google-web-toolkit.googlecode.com/svn/tags/2.1.1/distro-source/core/src/gwt-module.dtd">
+<module>
+
+    <!-- Project Dependencies -->
+    <inherits name='com.google.gwt.user.User'/>
+    <inherits name="com.google.gwt.json.JSON"/>
+    <inherits name="com.google.gwt.logging.Logging"/>
+
+    <!-- Project Layout -->
+    <source path="client"/>
+    <source path="shared"/>
+
+    <!-- The Entry Point -->
+    <entry-point class="com.googlecode.gwtmeasure.client.MeasureConfiguration"/>
+
+    <!-- Deferred Binding Properties -->
+    <define-property name="gwt.measure.enabled" values="TRUE, FALSE"/>
+    <define-property name="gwt.measure.debugHandler" values="ENABLED, DISABLED"/>
+    <define-property name="gwt.measure.remoteHandler" values="ENABLED, DISABLED"/>
+    <define-property name="gwt.measure.loggingHandler" values="ENABLED, DISABLED"/>
+
+    <!-- Property Default Values -->
+    <set-property name="gwt.measure.enabled" value="TRUE"/>
+    <set-property name="gwt.measure.debugHandler" value="DISABLED"/>
+    <set-property name="gwt.measure.remoteHandler" value="ENABLED"/>
+    <set-property name="gwt.measure.loggingHandler" value="ENABLED"/>
+
+    <!-- Measurement Hub -->
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.MeasurementHubImpl">
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.spi.MeasurementHub"/>
+    </replace-with>
+
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidHub">
+        <when-property-is name="gwt.measure.enabled" value="FALSE"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.spi.MeasurementHub"/>
+    </replace-with>
+
+    <!-- RPC Hooks -->
+    <generate-with class="com.googlecode.gwtmeasure.rebind.rpc.MeasuringProxyGenerator">
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
+        <when-type-assignable class="com.google.gwt.user.client.rpc.RemoteService"/>
+    </generate-with>
+
+    <!-- Debug Panel -->   
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
+        <when-property-is name="gwt.measure.debugHandler" value="DISABLED"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.DebugPanelChannel"/>
+    </replace-with>
+
+    <!-- Remote Delivery -->
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
+        <when-property-is name="gwt.measure.remoteHandler" value="DISABLED"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel"/>
+    </replace-with>
+
+    <!-- Logger -->
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.VoidEventHandler">
+        <when-property-is name="gwt.measure.loggingHandler" value="DISABLED"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.delivery.LoggingChannel"/>
+    </replace-with>
+
+    <!-- AOP -->
+    <generate-with class="com.googlecode.gwtmeasure.rebind.aop.MeasuringProxyGenerator">
+        <when-property-is name="gwt.measure.enabled" value="TRUE"/>
+        <when-type-assignable class="com.googlecode.gwtmeasure.client.aop.IsMeasured"/>
+    </generate-with>
+
+</module>

@@ -1,0 +1,7 @@
+To start the sample application in embedded web container execute the following command:
+
+    mvn jetty:run-war
+
+Open the following Url in the browser
+
+    http://localhost:8080/gwt-measure-samples/
