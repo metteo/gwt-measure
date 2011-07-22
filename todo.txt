@@ -1,4 +1,7 @@
---- Version 0.1.2 ---
+--------- Version 0.2.2 ----------
+First production ready version
+----------------------------------
+
 + GWT 2.1.1 support
 + Apache 2.0 License
 + integration with GWT lightweight measurements
@@ -26,6 +29,7 @@
 + measurements of EntryPoints
 + similar level of functionality as in HttpThrowableReporter
 + support RunAsync measurements in Web mode (fragment, size)
++ aspect-like measurement proxy generation on client
 
 --- In Progress ---
 # event aggregation via eventGroups
@@ -69,7 +73,6 @@
 # native js measurement support (somehow)
 # browser type and version recognition
 # Browser Web Timing API usage (IE9, Chrome, FFox)
-# aspect-like measurement proxy generation on client
 # JMX reporting and configuration support
 # remote configuration of the client
 # write dependency checks between client/server/shared and libs (JDepend?)
