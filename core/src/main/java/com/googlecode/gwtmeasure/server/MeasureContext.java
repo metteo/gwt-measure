@@ -62,8 +62,17 @@ public class MeasureContext {
         if (bean == null) {
             Object instance;
             try {
-                // using first possible constructor
-                Constructor<?> constructor = targetType.getConstructors()[0];
+
+                Constructor<?> constructor = null;
+                try {
+                    constructor = targetType.getConstructor(); // try default constructor
+                } catch (NoSuchMethodException e) {
+                }
+
+                if (constructor == null) {
+                    constructor = targetType.getConstructors()[0]; // use first possible constructor
+                }
+
                 Class<?>[] parameterTypes = constructor.getParameterTypes();
                 Object[] initargs = new Object[parameterTypes.length];
                 for (int i = 0, parameterTypesLength = parameterTypes.length; i < parameterTypesLength; i++) {
