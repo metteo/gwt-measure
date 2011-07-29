@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.client.rpc;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RpcRequestBuilder;
@@ -29,6 +30,8 @@ import com.googlecode.gwtmeasure.client.delivery.DeliveryRpcRequestBuilder;
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
+
+    final MeasuringAsyncCallbackFactory callbackFactory = GWT.create(MeasuringAsyncCallbackFactory.class);
 
     protected MeasuringRemoteServiceProxy(String moduleBaseURL,
                                           String remoteServiceRelativePath,
@@ -46,10 +49,9 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
                                                           AsyncCallback<T> callback) {
         int requestId = getRequestId() - 1;
         RpcContext.setRequestIdCounter(requestId);
-        MeasuringAsyncCallback wrappedCallback = new MeasuringAsyncCallback(callback, requestId);
+        AsyncCallback<T> wrappedCallback = callbackFactory.createAsyncCallback(callback, requestId);
         RequestCallback originalRequest = super.doCreateRequestCallback(responseReader, methodName, statsContext, wrappedCallback);
-        MeasuringRequestCallback requestCallback = new MeasuringRequestCallback(originalRequest);
-        return requestCallback;
+        return new MeasuringRequestCallback(originalRequest);
     }
 
 }
