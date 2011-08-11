@@ -18,6 +18,7 @@ package com.googlecode.gwtmeasure.client;
 
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.Constants;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,8 +34,13 @@ public class MeasurementsTest extends Assert {
     @Test
     public void testSetMeasurementHub() throws Exception {
         MeasurementHub measurementHub = mock(MeasurementHub.class);
+        MeasurementListener listener = mock(MeasurementListener.class);
+
         Measurements.setMeasurementHub(measurementHub);
+        Measurements.setMeasurementListener(listener);
+
         assertThat(Measurements.getMeasurementHub(), sameInstance(measurementHub));
+        assertThat(Measurements.getMeasurementListener(), sameInstance(listener));
     }
 
     @Test

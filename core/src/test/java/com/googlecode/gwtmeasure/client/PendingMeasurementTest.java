@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.client;
 
 import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,10 +34,12 @@ import static org.mockito.Mockito.*;
 public class PendingMeasurementTest extends Assert {
 
     private MeasurementHubAdapter hub;
+    private MeasurementListener listener;
 
     @Before
     public void setUp() {
         hub = mock(MeasurementHubAdapter.class);
+        listener = mock(MeasurementListener.class);
     }
 
     @Test
@@ -53,6 +56,7 @@ public class PendingMeasurementTest extends Assert {
         measurement.stop();
 
         verify(hub).submit(measurement);
+        verify(listener).onSubmit(measurement);
         assertThat(measurement.isStopped(), equalTo(TRUE));
     }
 
@@ -134,7 +138,7 @@ public class PendingMeasurementTest extends Assert {
     }
 
     private PendingMeasurement createMeasurement() {
-        return new PendingMeasurement("name", "group", hub);
+        return new PendingMeasurement("name", "group", hub, listener);
     }
 
     public static void pause() {

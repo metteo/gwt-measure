@@ -2,6 +2,7 @@ package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,14 +25,16 @@ public class MeasurementToEventTest extends Assert {
 
     @Test
     public void testConvert() throws Exception {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHubAdapter.class));
+        MeasurementHubAdapter hubAdapter = mock(MeasurementHubAdapter.class);
+        MeasurementListener listener = mock(MeasurementListener.class);
+        PendingMeasurement measurement = new PendingMeasurement("name", "group", hubAdapter, listener);
         measurement.stop();
 
         PerformanceTiming[] events = converter.convert(measurement);
 
         assertThat(events.length, is(2));
 
-        assertThat(events[0].getModuleName(), equalTo("moduleName"));
+        assertThat(events[0].getModuleName(), equalTo(""));
         assertThat(events[0].getType(), equalTo("begin"));
         assertThat(events[0].getSubSystem(), equalTo("group"));
         assertThat(events[0].getEventGroup(), equalTo("name"));

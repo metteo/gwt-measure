@@ -19,6 +19,7 @@ package com.googlecode.gwtmeasure.client;
 import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,9 +30,11 @@ import java.util.Set;
  */
 public final class PendingMeasurement {
 
+    private MeasurementHubAdapter hubAdapter;
+    private MeasurementListener listener;
+
     private String eventGroup;
     private String subSystem;
-    private MeasurementHubAdapter hubAdapter;
 
     private boolean discarded;
     private boolean stopped;
@@ -45,14 +48,21 @@ public final class PendingMeasurement {
         this.from = TimeUtils.current();
     }
 
-    public PendingMeasurement(String eventGroup, String subSystem, MeasurementHub measurementHub) {
-        this(eventGroup, subSystem, new MeasurementHubAdapter(measurementHub));
+    public PendingMeasurement(String eventGroup,
+                              String subSystem,
+                              MeasurementHub measurementHub,
+                              MeasurementListener listener) {
+        this(eventGroup, subSystem, new MeasurementHubAdapter(measurementHub), listener);
     }
 
-    public PendingMeasurement(String eventGroup, String subSystem, MeasurementHubAdapter hubAdapter) {
+    public PendingMeasurement(String eventGroup,
+                              String subSystem,
+                              MeasurementHubAdapter hubAdapter,
+                              MeasurementListener listener) {
         this.eventGroup = eventGroup;
         this.subSystem = subSystem;
         this.hubAdapter = hubAdapter;
+        this.listener = listener;
     }
 
     /**
@@ -61,6 +71,8 @@ public final class PendingMeasurement {
     public void stop() {        
         if (!discarded && !stopped) {
             this.to = TimeUtils.current();
+
+            listener.onSubmit(this);
             hubAdapter.submit(this);
         }
         stopped = true;

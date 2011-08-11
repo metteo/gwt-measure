@@ -16,8 +16,11 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.internal.VoidMeasurementListener;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 /**
@@ -27,11 +30,15 @@ import com.googlecode.gwtmeasure.shared.Constants;
  */
 public final class Measurements {
 
-    private static MeasurementHub measurementHub;
-    private static WindowId windowId;
+    private static MeasurementHub measurementHub = new VoidHub();
+    private static MeasurementListener measurementListener = new VoidMeasurementListener();
+
+    // Configuration defaults
     private static int deliveryInterval = 15000; // in milliseconds
     private static String endpointUrl = "measurements";
     private static int headerLimit = 4 * 1024; // in bytes
+
+    private static WindowId windowId;
 
     private Measurements() {
     }
@@ -44,7 +51,23 @@ public final class Measurements {
         Measurements.measurementHub = measurementHub;
     }
 
-    /**      
+    /**
+     * Reference to current registered MeasurementListener instance.
+     * @return listener object
+     */
+    public static MeasurementListener getMeasurementListener() {
+        return measurementListener;
+    }
+
+    /**
+     * Sets centralized MeasurementListener instance.
+     * @param measurementListener instance to be registered.
+     */
+    public static void setMeasurementListener(MeasurementListener measurementListener) {
+        Measurements.measurementListener = measurementListener;
+    }
+
+    /**
      * @return reference to current Hub implementation
      */
     public static MeasurementHub getMeasurementHub() {
@@ -70,7 +93,9 @@ public final class Measurements {
      * @see com.googlecode.gwtmeasure.client.PendingMeasurement
      */
     public static PendingMeasurement start(String eventGroup, String subSystem) {
-        return new PendingMeasurement(eventGroup, subSystem, measurementHub);
+        PendingMeasurement measurement = new PendingMeasurement(eventGroup, subSystem, measurementHub, measurementListener);
+        measurementListener.onCreate(measurement);
+        return measurement;
     }
 
     /**
