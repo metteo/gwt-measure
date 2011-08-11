@@ -16,7 +16,6 @@
 
 package com.googlecode.gwtmeasure.client.http;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -24,6 +23,7 @@ import com.google.gwt.http.client.RequestException;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.delivery.HeaderInjector;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
+import com.googlecode.gwtmeasure.client.internal.SafeGWT;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -99,7 +99,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
 
         PerformanceTiming timing = new PerformanceTiming.Builder()
                 .setMillis(TimeUtils.current())
-                .setModuleName(GWT.getModuleName())
+                .setModuleName(SafeGWT.getModuleName())
                 .setSubSystem(Constants.SUB_SYSTEM_HTTP)
                 .setType(Constants.TYPE_REQUEST_SENT)
                 .setEventGroup(Integer.toString(id))

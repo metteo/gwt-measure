@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasurementToEvent {
+public final class MeasurementToEvent {
 
     public PerformanceTiming[] convert(PendingMeasurement measurement) {
         long from = measurement.getFrom();
@@ -37,7 +37,7 @@ public class MeasurementToEvent {
         PerformanceTiming[] result = new PerformanceTiming[2];
 
         PerformanceTiming.Builder beginBuilder = new PerformanceTiming.Builder()
-                .setModuleName(moduleName())
+                .setModuleName(SafeGWT.getModuleName())
                 .setMillis(from)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_BEGIN)
@@ -47,7 +47,7 @@ public class MeasurementToEvent {
         result[0] = beginBuilder.create();
 
         PerformanceTiming.Builder endBuilder = new PerformanceTiming.Builder()
-                .setModuleName(moduleName())
+                .setModuleName(SafeGWT.getModuleName())
                 .setMillis(to)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_END)
@@ -65,10 +65,6 @@ public class MeasurementToEvent {
             String value = measurement.getParameter(parameterName);
             builder.setParameter(parameterName, value);
         }
-    }
-
-    String moduleName() {
-        return GWT.getModuleName();
     }
 
 }
