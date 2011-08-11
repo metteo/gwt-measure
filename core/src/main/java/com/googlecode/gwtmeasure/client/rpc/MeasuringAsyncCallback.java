@@ -19,6 +19,7 @@ package com.googlecode.gwtmeasure.client.rpc;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.exception.IncidentReportFactory;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -30,8 +31,15 @@ import com.googlecode.gwtmeasure.shared.IncidentReport;
 public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     private final int requestId;
+
     final AsyncCallback<T> originalCallback;
     final PendingMeasurement measurement;
+
+    IncidentReportFactory incidentReportFactory;
+
+    {
+        incidentReportFactory = new IncidentReportFactory();
+    }
 
     public MeasuringAsyncCallback(AsyncCallback<T> originalCallback, int requestId) {
         this.originalCallback = originalCallback;
@@ -44,6 +52,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     public void onSuccess(T result) {
         RpcContext.setLastResolvedRequestId(requestId);
+
         try {
             originalCallback.onSuccess(result);
         } catch (RuntimeException exception) {
@@ -55,7 +64,9 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     }
 
     public void onFailure(Throwable caught) {
-        IncidentReport report = IncidentReport.createRpcReport(caught);
+        RpcContext.setLastResolvedRequestId(requestId);
+
+        IncidentReport report = incidentReportFactory.createRpcReport(caught);
         DeliveryQueue.instance().pushIncident(report);
         
         measurement.discard();
