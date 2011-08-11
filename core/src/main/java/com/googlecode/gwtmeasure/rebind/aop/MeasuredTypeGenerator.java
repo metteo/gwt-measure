@@ -10,6 +10,7 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 import com.googlecode.gwtmeasure.client.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.shared.Constants;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
@@ -40,6 +41,7 @@ public class MeasuredTypeGenerator extends Generator {
 
         composerFactory.addImport(Measurements.class.getCanonicalName());
         composerFactory.addImport(PendingMeasurement.class.getCanonicalName());
+        composerFactory.addImport(Constants.class.getCanonicalName());
 
         composerFactory.setSuperclass(className);
 
@@ -63,7 +65,8 @@ public class MeasuredTypeGenerator extends Generator {
                     + "(" + generateParameterSignature(parameters) + ") "
                     + generateThrowsSignature(method) + " {");
             sw.indent();
-            sw.println("PendingMeasurement m = Measurements.start(\"" + name + "." + method.getName() + "()\");");
+            sw.println("PendingMeasurement m = Measurements.start(\"" + name + "." + method.getName() + "\");");
+            sw.println("m.setParameter(Constants.PARAM_METHOD, \"" + name + "." + method.getName() + "\");");
             sw.println("try {");
             sw.indent();
             if (!"void".equals(returnType)) {

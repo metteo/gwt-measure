@@ -63,7 +63,8 @@ public class MeasuredTypeGwtTest extends GWTTestCase {
         assertEquals(2, triggeredEvents.size());
 
         PerformanceTiming timing = triggeredEvents.iterator().next();
-        assertEquals("MeasuredClass.goToServer()", timing.getEventGroup());
+        assertEquals("MeasuredClass.goToServer", timing.getEventGroup());
+        assertEquals("MeasuredClass.goToServer", timing.getMethod());
     }
 
     public void testVoidMethod() {
