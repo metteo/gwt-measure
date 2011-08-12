@@ -53,6 +53,7 @@ public final class PendingMeasurement {
         this.from = TimeUtils.current();
     }
 
+    // TODO Make package level
     public PendingMeasurement(String eventGroup,
                               String subSystem,
                               MeasurementHub measurementHub,
@@ -60,6 +61,7 @@ public final class PendingMeasurement {
         this(eventGroup, subSystem, new MeasurementHubAdapter(measurementHub), listener);
     }
 
+    // TODO Make package level
     public PendingMeasurement(String eventGroup,
                               String subSystem,
                               MeasurementHubAdapter hubAdapter,
@@ -70,6 +72,11 @@ public final class PendingMeasurement {
         this.listener = listener;
     }
 
+    /**
+     * Starts nested measurement within the same group.
+     * @param subSystem name
+     * @return nested measurement object
+     */
     public PendingMeasurement start(String subSystem) {
         PendingMeasurement subMeasurements = new PendingMeasurement(eventGroup, subSystem, hubAdapter, listener);
         subMeasurements.setParent(this);

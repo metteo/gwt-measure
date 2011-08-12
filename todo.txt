@@ -56,6 +56,7 @@ First production ready version
 # ensure incident report could be injected with context data
 # support for deobfuscating stack traces
 # create separate module for integration tests
+# spring/guice/javaEE injection support
 
 --- Post 1.0.0 ---
 # granular disabling of the features

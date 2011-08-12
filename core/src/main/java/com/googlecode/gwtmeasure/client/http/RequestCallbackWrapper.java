@@ -41,17 +41,36 @@ public class RequestCallbackWrapper implements RequestCallback {
 
     public void onResponseReceived(Request request, Response response) {
         HttpStatsContext.setLastResolvedRequestId(requestId);
+
         responseReceived();
         callback.onResponseReceived(request, response);
+        httpEnd();
     }
 
     public void onError(Request request, Throwable exception) {
+        HttpStatsContext.setLastResolvedRequestId(requestId);
+
         responseReceived();
         callback.onError(request, exception);
+        httpEnd();
     }
 
     public RequestCallback getCallback() {
         return callback;
+    }
+
+    private void httpEnd() {
+        MeasurementHub hub = Measurements.getMeasurementHub();
+
+        PerformanceTiming timing = new PerformanceTiming.Builder()
+                .setMillis(TimeUtils.current())
+                .setModuleName(SafeGWT.getModuleName())
+                .setSubSystem(Constants.SUB_SYSTEM_HTTP)
+                .setType(Constants.TYPE_END)
+                .setEventGroup(Integer.toString(requestId))
+                .create();
+
+        hub.submit(timing);
     }
 
     private void responseReceived() {

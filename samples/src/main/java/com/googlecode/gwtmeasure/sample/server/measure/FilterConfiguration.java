@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.sample.server;
+package com.googlecode.gwtmeasure.sample.server.measure;
 
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;

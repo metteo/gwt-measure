@@ -16,7 +16,9 @@
 
 package com.googlecode.gwtmeasure.shared;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -161,7 +163,6 @@ public class PerformanceTiming implements HasJsonRepresentation {
                 && eventGroup.equals(this.eventGroup)
                 && type.equals(this.type);
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -46,7 +46,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
         this.requestId = requestId;
         String callbackType = originalCallback.getClass().getName();
         String methodName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
-        this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
+        this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC_CALLBACK);
         this.measurement.setParameter(Constants.PARAM_METHOD, methodName);
     }
 
