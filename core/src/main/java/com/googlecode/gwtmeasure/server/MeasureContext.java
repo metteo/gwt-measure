@@ -16,6 +16,11 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.server.event.AggregatingMetricsHandler;
+import com.googlecode.gwtmeasure.server.event.InMemoryStorage;
+import com.googlecode.gwtmeasure.server.event.MetricConsumer;
+import com.googlecode.gwtmeasure.server.event.PatternMatcher;
+import com.googlecode.gwtmeasure.server.event.RawEventStorage;
 import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
 import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
 import com.googlecode.gwtmeasure.server.internal.MeasureException;
@@ -31,21 +36,25 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasureContext {
+public final class MeasureContext {
 
     private static final MeasureContext instance = new MeasureContext();
 
     private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
 
-    // Default implementations
+    // TODO Extract
     static {
-        CompositeMetricsEventHandler eventHandler = new CompositeMetricsEventHandler();
-        eventHandler.addHandler(new LoggingHandler());
+        init();
+    }
 
-        instance.registerEventHandler(eventHandler);
+    // Default implementations
+    public static void init() {
+        instance.registerEventHandler(AggregatingMetricsHandler.class);
         instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
+
         instance.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
+        instance.register(RawEventStorage.class, new InMemoryStorage());
     }
 
     public static MeasureContext instance() {
@@ -99,6 +108,7 @@ public class MeasureContext {
     }
 
     public void reset() {
+        registry.clear();
         beans.clear();
     }
 

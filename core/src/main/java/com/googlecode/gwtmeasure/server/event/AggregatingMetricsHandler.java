@@ -19,41 +19,36 @@ package com.googlecode.gwtmeasure.server.event;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
+import java.util.List;
+
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class AggregatingMetricsHandler implements MetricsEventHandler {
+public final class AggregatingMetricsHandler implements MetricsEventHandler {
 
-    private EventCache cache;
+    private RawEventStorage cache;
     private MetricConsumer consumer;
+    private PatternMatcher matcher;
 
-    public AggregatingMetricsHandler(EventCache cache, MetricConsumer consumer) {
+    public AggregatingMetricsHandler(RawEventStorage cache, MetricConsumer consumer, PatternMatcher matcher) {
         this.cache = cache;
         this.consumer = consumer;
+        this.matcher = matcher;
     }
 
     public void onEvent(PerformanceTiming timing) {
-        PerformanceTiming result = cache.findMatch(timing);        
-        if (result == null) {
-            cache.append(timing);
+        if (matcher.isTriggered(timing)) {
+            List<PerformanceTiming> match = matcher.findMatch(timing);
+            if (match.isEmpty()) {
+                cache.put(timing);
+            } else {
+                cache.remove(match);
+                PerformanceMetric result = matcher.prepareMetric(timing, match);
+                consumer.publish(result);
+            }
         } else {
-            PerformanceMetric metric = prepareMetric(timing, result);
-            consumer.publish(metric);
+            cache.put(timing);
         }
-    }
-
-    private PerformanceMetric prepareMetric(PerformanceTiming timing, PerformanceTiming result) {
-        PerformanceMetric metric = new PerformanceMetric();
-        metric.setEventGroup(result.getEventGroup());
-        metric.setModuleName(result.getModuleName());
-        metric.setSubSystem(result.getSubSystem());
-
-        long timeA = timing.getMillis();
-        long timeB = result.getMillis();
-
-        metric.setTime(Math.abs(timeA - timeB));
-
-        return metric;
     }
 
 }
