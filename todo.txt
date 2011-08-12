@@ -30,21 +30,23 @@ First production ready version
 + similar level of functionality as in HttpThrowableReporter
 + support RunAsync measurements in Web mode (fragment, size)
 + aspect-like measurement proxy generation on client
++ configurable global measurement listener
 
 --- In Progress ---
 # event aggregation via eventGroups
+# hierarchical measurements
 
---- This Version ---
+--- Version 1.0.0 Target ---
 # retry after failed RPC calls
 # mention gwt-debug-panel in documentation
 # write instrumentation manual
-# write roadmap
+# publish the road map
 # ensure extensibility and spi interfaces
 # provide gwt test cases
 # improve sample application to look realistic
 # gather and improve test coverage
-# write JavaDocs for the public classes
-# review public class and configuration naming
+# write JavaDocs for all public classes
+# review public classes and configuration properties naming
 # compress js code, which should be included for instrumentation
 # retry sequence of measurement delivery
 # bundle GSON in server distribution
@@ -55,7 +57,7 @@ First production ready version
 # support for deobfuscating stack traces
 # create separate module for integration tests
 
---- Next Versions ---
+--- Post 1.0.0 ---
 # granular disabling of the features
 # write http servlet, which instruments the host html page
 # add code checks (FindBugs, Checkstyle, PMD, Cobertura)

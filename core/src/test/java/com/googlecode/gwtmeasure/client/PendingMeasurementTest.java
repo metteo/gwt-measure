@@ -46,8 +46,10 @@ public class PendingMeasurementTest extends Assert {
     public void shouldHaveDefaults() {
         PendingMeasurement measurement = createMeasurement();
 
-        assertThat(measurement.isStopped(), equalTo(FALSE));
-        assertThat(measurement.isDiscarded(), equalTo(FALSE));
+        assertThat(measurement.getParent(), nullValue());
+        assertThat(measurement.getChildren().isEmpty(), equalTo(true));
+        assertThat(measurement.isStopped(), equalTo(false));
+        assertThat(measurement.isDiscarded(), equalTo(false));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class PendingMeasurementTest extends Assert {
 
         verify(hub).submit(measurement);
         verify(listener).onSubmit(measurement);
-        assertThat(measurement.isStopped(), equalTo(TRUE));
+        assertThat(measurement.isStopped(), equalTo(true));
     }
 
     @Test
@@ -67,8 +69,8 @@ public class PendingMeasurementTest extends Assert {
         measurement.stop();
 
         verifyZeroInteractions(hub);
-        assertThat(measurement.isStopped(), equalTo(TRUE));
-        assertThat(measurement.isDiscarded(), equalTo(TRUE));
+        assertThat(measurement.isStopped(), equalTo(true));
+        assertThat(measurement.isDiscarded(), equalTo(true));
     }
 
     @Test
@@ -137,11 +139,46 @@ public class PendingMeasurementTest extends Assert {
         measurement.setParameter("A", "B");
     }
 
+    @Test
+    public void shouldReferenceParent() {
+        PendingMeasurement measurement = createMeasurement();
+        PendingMeasurement child = measurement.start("subName");
+        child.stop();
+
+        assertThat(child.getParent(), sameInstance(measurement));
+        assertThat(measurement.getChildren().size(), equalTo(1));
+    }
+
+    @Test
+    public void shouldSupportNestedMeasurements() {
+        PendingMeasurement measurement = createMeasurement();
+        PendingMeasurement child = measurement.start("subName");
+        PendingMeasurement subChild = child.start("subSubName");
+        subChild.stop();
+        child.stop();
+        measurement.stop();
+
+        assertThat(measurement.getParent(), nullValue());
+        assertThat(child.getParent(), sameInstance(measurement));
+        assertThat(subChild.getParent(), sameInstance(child));
+    }
+
+    @Test
+    public void shouldDiscardUnlinked() {
+        PendingMeasurement measurement = createMeasurement();
+        PendingMeasurement child = measurement.start("subName");
+        measurement.stop();
+        child.stop();
+
+        assertThat(measurement.getChildren().size(), equalTo(0));
+        assertThat(child.getParent(), sameInstance(measurement));
+    }
+
     private PendingMeasurement createMeasurement() {
         return new PendingMeasurement("name", "group", hub, listener);
     }
 
-    public static void pause() {
+    private static void pause() {
         try {
             Thread.sleep(15);
         } catch (InterruptedException e) {
