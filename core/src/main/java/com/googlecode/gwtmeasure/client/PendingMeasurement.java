@@ -21,7 +21,9 @@ import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,6 +46,9 @@ public final class PendingMeasurement {
 
     private final Map<String, String> parameters = new HashMap<String, String>();
 
+    private final List<PendingMeasurement> children = new ArrayList<PendingMeasurement>();
+    private PendingMeasurement parent;
+
     {
         this.from = TimeUtils.current();
     }
@@ -65,17 +70,43 @@ public final class PendingMeasurement {
         this.listener = listener;
     }
 
+    public PendingMeasurement start(String subSystem) {
+        PendingMeasurement subMeasurements = new PendingMeasurement(eventGroup, subSystem, hubAdapter, listener);
+        subMeasurements.setParent(this);
+        return subMeasurements;
+    }
+
     /**
      * Stops this measurement and propagates start and stop events to event queue.
      */
-    public void stop() {        
-        if (!discarded && !stopped) {
+    public void stop() {
+        if (isActive()) {
             this.to = TimeUtils.current();
 
-            listener.onSubmit(this);
-            hubAdapter.submit(this);
+            if (parent != null && parent.isActive()) {
+                parent.getChildren().add(this);
+            } else { // root measurement
+                listener.onSubmit(this);
+                hubAdapter.submit(this);
+            }
         }
         stopped = true;
+    }
+
+    private boolean isActive() {
+        return !discarded && !stopped;
+    }
+
+    PendingMeasurement getParent() {
+        return parent;
+    }
+
+    void setParent(PendingMeasurement measurement) {
+        this.parent = measurement;
+    }
+
+    public List<PendingMeasurement> getChildren() {
+        return children;
     }
 
     /**

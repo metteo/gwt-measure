@@ -21,6 +21,8 @@ import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,12 +31,25 @@ import java.util.Set;
 public final class MeasurementToEvent {
 
     public PerformanceTiming[] convert(PendingMeasurement measurement) {
+        ArrayList<PerformanceTiming> timings = new ArrayList<PerformanceTiming>();
+        traverse(timings, measurement);
+        return timings.toArray(new PerformanceTiming[] {});
+    }
+
+    private void traverse(ArrayList<PerformanceTiming> timings, PendingMeasurement measurement) {
+        timings.add(createStartTiming(measurement));
+        timings.add(createEndTiming(measurement));
+
+        for (PendingMeasurement child : measurement.getChildren()) {
+            traverse(timings, child);
+        }
+    }
+
+    private PerformanceTiming createStartTiming(PendingMeasurement measurement) {
         long from = measurement.getFrom();
-        long to = measurement.getTo();
+
         String group = measurement.getSubSystem();
         String name = measurement.getEventGroup();
-
-        PerformanceTiming[] result = new PerformanceTiming[2];
 
         PerformanceTiming.Builder beginBuilder = new PerformanceTiming.Builder()
                 .setModuleName(SafeGWT.getModuleName())
@@ -44,7 +59,15 @@ public final class MeasurementToEvent {
                 .setEventGroup(name);
 
         appendParameters(measurement, beginBuilder);
-        result[0] = beginBuilder.create();
+
+        return beginBuilder.create();
+    }
+
+    private PerformanceTiming createEndTiming(PendingMeasurement measurement) {
+        long to = measurement.getTo();
+
+        String group = measurement.getSubSystem();
+        String name = measurement.getEventGroup();
 
         PerformanceTiming.Builder endBuilder = new PerformanceTiming.Builder()
                 .setModuleName(SafeGWT.getModuleName())
@@ -52,11 +75,9 @@ public final class MeasurementToEvent {
                 .setSubSystem(group)
                 .setType(Constants.TYPE_END)
                 .setEventGroup(name);
-        
-        appendParameters(measurement, endBuilder);
-        result[1] = endBuilder.create();
 
-        return result;
+        appendParameters(measurement, endBuilder);
+        return endBuilder.create();
     }
 
     private void appendParameters(PendingMeasurement measurement, PerformanceTiming.Builder builder) {
