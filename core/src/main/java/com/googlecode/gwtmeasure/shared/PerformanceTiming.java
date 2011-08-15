@@ -40,6 +40,14 @@ public class PerformanceTiming implements HasJsonRepresentation {
     public PerformanceTiming() {
     }
 
+    public boolean isBeginEvent() {
+        return Constants.TYPE_BEGIN.equals(type);
+    }
+
+    public boolean isEndEvent() {
+        return Constants.TYPE_END.equals(type);
+    }
+
     public static class Builder {
 
         private PerformanceTiming event;
@@ -83,6 +91,14 @@ public class PerformanceTiming implements HasJsonRepresentation {
             return this.event;
         }
 
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
     }
 
     public String getModuleName() {

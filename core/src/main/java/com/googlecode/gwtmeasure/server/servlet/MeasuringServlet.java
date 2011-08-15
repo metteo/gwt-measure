@@ -18,6 +18,7 @@ package com.googlecode.gwtmeasure.server.servlet;
 
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.MetricsProcessor;
+import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,7 +39,9 @@ public class MeasuringServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        metricsProcessor = MeasureContext.instance().getBean(MetricsProcessor.class);
+        MeasureContext context = MeasureContext.instance();
+        BeanContainer container = context.getBeanContainer();
+        metricsProcessor = container.getBean(MetricsProcessor.class);
     }
 
     @Override

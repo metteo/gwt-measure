@@ -18,6 +18,7 @@ package com.googlecode.gwtmeasure.server.servlet;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.gwtmeasure.server.MeasureContext;
+import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -36,7 +37,8 @@ public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         MeasureContext context = MeasureContext.instance();
-        handler = context.getBean(HttpRequestHandler.class);
+        BeanContainer container = context.getBeanContainer();
+        handler = container.getBean(HttpRequestHandler.class);
     }
 
     @Override
@@ -52,7 +54,9 @@ public class MeasuringRemoteServiceServlet extends RemoteServiceServlet {
     @Override
     public void destroy() {
         super.destroy();
-        MeasureContext.instance().reset();
+        MeasureContext context = MeasureContext.instance();
+        BeanContainer container = context.getBeanContainer();
+        container.reset();
     }
 
 }

@@ -27,7 +27,6 @@ public final class Constants {
     public static final String SUB_SYSTEM_DEFAULT = "default";
     public static final String SUB_SYSTEM_STARTUP = "startup";
     public static final String SUB_SYSTEM_RPC = "rpc";    
-    public static final String SUB_SYSTEM_RPC_CALLBACK = "rpc-callback";
     public static final String SUB_SYSTEM_HTTP = "http";
 
     // Types

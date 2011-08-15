@@ -18,10 +18,12 @@ package com.googlecode.gwtmeasure.server;
 
 import com.googlecode.gwtmeasure.server.event.AggregatingMetricsHandler;
 import com.googlecode.gwtmeasure.server.event.InMemoryStorage;
+import com.googlecode.gwtmeasure.server.event.LoggingMetricConsumer;
 import com.googlecode.gwtmeasure.server.event.MetricConsumer;
 import com.googlecode.gwtmeasure.server.event.PatternMatcher;
 import com.googlecode.gwtmeasure.server.event.RawEventStorage;
 import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
+import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
 import com.googlecode.gwtmeasure.server.internal.MeasureException;
 import com.googlecode.gwtmeasure.server.internal.NullPerformanceEventFilter;
@@ -39,9 +41,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class MeasureContext {
 
     private static final MeasureContext instance = new MeasureContext();
-
-    private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
-    private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
+    private static final BeanContainer beanContainer = new BeanContainer();
 
     // TODO Extract
     static {
@@ -53,80 +53,33 @@ public final class MeasureContext {
         instance.registerEventHandler(AggregatingMetricsHandler.class);
         instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
 
-        instance.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
-        instance.register(RawEventStorage.class, new InMemoryStorage());
+        beanContainer.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
+        beanContainer.register(RawEventStorage.class, new InMemoryStorage());
+        beanContainer.register(MetricConsumer.class, new LoggingMetricConsumer());
     }
 
     public static MeasureContext instance() {
         return instance;
     }
 
-    public <T> T getBean(final Class<T> type) {
-        Class<T> targetType = type;
-        Class<?> impl = registry.get(type);
-        if (impl != null) {
-            targetType = (Class<T>) impl;
-        }
-        Object bean = beans.get(targetType);
-        if (bean == null) {
-            Object instance;
-            try {
-
-                Constructor<?> constructor = null;
-                try {
-                    constructor = targetType.getConstructor(); // try default constructor
-                } catch (NoSuchMethodException e) {
-                }
-
-                if (constructor == null) {
-                    constructor = targetType.getConstructors()[0]; // use first possible constructor
-                }
-
-                Class<?>[] parameterTypes = constructor.getParameterTypes();
-                Object[] initargs = new Object[parameterTypes.length];
-                for (int i = 0, parameterTypesLength = parameterTypes.length; i < parameterTypesLength; i++) {
-                    Class<?> parameterType = parameterTypes[i];
-                    Object dependency = getBean(parameterType);
-                    initargs[i] = dependency;
-                }
-                instance = constructor.newInstance(initargs);
-            } catch (Exception e) {
-                throw new MeasureException("Failed to instantiate", e);
-            }
-            beans.put(targetType, instance);
-            return (T) instance;
-        }
-        return (T) bean;
-    }
-
-    public <T> void register(Class<T> iface, T bean) {
-        beans.put(iface, bean);
-    }
-
-    public <T> void register(Class<T> iface, Class<? extends T> impl) {
-        registry.put(iface, impl);
-    }
-
-    public void reset() {
-        registry.clear();
-        beans.clear();
+    public BeanContainer getBeanContainer() {
+        return beanContainer;
     }
 
     public void registerEventHandler(Class<? extends MetricsEventHandler> eventHandler) {
-        register(MetricsEventHandler.class, eventHandler);
+        beanContainer.register(MetricsEventHandler.class, eventHandler);
     }
 
     public void registerEventHandler(MetricsEventHandler eventHandler) {
-        register(MetricsEventHandler.class, eventHandler);
+        beanContainer.register(MetricsEventHandler.class, eventHandler);
     }
 
     public void registerIncidentHandler(IncidentReportHandler incidentHandler) {
-        register(IncidentReportHandler.class, incidentHandler);
+        beanContainer.register(IncidentReportHandler.class, incidentHandler);
     }
 
     public void registerIncidentHandler(Class<? extends IncidentReportHandler> incidentHandler) {
-        register(IncidentReportHandler.class, incidentHandler);
+        beanContainer.register(IncidentReportHandler.class, incidentHandler);
     }
-
 
 }

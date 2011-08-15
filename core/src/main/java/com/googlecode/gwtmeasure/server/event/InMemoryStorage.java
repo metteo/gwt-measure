@@ -16,11 +16,9 @@
 
 package com.googlecode.gwtmeasure.server.event;
 
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +30,13 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class InMemoryStorage implements RawEventStorage {
 
-    private final Map<String, Set<PerformanceTiming>> pendingTimings = new ConcurrentHashMap<String, Set<PerformanceTiming>>();
+    private final Map<String, List<PerformanceTiming>> pendingTimings = new ConcurrentHashMap<String, List<PerformanceTiming>>();
 
     public void put(PerformanceTiming timing) {
-        String key = key(timing);
-        Set<PerformanceTiming> timingSet = pendingTimings.get(key);
+        String key = key(timing.getModuleName(), timing.getEventGroup());
+        List<PerformanceTiming> timingSet = pendingTimings.get(key);
         if (timingSet == null) {
-            timingSet = new HashSet<PerformanceTiming>();
+            timingSet = new ArrayList<PerformanceTiming>();
             pendingTimings.put(key, timingSet);
         }
         timingSet.add(timing);
@@ -46,26 +44,24 @@ public class InMemoryStorage implements RawEventStorage {
 
     public void remove(List<PerformanceTiming> timings) {
         for (PerformanceTiming timing : timings) {
-            String key = key(timing);
-            Set<PerformanceTiming> timingSet = pendingTimings.get(key);
+            String key = key(timing.getModuleName(), timing.getEventGroup());
+            List<PerformanceTiming> timingSet = pendingTimings.get(key);
             timingSet.remove(timing);
         }
     }
 
-    public List<PerformanceTiming> findMatch(PerformanceTiming timing, String type) {
+    public List<PerformanceTiming> findMatch(String moduleName, String eventGroup) {
         ArrayList<PerformanceTiming> result = new ArrayList<PerformanceTiming>();
 
-        String key = key(timing);
-        Set<PerformanceTiming> timingSet = pendingTimings.get(key);
+        String key = key(moduleName, eventGroup);
+        List<PerformanceTiming> timingSet = pendingTimings.get(key);
 
         if (timingSet == null) {
             return result;
         }
 
         for (PerformanceTiming suspect : timingSet) {
-            if (type.equals(suspect.getType())) {
-                result.add(suspect);
-            }
+            result.add(suspect);
         }
 
         return result;
@@ -75,11 +71,10 @@ public class InMemoryStorage implements RawEventStorage {
         pendingTimings.clear();
     }
 
-    private String key(PerformanceTiming timing) {
+    private String key(String moduleName, String eventGroup) {
         StringBuilder builder = new StringBuilder();
-        builder.append(timing.getModuleName());
-        builder.append(timing.getSubSystem());
-        builder.append(timing.getEventGroup());
+        builder.append(moduleName);
+        builder.append(eventGroup);
         return builder.toString();
     }
 

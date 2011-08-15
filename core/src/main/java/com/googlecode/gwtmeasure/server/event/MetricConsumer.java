@@ -16,18 +16,11 @@
 
 package com.googlecode.gwtmeasure.server.event;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MetricConsumer {
-
-    private static final Logger logger = LoggerFactory.getLogger(MetricConsumer.class);
+public interface MetricConsumer {
     
-    public void publish(PerformanceMetric metric) {
-        logger.info(metric.toString());
-    }
+    void publish(MeasurementTree metric);
     
 }

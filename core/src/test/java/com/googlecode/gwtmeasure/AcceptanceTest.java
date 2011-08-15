@@ -18,14 +18,13 @@ package com.googlecode.gwtmeasure;
 
 import com.googlecode.gwtmeasure.server.MeasureContext;
 import com.googlecode.gwtmeasure.server.event.AggregatingMetricsHandler;
+import com.googlecode.gwtmeasure.server.event.MeasurementTree;
 import com.googlecode.gwtmeasure.server.event.MetricConsumer;
-import com.googlecode.gwtmeasure.server.event.PerformanceMetric;
-import com.googlecode.gwtmeasure.server.event.RawEventStorage;
+import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import static com.googlecode.gwtmeasure.shared.Constants.*;
 import static org.mockito.Mockito.*;
@@ -41,14 +40,15 @@ public class AcceptanceTest {
     @Before
     public void setUp() {
         MeasureContext context = MeasureContext.instance();
-        context.reset();
+        BeanContainer container = context.getBeanContainer();
+        container.reset();
         MeasureContext.init();
 
         consumer = mock(MetricConsumer.class);
-        context.register(MetricConsumer.class, consumer);
+        container.register(MetricConsumer.class, consumer);
         context.registerEventHandler(AggregatingMetricsHandler.class);
 
-        handler = context.getBean(MetricsEventHandler.class);
+        handler = container.getBean(MetricsEventHandler.class);
     }
 
     @Test
@@ -68,8 +68,44 @@ public class AcceptanceTest {
         verify(consumer).publish(prepareResult("1", "a", 2));
     }
 
-    private PerformanceMetric prepareResult(String eventGroup, String subSystem, int time) {
-        PerformanceMetric metric = new PerformanceMetric();
+    @Test
+    public void shouldSupportNestedMeasurements() {
+        handler.onEvent(createTiming("1", "a", 1, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "b", 2, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "c", 3, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "c", 4, TYPE_END));
+        handler.onEvent(createTiming("1", "b", 5, TYPE_END));
+        handler.onEvent(createTiming("1", "a", 6, TYPE_END));
+
+        MeasurementTree subChild = prepareResult("1", "c", 1);
+        MeasurementTree child = prepareResult("1", "b", 3, subChild);
+        verify(consumer).publish(prepareResult("1", "a", 5, child));
+    }
+
+    @Test
+    public void shouldSupportNestedSiblingMeasurements() {
+        handler.onEvent(createTiming("1", "a", 1, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "b", 2, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "b", 3, TYPE_END));
+        handler.onEvent(createTiming("1", "c", 4, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "c", 5, TYPE_END));
+        handler.onEvent(createTiming("1", "a", 6, TYPE_END));
+
+        MeasurementTree child1 = prepareResult("1", "b", 1);
+        MeasurementTree child2 = prepareResult("1", "c", 1);
+        verify(consumer).publish(prepareResult("1", "a", 5, child1, child2));
+    }
+
+    private MeasurementTree prepareResult(String eventGroup, String subSystem, int time, MeasurementTree... children) {
+        MeasurementTree result = prepareResult(eventGroup, subSystem, time);
+        for (MeasurementTree child : children) {
+            result.addChild(child);
+        }
+        return result;
+    }
+
+    private MeasurementTree prepareResult(String eventGroup, String subSystem, int time) {
+        MeasurementTree metric = new MeasurementTree(null, null);
         metric.setEventGroup(eventGroup);
         metric.setSubSystem(subSystem);
         metric.setTime(time);
