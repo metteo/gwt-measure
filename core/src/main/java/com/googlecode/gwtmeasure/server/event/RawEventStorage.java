@@ -29,7 +29,7 @@ public interface RawEventStorage {
 
     void remove(List<PerformanceTiming> timing);
 
-    List<PerformanceTiming> findMatch(PerformanceTiming timing, String type);
+    List<PerformanceTiming> findMatch(String moduleName, String eventGroup);
 
     void clear();
 }

@@ -37,14 +37,17 @@ public final class AggregatingMetricsHandler implements MetricsEventHandler {
     }
 
     public void onEvent(PerformanceTiming timing) {
-        if (matcher.isTriggered(timing)) {
-            List<PerformanceTiming> match = matcher.findMatch(timing);
-            if (match.isEmpty()) {
+        if (timing.isEndEvent()) {
+            List<PerformanceTiming> timingStack = cache.findMatch(timing.getModuleName(), timing.getEventGroup());
+            if (timingStack.isEmpty()) {
                 cache.put(timing);
-            } else {
-                cache.remove(match);
-                PerformanceMetric result = matcher.prepareMetric(timing, match);
+            } else if (matcher.isClosed(timingStack)) {
+                cache.remove(timingStack);
+                timingStack.add(timing);
+                MeasurementTree result = matcher.prepareMeasurementTree(timingStack);
                 consumer.publish(result);
+            } else {
+                cache.put(timing);
             }
         } else {
             cache.put(timing);

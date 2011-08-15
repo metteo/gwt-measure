@@ -16,46 +16,60 @@
 
 package com.googlecode.gwtmeasure.server.event;
 
-import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
 public class PatternMatcher {
 
-    private RawEventStorage eventCache;
-
-    public PatternMatcher(RawEventStorage eventCache) {
-        this.eventCache = eventCache;
+    public boolean isClosed(List<PerformanceTiming> matches) {
+        int depth = 0;
+        for (PerformanceTiming match : matches) {
+            if (match.isBeginEvent()) {
+                depth++;
+            } else if (match.isEndEvent()) {
+                depth--;
+            }
+        }
+        return depth == 1;
     }
 
-    public boolean isTriggered(PerformanceTiming timing) {
-        return Constants.TYPE_END.equals(timing.getType());
+    public MeasurementTree prepareMeasurementTree(List<PerformanceTiming> matches) {
+        Stack<PerformanceTiming> openTimings = new Stack<PerformanceTiming>();
+        Stack<MeasurementTree> resultingMetrics = new Stack<MeasurementTree>();
+        int lastNestingLevel = 0;
+
+        for (PerformanceTiming match : matches) {
+            if (match.isBeginEvent()) {
+                openTimings.push(match);
+            } else if (match.isEndEvent()) {
+                PerformanceTiming startTiming = openTimings.pop();
+
+                MeasurementTree metric = createMetric(match, startTiming);
+                if (!resultingMetrics.isEmpty()) {
+                    if (lastNestingLevel != openTimings.size()) {
+                        for (MeasurementTree tree : resultingMetrics) {
+                            metric.addChild(tree);
+                        }
+                        resultingMetrics.clear();
+                    }
+                    resultingMetrics.push(metric);
+                } else {
+                    resultingMetrics.push(metric);
+                    lastNestingLevel = openTimings.size();
+                }
+            }
+        }
+
+        return resultingMetrics.pop();
     }
 
-    // TODO Visitor Query pattern
-    public List<PerformanceTiming> findMatch(PerformanceTiming timing) {
-        return eventCache.findMatch(timing, Constants.TYPE_BEGIN);
-    }
-
-    public PerformanceMetric prepareMetric(PerformanceTiming timing, List<PerformanceTiming> match) {
-        PerformanceTiming result = match.get(0);
-
-        PerformanceMetric metric = new PerformanceMetric();
-        metric.setEventGroup(result.getEventGroup());
-        metric.setModuleName(result.getModuleName());
-        metric.setSubSystem(result.getSubSystem());
-
-        long timeA = timing.getMillis();
-        long timeB = result.getMillis();
-
-        metric.setTime(Math.abs(timeA - timeB));
-
-        return metric;
+    private MeasurementTree createMetric(PerformanceTiming endTiming, PerformanceTiming startTiming) {
+        return MeasurementTree.create(startTiming, endTiming);
     }
 
 }

@@ -16,26 +16,30 @@
 
 package com.googlecode.gwtmeasure.server.event;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class HttpSessionStorage implements RawEventStorage {
+public class LoggingMetricConsumer implements MetricConsumer {
 
-    public void put(PerformanceTiming timing) {
+    private static final Logger logger = LoggerFactory.getLogger(MetricConsumer.class);
+
+    public void publish(MeasurementTree metric) {
+        traverse(metric, 0);
     }
 
-    public void remove(List<PerformanceTiming> timing) {
-    }
-
-    public List<PerformanceTiming> findMatch(PerformanceTiming timing, String type) {
-        return null;
-    }
-
-    public void clear() {
+    private void traverse(MeasurementTree metric, int i) {
+        for (MeasurementTree child : metric.getChildren()) {
+            traverse(child, --i);
+        }
+        StringBuilder output = new StringBuilder("");
+        for (int j = 0; j < i; j++) {
+            output.append("   ");
+        }
+        output.append(metric);
+        logger.info(output.toString());
     }
 
 }

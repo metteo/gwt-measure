@@ -16,55 +16,90 @@
 
 package com.googlecode.gwtmeasure.server.event;
 
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class PerformanceMetric {
+public final class MeasurementTree {
 
     private String moduleName;
     private String subSystem;
     private String eventGroup;
+
+    private final PerformanceTiming from;
+    private final PerformanceTiming to;
+
     private long time;
-    private String name;
+
+    private final List<MeasurementTree> children = new ArrayList<MeasurementTree>();
+
+    public static MeasurementTree create(PerformanceTiming from, PerformanceTiming to) {
+        MeasurementTree tree = new MeasurementTree(from, to);
+        tree.time = Math.abs(to.getMillis() - from.getMillis());
+
+        tree.moduleName = from.getModuleName();
+        tree.eventGroup = from.getEventGroup();
+        tree.subSystem = from.getSubSystem();
+
+        return tree;
+    }
+
+    public MeasurementTree(PerformanceTiming from, PerformanceTiming to) {
+        this.from = from;
+        this.to = to;
+    }
+
+    public void addChild(MeasurementTree child) {
+        this.children.add(child);
+    }
+
+    public List<MeasurementTree> getChildren() {
+        return Collections.unmodifiableList(children);
+    }
 
     public String getModuleName() {
         return moduleName;
-    }
-
-    public void setModuleName(String moduleName) {
-        this.moduleName = moduleName;
     }
 
     public String getSubSystem() {
         return subSystem;
     }
 
-    public void setSubSystem(String subSystem) {
-        this.subSystem = subSystem;
-    }
-
     public String getEventGroup() {
         return eventGroup;
-    }
-
-    public void setEventGroup(String eventGroup) {
-        this.eventGroup = eventGroup;
     }
 
     public long getTime() {
         return time;
     }
 
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
+    }
+
+    public void setSubSystem(String subSystem) {
+        this.subSystem = subSystem;
+    }
+
+    public void setEventGroup(String eventGroup) {
+        this.eventGroup = eventGroup;
+    }
+
     public void setTime(long time) {
         this.time = time;
     }
 
-    public String getName() {
-        return name;
+    public PerformanceTiming getFrom() {
+        return from;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public PerformanceTiming getTo() {
+        return to;
     }
 
     @Override
@@ -72,12 +107,12 @@ public class PerformanceMetric {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PerformanceMetric that = (PerformanceMetric) o;
+        MeasurementTree that = (MeasurementTree) o;
 
         if (time != that.time) return false;
+        if (children != null ? !children.equals(that.children) : that.children != null) return false;
         if (eventGroup != null ? !eventGroup.equals(that.eventGroup) : that.eventGroup != null) return false;
         if (moduleName != null ? !moduleName.equals(that.moduleName) : that.moduleName != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (subSystem != null ? !subSystem.equals(that.subSystem) : that.subSystem != null) return false;
 
         return true;
@@ -89,18 +124,18 @@ public class PerformanceMetric {
         result = 31 * result + (subSystem != null ? subSystem.hashCode() : 0);
         result = 31 * result + (eventGroup != null ? eventGroup.hashCode() : 0);
         result = 31 * result + (int) (time ^ (time >>> 32));
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (children != null ? children.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "PerformanceMetric{" +
+        return "MeasurementTree{" +
                 "moduleName='" + moduleName + '\'' +
                 ", subSystem='" + subSystem + '\'' +
                 ", eventGroup='" + eventGroup + '\'' +
                 ", time=" + time +
-                ", name='" + name + '\'' +
+                ", children=" + children +
                 '}';
     }
 }
