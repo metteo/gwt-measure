@@ -83,6 +83,22 @@ public class AcceptanceTest {
     }
 
     @Test
+    public void shouldSupportReverseOrder() {
+        handler.onEvent(createTiming("1", "a", 3, TYPE_END));
+        handler.onEvent(createTiming("1", "a", 1, TYPE_BEGIN));
+
+        verify(consumer).publish(prepareResult("1", "a", 2));
+    }
+
+    @Test
+    public void shouldSupportSameTimeEvents() {
+        handler.onEvent(createTiming("1", "a", 1, TYPE_BEGIN));
+        handler.onEvent(createTiming("1", "a", 1, TYPE_END));
+
+        verify(consumer).publish(prepareResult("1", "a", 0));
+    }
+
+    @Test
     public void shouldSupportNestedSiblingMeasurements() {
         handler.onEvent(createTiming("1", "a", 1, TYPE_BEGIN));
         handler.onEvent(createTiming("1", "b", 2, TYPE_BEGIN));

@@ -26,18 +26,27 @@ import java.util.Stack;
  */
 public class PatternMatcher {
 
-    public boolean isClosed(List<PerformanceTiming> matches) {
-        int depth = 0;
+    public boolean isReady(List<PerformanceTiming> matches) {
+        if (matches.isEmpty()) {
+            return false;
+        }
+
+        boolean isNeutral = true;
+        int balance = 0;
+
         for (PerformanceTiming match : matches) {
             if (match.isBeginEvent()) {
-                depth++;
+                balance++;
+                isNeutral = false;
             } else if (match.isEndEvent()) {
-                depth--;
+                balance--;
+                isNeutral = false;
             }
         }
-        return depth == 1;
+        return !isNeutral && balance == 0;
     }
 
+    // Accepts timings sorted in ascending order
     public MeasurementTree prepareMeasurementTree(List<PerformanceTiming> matches) {
         Stack<PerformanceTiming> openTimings = new Stack<PerformanceTiming>();
         Stack<MeasurementTree> resultingMetrics = new Stack<MeasurementTree>();

@@ -19,12 +19,15 @@ package com.googlecode.gwtmeasure.server.event;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class AggregatingMetricsHandler implements MetricsEventHandler {
+
+    private static final TimeBasedComparator COMPARATOR = new TimeBasedComparator();
 
     private RawEventStorage cache;
     private MetricConsumer consumer;
@@ -37,21 +40,27 @@ public final class AggregatingMetricsHandler implements MetricsEventHandler {
     }
 
     public void onEvent(PerformanceTiming timing) {
-        if (timing.isEndEvent()) {
-            List<PerformanceTiming> timingStack = cache.findMatch(timing.getModuleName(), timing.getEventGroup());
-            if (timingStack.isEmpty()) {
-                cache.put(timing);
-            } else if (matcher.isClosed(timingStack)) {
-                cache.remove(timingStack);
-                timingStack.add(timing);
-                MeasurementTree result = matcher.prepareMeasurementTree(timingStack);
-                consumer.publish(result);
-            } else {
-                cache.put(timing);
-            }
+        List<PerformanceTiming> timingStack = cache.findMatch(timing.getModuleName(), timing.getEventGroup());
+
+        if (timingStack.isEmpty()) {
+            cache.put(timing);
+            return;
+        }
+
+        timingStack.add(timing);
+
+        if ((timing.isEndEvent() || timing.isBeginEvent()) && matcher.isReady(timingStack)) {
+            processTree(timingStack);
         } else {
             cache.put(timing);
         }
+    }
+
+    private void processTree(List<PerformanceTiming> timingStack) {
+        cache.remove(timingStack);
+        Collections.sort(timingStack, COMPARATOR);
+        MeasurementTree result = matcher.prepareMeasurementTree(timingStack);
+        consumer.publish(result);
     }
 
 }
