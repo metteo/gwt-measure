@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,33 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.client.spi;
+package com.googlecode.gwtmeasure.shared;
 
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+import java.util.Set;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public interface MeasurementHub {    
+public interface OpenMeasurement {
 
-    void submit(PerformanceTiming event);
+    String getEventGroup();
+
+    String getSubSystem();
+
+    void setParameter(String name, String value);
+
+    String getParameter(String name);
+
+    Set<String> getParameterNames();
+
+    void stop();
+
+    boolean isStopped();
+
+    void discard();
+
+    boolean isDiscarded();
+
+    OpenMeasurement start(String subSystem);
 
 }

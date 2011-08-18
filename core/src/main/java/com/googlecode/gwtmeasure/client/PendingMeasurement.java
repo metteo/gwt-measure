@@ -20,6 +20,7 @@ import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ import java.util.Set;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public final class PendingMeasurement {
+public final class PendingMeasurement implements OpenMeasurement {
 
     private MeasurementHubAdapter hubAdapter;
     private MeasurementListener listener;

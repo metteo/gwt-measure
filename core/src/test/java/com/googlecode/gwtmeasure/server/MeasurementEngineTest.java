@@ -16,25 +16,23 @@
 
 package com.googlecode.gwtmeasure.server;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasureContextTest extends Assert {
+public class MeasurementEngineTest extends Assert {
 
-    private MeasureContext instance;
+    private MeasurementEngine instance;
 
     @Before
     public void setUp() {
-        instance = MeasureContext.instance();
+        instance = MeasurementEngine.instance();
     }
 
     @Test

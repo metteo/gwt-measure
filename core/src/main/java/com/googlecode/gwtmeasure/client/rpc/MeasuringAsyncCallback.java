@@ -17,13 +17,14 @@
 package com.googlecode.gwtmeasure.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.exception.IncidentReportFactory;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
@@ -33,7 +34,7 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     private final int requestId;
 
     final AsyncCallback<T> originalCallback;
-    final PendingMeasurement measurement;
+    final OpenMeasurement measurement;
 
     IncidentReportFactory incidentReportFactory;
 

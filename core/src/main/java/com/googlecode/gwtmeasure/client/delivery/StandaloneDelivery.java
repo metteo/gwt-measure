@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.*;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -55,7 +55,7 @@ public final class StandaloneDelivery {
     }
 
     public void deliver() {
-        String url = Measurements.getEndpointUrl();
+        String url = Configuration.getEndpointUrl();
         RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 
         List<PerformanceTiming> timings = deliveryQueue.popTimings();

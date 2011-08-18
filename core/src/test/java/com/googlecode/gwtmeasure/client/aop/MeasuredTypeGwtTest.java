@@ -3,7 +3,7 @@ package com.googlecode.gwtmeasure.client.aop;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -30,7 +30,7 @@ public class MeasuredTypeGwtTest extends GWTTestCase {
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Measurements.setMeasurementHub(new MeasurementHub() {
+        Configuration.setMeasurementHub(new MeasurementHub() {
             public void submit(PerformanceTiming event) {
                 triggeredEvents.add(event);
             }

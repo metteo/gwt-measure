@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
@@ -43,13 +43,13 @@ public abstract class ResultInjector {
 
     // TODO Check what happens when incident is too long
     protected void injectIncidents(RequestBuilder requestBuilder, List<IncidentReport> incidents, Result result) {
-        WindowId windowId = Measurements.getWindowId();
+        WindowId windowId = Configuration.getWindowId();
         if (windowId != null) {
             String stringValue = Long.toString(windowId.getValue());
             requestBuilder.setHeader(Constants.HEADER_WND_ID, stringValue);
         }
 
-        int headerLimit = Measurements.getHeaderLimit();
+        int headerLimit = Configuration.getHeaderLimit();
         if (!incidents.isEmpty()) {
             String serializedIncidents = serializer.serialize(incidents, headerLimit);
             requestBuilder.setHeader(Constants.HEADER_ERRORS, serializedIncidents);
