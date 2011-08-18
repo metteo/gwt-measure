@@ -19,6 +19,8 @@ package com.googlecode.gwtmeasure.sample.server;
 import com.googlecode.gwtmeasure.sample.shared.Model;
 import com.googlecode.gwtmeasure.sample.client.MyService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
@@ -26,7 +28,10 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 
     public Model doStuff(Model model) {
+        OpenMeasurement start = Measurements.start("group", "server");
         System.out.println("rpc method invoked.");
+        start.stop();
+
         return model;
     }
 

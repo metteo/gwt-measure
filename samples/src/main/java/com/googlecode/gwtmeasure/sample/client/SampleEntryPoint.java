@@ -16,8 +16,7 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
 import com.googlecode.gwtmeasure.client.http.MeasuredRequestBuilder;
@@ -40,6 +39,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
@@ -57,7 +57,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
     private Button errorButton;
 
     public void onModuleLoad() {
-        PendingMeasurement measurement = Measurements.start("onModuleLoad");
+        OpenMeasurement measurement = Measurements.start("onModuleLoad");
 
         RootPanel panel = RootPanel.get();
         panel.add(new Label("Measurements"));
@@ -98,7 +98,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
         vpanel.add(hpanel2);
 
         for (int i = 0; i < 10; i++) {
-            PendingMeasurement random = Measurements.start("random");
+            OpenMeasurement random = Measurements.start("random");
             random.stop();
         }
 
@@ -135,7 +135,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
         if (source == errorButton) {
             throw new NullPointerException();
         } else if (source == customMeasureButton) {
-            PendingMeasurement m = Measurements.start("test");
+            OpenMeasurement m = Measurements.start("test");
             m.setParameter("username", "user1");
             m.stop();
         } else if (source == rpcButton) {

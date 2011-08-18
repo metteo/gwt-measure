@@ -8,12 +8,11 @@ import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.typeinfo.*;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 
 /**
  * @author dmitry.buzdin

@@ -17,9 +17,14 @@
 package com.googlecode.gwtmeasure.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
+import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.exception.IncidentReportFactory;
 import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.internal.VoidMeasurementListener;
+import com.googlecode.gwtmeasure.client.internal.WindowId;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +45,14 @@ public class MeasuringAsyncCallbackTest {
 
     @Before
     public void setUp() throws Exception {
-        Measurements.setMeasurementHub(new VoidHub());
+        Measurements.setServerImpl(new Measurements.Impl() {
+            public OpenMeasurement run(String eventGroup, String subSystem) {
+                return new PendingMeasurement(eventGroup, subSystem, new VoidHub(), new VoidMeasurementListener());
+            }
+        });
+
+        Configuration.setMeasurementHub(new VoidHub());
+        Configuration.setWindowId(new WindowId());
 
         originalCallback = mock(AsyncCallback.class);
         callback = new MeasuringAsyncCallback<Object>(originalCallback, 5);

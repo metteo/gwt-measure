@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,8 @@ import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,48 +34,17 @@ import static org.mockito.Mockito.mock;
 public class MeasurementsTest extends Assert {
 
     @Test
-    public void testSetMeasurementHub() throws Exception {
-        MeasurementHub measurementHub = mock(MeasurementHub.class);
-        MeasurementListener listener = mock(MeasurementListener.class);
-
-        Measurements.setMeasurementHub(measurementHub);
-        Measurements.setMeasurementListener(listener);
-
-        assertThat(Measurements.getMeasurementHub(), sameInstance(measurementHub));
-        assertThat(Measurements.getMeasurementListener(), sameInstance(listener));
-    }
-
-    @Test
     public void testStart() throws Exception {
-        PendingMeasurement measurement = Measurements.start("A");
+        OpenMeasurement measurement = Measurements.start("A");
         assertThat(measurement.getEventGroup(), equalTo("A"));
         assertThat(measurement.getSubSystem(), equalTo(Constants.SUB_SYSTEM_DEFAULT));
     }
 
     @Test
     public void testStartGroup() throws Exception {
-        PendingMeasurement measurement = Measurements.start("A", "B");
+        OpenMeasurement measurement = Measurements.start("A", "B");
         assertThat(measurement.getEventGroup(), equalTo("A"));
         assertThat(measurement.getSubSystem(), equalTo("B"));
-    }
-
-    @Test
-    public void testSetWindowId() throws Exception {
-        WindowId id = new WindowId();
-        Measurements.setWindowId(id);
-        assertThat(Measurements.getWindowId(), sameInstance(id));
-    }
-
-    @Test
-    public void testSetEndpointUrl() throws Exception {
-        Measurements.setEndpointUrl("x");
-        assertThat(Measurements.getEndpointUrl(), equalTo("x"));
-    }
-
-    @Test
-    public void testSetHeaderLimit() throws Exception {
-        Measurements.setHeaderLimit(1024);
-        assertThat(Measurements.getHeaderLimit(), equalTo(1024));
     }
 
 }

@@ -25,19 +25,10 @@ import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class VoidHub implements MeasurementHub {
+public final class VoidHub extends ClientMeasurementHub {
 
-    public void submit(PendingMeasurement measurement) {
-    }
-
+    @Override
     public void submit(PerformanceTiming event) {
-    }
-
-    public HandlerRegistration addHandler(PerformanceEventHandler handler) {
-        return new HandlerRegistration() {
-            public void removeHandler() {
-            }
-        };
     }
 
 }

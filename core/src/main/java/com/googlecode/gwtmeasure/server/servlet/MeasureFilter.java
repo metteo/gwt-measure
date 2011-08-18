@@ -1,6 +1,6 @@
 package com.googlecode.gwtmeasure.server.servlet;
 
-import com.googlecode.gwtmeasure.server.MeasureContext;
+import com.googlecode.gwtmeasure.server.MeasurementEngine;
 import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 
 import javax.servlet.*;
@@ -15,7 +15,9 @@ public class MeasureFilter implements Filter {
     private HttpRequestHandler handler;
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        MeasureContext context = MeasureContext.instance();
+        MeasurementEngine context = MeasurementEngine.instance();
+        context.init();
+
         BeanContainer container = context.getBeanContainer();
         handler = container.getBean(HttpRequestHandler.class);
     }
@@ -31,9 +33,8 @@ public class MeasureFilter implements Filter {
     }
 
     public void destroy() {
-        MeasureContext context = MeasureContext.instance();
-        BeanContainer container = context.getBeanContainer();
-        container.reset();
+        MeasurementEngine context = MeasurementEngine.instance();
+        context.destroy();
     }
 
 }

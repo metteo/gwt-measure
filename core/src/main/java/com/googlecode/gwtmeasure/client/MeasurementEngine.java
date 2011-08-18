@@ -20,6 +20,9 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.logging.client.LogConfiguration;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
@@ -30,26 +33,37 @@ import com.googlecode.gwtmeasure.client.delivery.LoggingChannel;
 import com.googlecode.gwtmeasure.client.delivery.RemoteServerChannel;
 import com.googlecode.gwtmeasure.client.delivery.StandaloneDelivery;
 import com.googlecode.gwtmeasure.client.exception.WrappingExceptionHandler;
+import com.googlecode.gwtmeasure.client.internal.ClientMeasurementHub;
 import com.googlecode.gwtmeasure.client.internal.JavaScriptEventObject;
 import com.googlecode.gwtmeasure.client.internal.VoidEventHandler;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.internal.WindowUnloadHandler;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 /**
+ * Bootstrap engine, which registers measurement hooks in GWT.
+ *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
+public final class MeasurementEngine implements EntryPoint, CloseHandler<Window> {
 
-    private static final MeasurementHub hub = GWT.create(MeasurementHub.class);
+    private static final ClientMeasurementHub hub = GWT.create(MeasurementHub.class);
+
+    private final EventBus eventBus = new SimpleEventBus();
 
     public void onModuleLoad() {
-        Measurements.setWindowId(new WindowId());
-        Measurements.setMeasurementHub(hub);
+        hub.setEventBus(eventBus);
 
-        registerChannels();
+        Configuration.setWindowId(new WindowId());
+        Configuration.setMeasurementHub(hub);
+
+        attachApiImpl();
+
+        registerDeliveryChannels();
         registerResourceStartEvent();
 
         // Measurement hooks
@@ -62,7 +76,24 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
         hookExceptionHandler();
     }
 
-    private void registerChannels() {
+    private void attachApiImpl() {
+        Measurements.setClientImpl(new Measurements.Impl() {
+            public PendingMeasurement run(String eventGroup, String subSystem) {
+                MeasurementHub hub = Configuration.getMeasurementHub();
+                MeasurementListener listener = Configuration.getMeasurementListener();
+
+                PendingMeasurement measurement = new PendingMeasurement(eventGroup, subSystem, hub, listener);
+                listener.onCreate(measurement);
+                return measurement;
+            }
+        });
+    }
+
+    private HandlerRegistration addHandler(PerformanceEventHandler handler) {
+        return eventBus.addHandler(PerformanceEvent.TYPE, handler);
+    }
+
+    private void registerDeliveryChannels() {
         PerformanceEventHandler remoteHandler = GWT.create(RemoteServerChannel.class);
         registerIfNotNull(remoteHandler);
 
@@ -77,7 +108,7 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
 
     private void registerIfNotNull(PerformanceEventHandler handler) {
         if (!(handler instanceof VoidEventHandler)) {
-            hub.addHandler(handler);
+            addHandler(handler);
         }
     }
 
@@ -106,7 +137,7 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
     // TODO Exponential backoff
     private void hookTimer() {
         MeasurementDeliveryTimer timer = new MeasurementDeliveryTimer();
-        int interval = Measurements.getDeliveryInterval();
+        int interval = Configuration.getDeliveryInterval();
         timer.scheduleRepeating(interval);
     }
 
@@ -129,7 +160,7 @@ public class MeasureConfiguration implements EntryPoint, CloseHandler<Window> {
     }
 
     private native void hookGwtStatsFunctionAndSink() /*-{
-        $wnd.handleEvent = @com.googlecode.gwtmeasure.client.MeasureConfiguration::handleEvent(Lcom/googlecode/gwtmeasure/client/internal/JavaScriptEventObject;);
+        $wnd.handleEvent = @com.googlecode.gwtmeasure.client.MeasurementEngine::handleEvent(Lcom/googlecode/gwtmeasure/client/internal/JavaScriptEventObject;);
         $wnd.__gwtStatsEvent = function(event) {
             $wnd.sinkGwtEvents();
             $wnd.handleEvent(event);

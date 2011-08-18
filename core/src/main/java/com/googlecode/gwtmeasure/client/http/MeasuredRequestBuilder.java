@@ -20,7 +20,7 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.client.delivery.HeaderInjector;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.SafeGWT;
@@ -101,7 +101,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     }
 
     private void httpBegin(int id) {
-        MeasurementHub hub = Measurements.getMeasurementHub();
+        MeasurementHub hub = Configuration.getMeasurementHub();
 
         PerformanceTiming timing = new PerformanceTiming.Builder()
                 .setMillis(TimeUtils.current())
@@ -115,7 +115,7 @@ public class MeasuredRequestBuilder extends RequestBuilder {
     }
 
     private void requestSent(int id) {
-        MeasurementHub hub = Measurements.getMeasurementHub();
+        MeasurementHub hub = Configuration.getMeasurementHub();
 
         PerformanceTiming timing = new PerformanceTiming.Builder()
                 .setMillis(TimeUtils.current())

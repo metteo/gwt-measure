@@ -16,13 +16,14 @@
 
 package com.googlecode.gwtmeasure;
 
-import com.googlecode.gwtmeasure.server.MeasureContext;
+import com.googlecode.gwtmeasure.server.MeasurementEngine;
 import com.googlecode.gwtmeasure.server.event.AggregatingMetricsHandler;
 import com.googlecode.gwtmeasure.server.event.MeasurementTree;
 import com.googlecode.gwtmeasure.server.event.MetricConsumer;
 import com.googlecode.gwtmeasure.server.internal.BeanContainer;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,19 +37,24 @@ public class AcceptanceTest {
 
     MetricsEventHandler handler;
     MetricConsumer consumer;
+    private MeasurementEngine engine;
 
     @Before
     public void setUp() {
-        MeasureContext context = MeasureContext.instance();
-        BeanContainer container = context.getBeanContainer();
-        container.reset();
-        MeasureContext.init();
+        engine = MeasurementEngine.instance();
+        engine.init();
+
+        BeanContainer container = engine.getBeanContainer();
 
         consumer = mock(MetricConsumer.class);
         container.register(MetricConsumer.class, consumer);
-        context.registerEventHandler(AggregatingMetricsHandler.class);
-
+        engine.registerEventHandler(AggregatingMetricsHandler.class);
         handler = container.getBean(MetricsEventHandler.class);
+    }
+
+    @After
+    public void tearDown() {
+        engine.destroy();
     }
 
     @Test

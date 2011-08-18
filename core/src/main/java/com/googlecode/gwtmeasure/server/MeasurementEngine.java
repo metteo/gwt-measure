@@ -16,50 +16,66 @@
 
 package com.googlecode.gwtmeasure.server;
 
+import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.internal.VoidMeasurementListener;
 import com.googlecode.gwtmeasure.server.event.AggregatingMetricsHandler;
 import com.googlecode.gwtmeasure.server.event.InMemoryStorage;
 import com.googlecode.gwtmeasure.server.event.LoggingMetricConsumer;
 import com.googlecode.gwtmeasure.server.event.MetricConsumer;
-import com.googlecode.gwtmeasure.server.event.PatternMatcher;
 import com.googlecode.gwtmeasure.server.event.RawEventStorage;
 import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
 import com.googlecode.gwtmeasure.server.internal.BeanContainer;
-import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
-import com.googlecode.gwtmeasure.server.internal.MeasureException;
 import com.googlecode.gwtmeasure.server.internal.NullPerformanceEventFilter;
+import com.googlecode.gwtmeasure.server.internal.ServerMeasurementHub;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
-
-import java.lang.reflect.Constructor;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public final class MeasureContext {
+public final class MeasurementEngine {
 
-    private static final MeasureContext instance = new MeasureContext();
-    private static final BeanContainer beanContainer = new BeanContainer();
+    private static final MeasurementEngine instance = new MeasurementEngine();
+    private boolean initialized = false;
 
-    // TODO Extract
-    static {
-        init();
+    public static MeasurementEngine instance() {
+        return instance;
     }
 
+    private final BeanContainer beanContainer = new BeanContainer();
+
     // Default implementations
-    public static void init() {
+    public void init() {
+        if (initialized) {
+            return;
+        }
+
         instance.registerEventHandler(AggregatingMetricsHandler.class);
         instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
 
         beanContainer.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
         beanContainer.register(RawEventStorage.class, new InMemoryStorage());
         beanContainer.register(MetricConsumer.class, new LoggingMetricConsumer());
+
+        attachApiImpl();
     }
 
-    public static MeasureContext instance() {
-        return instance;
+    public void destroy() {
+        beanContainer.reset();
+    }
+
+    private void attachApiImpl() {
+        Measurements.setServerImpl(new Measurements.Impl() {
+            public OpenMeasurement run(String eventGroup, String subSystem) {
+                VoidMeasurementListener listener = new VoidMeasurementListener();
+                MetricsEventHandler handler = beanContainer.getBean(MetricsEventHandler.class);
+                ServerMeasurementHub hub = new ServerMeasurementHub(handler);
+                return new PendingMeasurement(eventGroup, subSystem, hub, listener);
+            }
+        });
     }
 
     public BeanContainer getBeanContainer() {
