@@ -47,7 +47,9 @@ public class MeasuringAsyncCallbackTest {
     public void setUp() throws Exception {
         Measurements.setServerImpl(new Measurements.Impl() {
             public OpenMeasurement run(String eventGroup, String subSystem) {
-                return new PendingMeasurement(eventGroup, subSystem, new VoidHub(), new VoidMeasurementListener());
+                PendingMeasurement measurement = new PendingMeasurement(new VoidHub(), new VoidMeasurementListener());
+                measurement.start(eventGroup, subSystem);
+                return measurement;
             }
         });
 

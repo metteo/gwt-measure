@@ -1,6 +1,7 @@
 package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
@@ -16,48 +17,33 @@ import static org.mockito.Mockito.mock;
 public class MeasurementToEventTest extends Assert {
 
     private MeasurementToEvent converter;
-    private MeasurementHubAdapter hubAdapter;
+    private MeasurementHub hubAdapter;
     private MeasurementListener listener;
 
     @Before
     public void setUp() {
         converter = new MeasurementToEvent();
-        hubAdapter = mock(MeasurementHubAdapter.class);
+        hubAdapter = mock(MeasurementHub.class);
         listener = mock(MeasurementListener.class);
     }
 
     @Test
-    public void shouldConvert() throws Exception {
+    public void shouldConvertStart() throws Exception {
         PendingMeasurement measurement = createMeasurement();
-        measurement.stop();
 
-        PerformanceTiming[] events = converter.convert(measurement);
+        PerformanceTiming result = converter.createStartTiming(measurement);
 
-        assertThat(events.length, is(2));
-
-        assertTiming(events[0], "begin", "name", "group");
-        assertTiming(events[1], "end", "name", "group");
+        assertTiming(result, "begin", "name", "group");
     }
 
     @Test
-    public void shouldConvertChildren() throws Exception {
+    public void shouldConvertEnd() throws Exception {
         PendingMeasurement measurement = createMeasurement();
-        PendingMeasurement child = measurement.start("subName");
-        PendingMeasurement subChild = child.start("subSubName");
-        subChild.stop();
-        child.stop();
         measurement.stop();
 
-        PerformanceTiming[] events = converter.convert(measurement);
+        PerformanceTiming result = converter.createEndTiming(measurement);
 
-        assertThat(events.length, is(6));
-
-        assertTiming(events[0], "begin", "name", "group");
-        assertTiming(events[1], "end", "name", "group");
-        assertTiming(events[2], "begin", "subName", "group");
-        assertTiming(events[3], "end", "subName", "group");
-        assertTiming(events[4], "begin", "subSubName", "group");
-        assertTiming(events[5], "end", "subSubName", "group");
+        assertTiming(result, "end", "name", "group");
     }
 
     private void assertTiming(PerformanceTiming event, String type, String subSystem, String eventGroup) {
@@ -68,7 +54,9 @@ public class MeasurementToEventTest extends Assert {
     }
 
     private PendingMeasurement createMeasurement() {
-        return new PendingMeasurement("group", "name", hubAdapter, listener);
+        PendingMeasurement measurement = new PendingMeasurement(hubAdapter, listener);
+        measurement.start("group", "name");
+        return measurement;
     }
 
 

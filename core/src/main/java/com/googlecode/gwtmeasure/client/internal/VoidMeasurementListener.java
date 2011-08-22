@@ -24,9 +24,9 @@ import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
  */
 public class VoidMeasurementListener implements MeasurementListener {
 
-    public void onCreate(PendingMeasurement measurement) {
+    public void onStart(PendingMeasurement measurement) {
     }
 
-    public void onSubmit(PendingMeasurement measurement) {
+    public void onStop(PendingMeasurement measurement) {
     }
 }

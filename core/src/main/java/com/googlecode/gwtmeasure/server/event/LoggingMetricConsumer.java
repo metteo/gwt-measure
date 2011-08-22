@@ -27,19 +27,23 @@ public class LoggingMetricConsumer implements MetricConsumer {
     private static final Logger logger = LoggerFactory.getLogger(MetricConsumer.class);
 
     public void publish(MeasurementTree metric) {
-        traverse(metric, 0);
+        StringBuilder output = new StringBuilder();
+        traverse(metric, 0, output);
+        logger.info(output.toString());
     }
 
-    private void traverse(MeasurementTree metric, int i) {
-        for (MeasurementTree child : metric.getChildren()) {
-            traverse(child, --i);
+    private void traverse(MeasurementTree metric, int i, StringBuilder output) {
+        if (i > 0) {
+            output.append("\n");
         }
-        StringBuilder output = new StringBuilder("");
         for (int j = 0; j < i; j++) {
-            output.append("   ");
+            output.append(">   ");
         }
         output.append(metric);
-        logger.info(output.toString());
+
+        for (MeasurementTree child : metric.getChildren()) {
+            traverse(child, ++i, output);
+        }
     }
 
 }

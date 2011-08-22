@@ -16,13 +16,11 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.google.gwt.core.client.GWT;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,22 +28,7 @@ import java.util.Set;
  */
 public final class MeasurementToEvent {
 
-    public PerformanceTiming[] convert(PendingMeasurement measurement) {
-        ArrayList<PerformanceTiming> timings = new ArrayList<PerformanceTiming>();
-        traverse(timings, measurement);
-        return timings.toArray(new PerformanceTiming[] {});
-    }
-
-    private void traverse(ArrayList<PerformanceTiming> timings, PendingMeasurement measurement) {
-        timings.add(createStartTiming(measurement));
-        timings.add(createEndTiming(measurement));
-
-        for (PendingMeasurement child : measurement.getChildren()) {
-            traverse(timings, child);
-        }
-    }
-
-    private PerformanceTiming createStartTiming(PendingMeasurement measurement) {
+    public PerformanceTiming createStartTiming(PendingMeasurement measurement) {
         long from = measurement.getFrom();
 
         String group = measurement.getSubSystem();
@@ -63,7 +46,7 @@ public final class MeasurementToEvent {
         return beginBuilder.create();
     }
 
-    private PerformanceTiming createEndTiming(PendingMeasurement measurement) {
+    public PerformanceTiming createEndTiming(PendingMeasurement measurement) {
         long to = measurement.getTo();
 
         String group = measurement.getSubSystem();

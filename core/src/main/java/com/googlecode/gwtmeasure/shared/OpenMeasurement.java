@@ -23,6 +23,10 @@ import java.util.Set;
  */
 public interface OpenMeasurement {
 
+    public static enum Status {
+        CREATED, STARTED, DISCARDED, STOPPED
+    }
+
     String getEventGroup();
 
     String getSubSystem();
@@ -35,11 +39,9 @@ public interface OpenMeasurement {
 
     void stop();
 
-    boolean isStopped();
-
     void discard();
 
-    boolean isDiscarded();
+    Status getStatus();
 
     OpenMeasurement start(String subSystem);
 
