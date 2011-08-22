@@ -16,15 +16,16 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
+import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mockito.internal.matchers.GreaterThan;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -33,23 +34,19 @@ import static org.mockito.Mockito.*;
  */
 public class PendingMeasurementTest extends Assert {
 
-    private MeasurementHubAdapter hub;
+    private MeasurementHub hub;
     private MeasurementListener listener;
 
     @Before
     public void setUp() {
-        hub = mock(MeasurementHubAdapter.class);
+        hub = mock(MeasurementHub.class);
         listener = mock(MeasurementListener.class);
     }
 
     @Test
     public void shouldHaveDefaults() {
         PendingMeasurement measurement = createMeasurement();
-
-        assertThat(measurement.getParent(), nullValue());
-        assertThat(measurement.getChildren().isEmpty(), equalTo(true));
-        assertThat(measurement.isStopped(), equalTo(false));
-        assertThat(measurement.isDiscarded(), equalTo(false));
+        assertThat(measurement.getStatus(), is(OpenMeasurement.Status.STARTED));
     }
 
     @Test
@@ -57,9 +54,10 @@ public class PendingMeasurementTest extends Assert {
         PendingMeasurement measurement = createMeasurement();
         measurement.stop();
 
-        verify(hub).submit(measurement);
-        verify(listener).onSubmit(measurement);
-        assertThat(measurement.isStopped(), equalTo(true));
+        verify(hub, times(2)).submit(Mockito.any(PerformanceTiming.class));
+        verify(listener).onStart(measurement);
+        verify(listener).onStop(measurement);
+        assertThat(measurement.getStatus(), is(OpenMeasurement.Status.STOPPED));
     }
 
     @Test
@@ -68,9 +66,8 @@ public class PendingMeasurementTest extends Assert {
         measurement.discard();
         measurement.stop();
 
-        verifyZeroInteractions(hub);
-        assertThat(measurement.isStopped(), equalTo(true));
-        assertThat(measurement.isDiscarded(), equalTo(true));
+        verify(hub).submit(Mockito.any(PerformanceTiming.class));
+        assertThat(measurement.getStatus(), is(OpenMeasurement.Status.STOPPED));
     }
 
     @Test
@@ -79,8 +76,9 @@ public class PendingMeasurementTest extends Assert {
         measurement.stop();
         measurement.stop();
 
-        verify(hub).submit(measurement);
-        verifyNoMoreInteractions(hub);
+        verify(hub, times(2)).submit(Mockito.any(PerformanceTiming.class));
+        verify(listener).onStart(measurement);
+        verify(listener).onStop(measurement);
     }
 
     @Test
@@ -100,8 +98,11 @@ public class PendingMeasurementTest extends Assert {
 
         measurement.stop();
 
-        verify(hub).submit(measurement);
-        assertThat(measurement.isDiscarded(), is(false));
+        verify(hub, times(2)).submit(Mockito.any(PerformanceTiming.class));
+        verify(listener).onStart(measurement);
+        verify(listener).onStop(measurement);
+
+        assertThat(measurement.getStatus(), is(OpenMeasurement.Status.STOPPED));
         assertThat(measurement.getEventGroup(), is("name"));
         assertThat(measurement.getSubSystem(), is("group"));
         assertThat(measurement.getTo(), new GreaterThan(measurement.getFrom()));
@@ -145,8 +146,10 @@ public class PendingMeasurementTest extends Assert {
         PendingMeasurement child = measurement.start("subName");
         child.stop();
 
-        assertThat(child.getParent(), sameInstance(measurement));
-        assertThat(measurement.getChildren().size(), equalTo(1));
+        verify(hub, times(3)).submit(Mockito.any(PerformanceTiming.class));
+        verify(listener).onStart(measurement);
+        verify(listener).onStop(child);
+        verify(listener).onStop(child);
     }
 
     @Test
@@ -158,24 +161,19 @@ public class PendingMeasurementTest extends Assert {
         child.stop();
         measurement.stop();
 
-        assertThat(measurement.getParent(), nullValue());
-        assertThat(child.getParent(), sameInstance(measurement));
-        assertThat(subChild.getParent(), sameInstance(child));
-    }
-
-    @Test
-    public void shouldDiscardUnlinked() {
-        PendingMeasurement measurement = createMeasurement();
-        PendingMeasurement child = measurement.start("subName");
-        measurement.stop();
-        child.stop();
-
-        assertThat(measurement.getChildren().size(), equalTo(0));
-        assertThat(child.getParent(), sameInstance(measurement));
+        verify(hub, times(6)).submit(Mockito.any(PerformanceTiming.class));
+        verify(listener).onStart(measurement);
+        verify(listener).onStart(child);
+        verify(listener).onStart(subChild);
+        verify(listener).onStop(subChild);
+        verify(listener).onStop(child);
+        verify(listener).onStop(measurement);
     }
 
     private PendingMeasurement createMeasurement() {
-        return new PendingMeasurement("name", "group", hub, listener);
+        PendingMeasurement measurement = new PendingMeasurement(hub, listener);
+        measurement.start("name", "group");
+        return measurement;
     }
 
     private static void pause() {

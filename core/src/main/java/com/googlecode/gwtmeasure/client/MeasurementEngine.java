@@ -82,8 +82,8 @@ public final class MeasurementEngine implements EntryPoint, CloseHandler<Window>
                 MeasurementHub hub = Configuration.getMeasurementHub();
                 MeasurementListener listener = Configuration.getMeasurementListener();
 
-                PendingMeasurement measurement = new PendingMeasurement(eventGroup, subSystem, hub, listener);
-                listener.onCreate(measurement);
+                PendingMeasurement measurement = new PendingMeasurement(hub, listener);
+                measurement.start(eventGroup, subSystem);
                 return measurement;
             }
         });

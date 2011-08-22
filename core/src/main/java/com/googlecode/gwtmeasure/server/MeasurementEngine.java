@@ -73,7 +73,9 @@ public final class MeasurementEngine {
                 VoidMeasurementListener listener = new VoidMeasurementListener();
                 MetricsEventHandler handler = beanContainer.getBean(MetricsEventHandler.class);
                 ServerMeasurementHub hub = new ServerMeasurementHub(handler);
-                return new PendingMeasurement(eventGroup, subSystem, hub, listener);
+                PendingMeasurement measurement = new PendingMeasurement(hub, listener);
+                measurement.start(eventGroup, subSystem);
+                return measurement;
             }
         });
     }

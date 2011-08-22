@@ -16,15 +16,14 @@
 
 package com.googlecode.gwtmeasure.client;
 
-import com.googlecode.gwtmeasure.client.internal.MeasurementHubAdapter;
+import com.googlecode.gwtmeasure.client.internal.MeasurementToEvent;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.OpenMeasurement;
+import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,95 +32,73 @@ import java.util.Set;
  */
 public final class PendingMeasurement implements OpenMeasurement {
 
-    private MeasurementHubAdapter hubAdapter;
-    private MeasurementListener listener;
+    private static final MeasurementToEvent CONVERTER = new MeasurementToEvent();
+
+    private final MeasurementHub measurementHub;
+    private final MeasurementListener listener;
 
     private String eventGroup;
     private String subSystem;
 
-    private boolean discarded;
-    private boolean stopped;
+    private Status status = Status.CREATED;
 
     private long from;
-    private long to;    
+    private long to;
 
     private final Map<String, String> parameters = new HashMap<String, String>();
 
-    private final List<PendingMeasurement> children = new ArrayList<PendingMeasurement>();
-    private PendingMeasurement parent;
-
-    {
+    // TODO Make package level
+    public PendingMeasurement(MeasurementHub measurementHub,
+                              MeasurementListener listener) {
         this.from = TimeUtils.current();
+        this.measurementHub = measurementHub;
+        this.listener = listener;
     }
 
-    // TODO Make package level
-    public PendingMeasurement(String eventGroup,
-                              String subSystem,
-                              MeasurementHub measurementHub,
-                              MeasurementListener listener) {
-        this(eventGroup, subSystem, new MeasurementHubAdapter(measurementHub), listener);
-    }
-
-    // TODO Make package level
-    public PendingMeasurement(String eventGroup,
-                              String subSystem,
-                              MeasurementHubAdapter hubAdapter,
-                              MeasurementListener listener) {
+    public void start(String eventGroup, String subSystem) {
         this.eventGroup = eventGroup;
         this.subSystem = subSystem;
-        this.hubAdapter = hubAdapter;
-        this.listener = listener;
+
+        this.status = Status.STARTED;
+
+        listener.onStart(this);
+
+        PerformanceTiming timing = CONVERTER.createStartTiming(this);
+        measurementHub.submit(timing);
     }
 
     /**
      * Starts nested measurement within the same group.
+     *
      * @param subSystem name
      * @return nested measurement object
      */
     public PendingMeasurement start(String subSystem) {
-        PendingMeasurement subMeasurements = new PendingMeasurement(eventGroup, subSystem, hubAdapter, listener);
-        subMeasurements.setParent(this);
-        return subMeasurements;
+        PendingMeasurement subMeasurement = new PendingMeasurement(measurementHub, listener);
+        subMeasurement.start(eventGroup, subSystem);
+        return subMeasurement;
     }
 
     /**
      * Stops this measurement and propagates start and stop events to event queue.
      */
     public void stop() {
-        if (isActive()) {
+        if (Status.STARTED.equals(this.status)) {
             this.to = TimeUtils.current();
 
-            if (parent != null && parent.isActive()) {
-                parent.getChildren().add(this);
-            } else { // root measurement
-                listener.onSubmit(this);
-                hubAdapter.submit(this);
-            }
+            listener.onStop(this);
+
+            PerformanceTiming timing = CONVERTER.createEndTiming(this);
+            measurementHub.submit(timing);
         }
-        stopped = true;
-    }
-
-    private boolean isActive() {
-        return !discarded && !stopped;
-    }
-
-    PendingMeasurement getParent() {
-        return parent;
-    }
-
-    void setParent(PendingMeasurement measurement) {
-        this.parent = measurement;
-    }
-
-    public List<PendingMeasurement> getChildren() {
-        return children;
+        this.status = Status.STOPPED;
     }
 
     /**
      * Discards this measurement. Further calls to that will be ignored.
      */
     public void discard() {
-        this.discarded = true;
+        this.status = Status.DISCARDED;
     }
 
     public long getFrom() {
@@ -140,17 +117,14 @@ public final class PendingMeasurement implements OpenMeasurement {
         return subSystem;
     }
 
-    public boolean isDiscarded() {
-        return discarded;
-    }
-
-    public boolean isStopped() {
-        return stopped;
+    public Status getStatus() {
+        return this.status;
     }
 
     /**
      * Sets context parameter to be attached resulting events
-     * @param name parameter name
+     *
+     * @param name  parameter name
      * @param value parameter value
      */
     public void setParameter(String name, String value) {
@@ -177,7 +151,7 @@ public final class PendingMeasurement implements OpenMeasurement {
     }
 
     private void checkIfValid() {
-        if (discarded || stopped) {
+        if (!Status.STARTED.equals(this.status)) {
             throw new IllegalStateException("Measurement already invalidated." +
                     " Set properties before calling stop() or discard().");
         }

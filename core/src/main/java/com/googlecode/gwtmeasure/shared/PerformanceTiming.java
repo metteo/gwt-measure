@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.Set;
  *
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class PerformanceTiming implements HasJsonRepresentation {
+public class PerformanceTiming implements HasJsonRepresentation, Serializable {
 
     private String moduleName = "";
     private String subSystem = "";

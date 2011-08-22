@@ -29,12 +29,12 @@ public interface MeasurementListener {
      * Triggered when new pending measurement is created via Measurements.start().
      * @param measurement new measurement object
      */
-    void onCreate(PendingMeasurement measurement);
+    void onStart(PendingMeasurement measurement);
 
     /**
      * Triggered when measurement is finalized via stop() method invocation.
      * @param measurement
      */
-    void onSubmit(PendingMeasurement measurement);
+    void onStop(PendingMeasurement measurement);
 
 }

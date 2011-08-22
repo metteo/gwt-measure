@@ -31,6 +31,7 @@ public final class Measurements {
     private static Impl clientImpl = new VoidImpl();
     private static Impl serverImpl = new VoidImpl();
 
+    // TODO Package level
     public static interface Impl {
         OpenMeasurement run(String eventGroup, String subSystem);
     }
@@ -39,17 +40,21 @@ public final class Measurements {
         public OpenMeasurement run(String eventGroup, String subSystem) {
             VoidHub hub = new VoidHub();
             VoidMeasurementListener listener = new VoidMeasurementListener();
-            return new PendingMeasurement(eventGroup, subSystem, hub, listener);
+            PendingMeasurement measurement = new PendingMeasurement(hub, listener);
+            measurement.start(eventGroup, subSystem);
+            return measurement;
         }
     }
 
     private Measurements() {
     }
 
+    // TODO Package level
     public static void setClientImpl(Impl clientImpl) {
         Measurements.clientImpl = clientImpl;
     }
 
+    // TODO Package level
     public static void setServerImpl(Impl serverImpl) {
         Measurements.serverImpl = serverImpl;
     }

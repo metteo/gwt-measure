@@ -16,6 +16,7 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
+import com.google.gwt.user.server.rpc.RPCRequest;
 import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
@@ -97,7 +98,7 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
         vpanel.add(hpanel2);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             OpenMeasurement random = Measurements.start("random");
             random.stop();
         }
@@ -126,7 +127,16 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
     }
 
     private void callServer() {
-        service.doStuff(new Model(), new MyCallback());
+        OpenMeasurement start = Measurements.start(getCounter(), "useraction");
+        service.doStuff(new Model(), new MyCallback(start));
+    }
+
+    private String getCounter() {
+        int requestId = RpcContext.getRequestIdCounter();
+        if (requestId > 0) {
+            requestId++;
+        }
+        return String.valueOf(requestId);
     }
 
     public void onClick(ClickEvent event) {
@@ -158,12 +168,20 @@ public class SampleEntryPoint implements EntryPoint, ClickHandler {
 
     public class MyCallback implements AsyncCallback<Model> {
 
+        private OpenMeasurement openMeasurement;
+
+        public MyCallback(OpenMeasurement openMeasurement) {
+            this.openMeasurement = openMeasurement;
+        }
+
         public void onFailure(Throwable caught) {
             textArea.setText("Failure");
+            openMeasurement.discard();
         }
 
         public void onSuccess(Model result) {
             textArea.setText("Success with id " + RpcContext.getLastResolvedRequestId());
+            openMeasurement.stop();
         }
 
     }
