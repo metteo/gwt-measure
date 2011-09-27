@@ -20,12 +20,12 @@
     <parent>
         <groupId>com.googlecode.gwt-measure</groupId>
         <artifactId>gwt-measure-parent</artifactId>
-        <version>0.2.3-SNAPSHOT</version>
+        <version>0.2.3</version>
     </parent>
 
     <groupId>com.googlecode.gwt-measure</groupId>
     <artifactId>gwt-measure-samples</artifactId>
-    <version>0.2.3-SNAPSHOT</version>
+    <version>0.2.3</version>
     <packaging>war</packaging>
 
     <properties>
