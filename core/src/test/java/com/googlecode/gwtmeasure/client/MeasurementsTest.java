@@ -22,29 +22,38 @@ import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.shared.OpenMeasurement;
+import org.hamcrest.core.IsSame;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public class MeasurementsTest extends Assert {
 
-    @Test
-    public void testStart() throws Exception {
-        OpenMeasurement measurement = Measurements.start("A");
-        assertThat(measurement.getEventGroup(), equalTo("A"));
-        assertThat(measurement.getSubSystem(), equalTo(Constants.SUB_SYSTEM_DEFAULT));
+    private Measurements.Impl impl;
+
+    @Before
+    public void setUp() {
+        impl = mock(Measurements.Impl.class);
+        Measurements.setServerImpl(impl);
     }
 
     @Test
-    public void testStartGroup() throws Exception {
-        OpenMeasurement measurement = Measurements.start("A", "B");
-        assertThat(measurement.getEventGroup(), equalTo("A"));
-        assertThat(measurement.getSubSystem(), equalTo("B"));
+    public void testStart() throws Exception {
+        OpenMeasurement openMeasurement = mock(OpenMeasurement.class);
+        when(impl.run("A", Constants.SUB_SYSTEM_DEFAULT)).thenReturn(openMeasurement);
+
+        OpenMeasurement measurement = Measurements.start("A");
+
+        assertThat(measurement, sameInstance(openMeasurement));
     }
 
 }
