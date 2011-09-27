@@ -5,12 +5,18 @@ import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.core.ext.typeinfo.*;
+import com.google.gwt.core.ext.typeinfo.JClassType;
+import com.google.gwt.core.ext.typeinfo.JMethod;
+import com.google.gwt.core.ext.typeinfo.JPackage;
+import com.google.gwt.core.ext.typeinfo.JParameter;
+import com.google.gwt.core.ext.typeinfo.JType;
+import com.google.gwt.core.ext.typeinfo.JTypeParameter;
+import com.google.gwt.core.ext.typeinfo.TypeOracle;
 import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
-import com.googlecode.gwtmeasure.shared.Measurements;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 import java.io.PrintWriter;
 
@@ -39,7 +45,7 @@ public class MeasuredTypeGenerator extends Generator {
         ClassSourceFileComposerFactory composerFactory = new ClassSourceFileComposerFactory(packageName, proxyName);
 
         composerFactory.addImport(Measurements.class.getCanonicalName());
-        composerFactory.addImport(PendingMeasurement.class.getCanonicalName());
+        composerFactory.addImport(OpenMeasurement.class.getCanonicalName());
         composerFactory.addImport(Constants.class.getCanonicalName());
 
         composerFactory.setSuperclass(className);
@@ -64,7 +70,7 @@ public class MeasuredTypeGenerator extends Generator {
                     + "(" + generateParameterSignature(parameters) + ") "
                     + generateThrowsSignature(method) + " {");
             sw.indent();
-            sw.println("PendingMeasurement m = Measurements.start(\"" + name + "." + method.getName() + "\");");
+            sw.println("OpenMeasurement m = Measurements.start(\"" + name + "." + method.getName() + "\");");
             sw.println("m.setParameter(Constants.PARAM_METHOD, \"" + name + "." + method.getName() + "\");");
             sw.println("try {");
             sw.indent();
