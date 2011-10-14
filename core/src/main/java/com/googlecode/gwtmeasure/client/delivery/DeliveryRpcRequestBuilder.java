@@ -14,13 +14,7 @@ import java.util.List;
  */
 public class DeliveryRpcRequestBuilder extends RpcRequestBuilder {
 
-    private static final RpcRequestBuilder instance = new DeliveryRpcRequestBuilder();
-
-    public static RpcRequestBuilder instance() {
-        return instance;
-    }
-
-    private DeliveryRpcRequestBuilder() {
+    public DeliveryRpcRequestBuilder() {
     }
 
     /**

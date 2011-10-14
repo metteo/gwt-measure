@@ -38,8 +38,8 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
                                           String serializationPolicyName,
                                           Serializer serializer) {
         super(moduleBaseURL, remoteServiceRelativePath, serializationPolicyName, serializer);
-        RpcRequestBuilder builder = DeliveryRpcRequestBuilder.instance();
-        setRpcRequestBuilder(builder);
+        RpcRequestBuilder rpcRequestBuilder = GWT.create(DeliveryRpcRequestBuilder.class);
+        setRpcRequestBuilder(rpcRequestBuilder);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MeasuringRemoteServiceProxy extends RemoteServiceProxy {
         RpcContext.setRequestIdCounter(requestId);
         AsyncCallback<T> wrappedCallback = callbackFactory.createAsyncCallback(callback, methodName, requestId);
         RequestCallback originalRequest = super.doCreateRequestCallback(responseReader, methodName, statsContext, wrappedCallback);
-        return callbackFactory.createRequestCallback(originalRequest);
+        return callbackFactory.createRequestCallback(originalRequest, methodName);
     }
 
 }
