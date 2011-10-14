@@ -14,7 +14,7 @@ public class MeasuringAsyncCallbackFactory {
         return new MeasuringAsyncCallback<T>(originalCallback, requestId);
     }
 
-    public RequestCallback createRequestCallback(RequestCallback originalCallback) {
+    public RequestCallback createRequestCallback(RequestCallback originalCallback, String methodName) {
         return new MeasuringRequestCallback(originalCallback);
     }
 
