@@ -16,20 +16,25 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class SampleEntryPoint implements EntryPoint {
+public class MainDisplay extends Composite implements Display {
 
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
+    final SimplePanel panel;
 
-    public void onModuleLoad() {
-        Application application = clientFactory.getApplication();
-        application.init();
+    public MainDisplay() {
+        panel = new SimplePanel();
+        initWidget(panel);
+    }
+
+    public void setWidget(IsWidget widget) {
+        panel.setWidget(widget);
     }
 
 }

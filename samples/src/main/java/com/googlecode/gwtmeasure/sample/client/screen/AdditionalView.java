@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.sample.client;
+package com.googlecode.gwtmeasure.sample.client.screen;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;

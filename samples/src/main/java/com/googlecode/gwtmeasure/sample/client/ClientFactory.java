@@ -16,20 +16,15 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.inject.client.GinModules;
+import com.google.gwt.inject.client.Ginjector;
 
 /**
- * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class SampleEntryPoint implements EntryPoint {
+@GinModules(SampleModule.class)
+public interface ClientFactory extends Ginjector {
 
-    ClientFactory clientFactory = GWT.create(ClientFactory.class);
-
-    public void onModuleLoad() {
-        Application application = clientFactory.getApplication();
-        application.init();
-    }
+    Application getApplication();
 
 }

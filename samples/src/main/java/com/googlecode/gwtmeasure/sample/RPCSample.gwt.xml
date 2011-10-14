@@ -22,6 +22,8 @@
     <inherits name='com.google.gwt.user.User'/>    
     <inherits name="com.google.gwt.user.theme.standard.Standard"/>
     <inherits name="com.googlecode.gwtmeasure.GWTMeasure"/>
+    <inherits name="com.google.gwt.inject.Inject"/>
+    <inherits name="com.google.gwt.activity.Activity"/>
 
     <!-- Disabled by default -->
     <set-property name="gwt.measure.debugHandler" value="ENABLED"/>
