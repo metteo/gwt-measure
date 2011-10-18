@@ -24,4 +24,6 @@ import com.google.gwt.user.client.ui.IsWidget;
  */
 public interface Display extends IsWidget, AcceptsOneWidget {
 
+    void init();
+
 }
