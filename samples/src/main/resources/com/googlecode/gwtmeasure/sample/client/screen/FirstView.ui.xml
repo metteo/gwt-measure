@@ -14,19 +14,20 @@
   ~ limitations under the License.
   -->
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
 
-    <g:LayoutPanel>
-        <g:layer>
+    <g:HTMLPanel>
+        <div>
             <g:Label text="Measurements"/>
             <g:TextArea width="400px" height="300px" ui:field="textArea"/>
-
+        </div>
+        <div>
             <g:Button text="Add Measurement" ui:field="addButton"/>
             <g:Button text="RPC Request" ui:field="rpcButton"/>
             <g:Button text="HTTP Request" ui:field="httpButton"/>
             <g:Button text="Run Async" ui:field="asyncButton"/>
             <g:Button text="Exception" ui:field="errorButton"/>
-        </g:layer>
-    </g:LayoutPanel>
+        </div>
+    </g:HTMLPanel>
 
 </ui:UiBinder>

@@ -16,9 +16,7 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 
 import javax.inject.Inject;
@@ -29,17 +27,18 @@ import javax.inject.Inject;
 public class Application {
 
     private PlaceHistoryHandler historyHandler;
+    private Display display;
 
     @Inject
     public Application(PlaceHistoryHandler historyHandler,
-                       PlaceController placeController,
-                       EventBus eventBus) {
+                       ActivityManager activityManager,
+                       Display display) {
         this.historyHandler = historyHandler;
-
-        historyHandler.register(placeController, eventBus, Place.NOWHERE);
+        this.display = display;
     }
 
     public void init() {
+        display.init();
         historyHandler.handleCurrentHistory();
     }
 

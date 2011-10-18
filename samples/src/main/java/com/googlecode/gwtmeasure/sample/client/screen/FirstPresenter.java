@@ -60,6 +60,7 @@ public class FirstPresenter extends AbstractActivity {
         OpenMeasurement measurement = Measurements.start("onModuleLoad");
 
         view = new FirstView();
+        view.setPresenter(this);
         panel.setWidget(view);
 
         callServer();
