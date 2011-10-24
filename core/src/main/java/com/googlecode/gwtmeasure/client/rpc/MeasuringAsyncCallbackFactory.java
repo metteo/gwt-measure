@@ -10,11 +10,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public class MeasuringAsyncCallbackFactory {
 
-    public <T> AsyncCallback<T> createAsyncCallback(AsyncCallback<T> originalCallback, String methodName, int requestId) {
+    public <T> MeasuringAsyncCallback<T> createAsyncCallback(AsyncCallback<T> originalCallback,
+                                                             String methodName,
+                                                             int requestId) {
         return new MeasuringAsyncCallback<T>(originalCallback, requestId);
     }
 
-    public RequestCallback createRequestCallback(RequestCallback originalCallback, String methodName) {
+    public RequestCallback createRequestCallback(RequestCallback originalCallback,
+                                                 String methodName,
+                                                 MeasuringAsyncCallback asyncCallback) {
         return new MeasuringRequestCallback(originalCallback);
     }
 

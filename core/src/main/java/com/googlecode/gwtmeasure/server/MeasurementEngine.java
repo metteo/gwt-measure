@@ -61,6 +61,7 @@ public final class MeasurementEngine {
         beanContainer.register(MetricConsumer.class, new LoggingMetricConsumer());
 
         attachApiImpl();
+	    initialized = true;
     }
 
     public void destroy() {

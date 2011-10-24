@@ -17,13 +17,12 @@
 package com.googlecode.gwtmeasure.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.googlecode.gwtmeasure.shared.Measurements;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.exception.IncidentReportFactory;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
+import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
@@ -47,8 +46,13 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
         this.requestId = requestId;
         String callbackType = originalCallback.getClass().getName();
         String methodName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
-        this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
-        this.measurement.setParameter(Constants.PARAM_METHOD, methodName);
+        this.measurement = createMeasurement(requestId, methodName);
+    }
+
+    protected OpenMeasurement createMeasurement(int requestId, String methodName) {
+        OpenMeasurement openMeasurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
+        openMeasurement.setParameter(Constants.PARAM_METHOD, methodName);
+        return openMeasurement;
     }
 
     public void onSuccess(T result) {
