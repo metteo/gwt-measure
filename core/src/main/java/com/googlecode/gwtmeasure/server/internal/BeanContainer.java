@@ -58,7 +58,7 @@ public final class BeanContainer {
                 }
                 instance = constructor.newInstance(initargs);
             } catch (Exception e) {
-                throw new MeasureException("Failed to instantiate", e);
+                throw new MeasureException("Failed to instantiate " + targetType.getSimpleName(), e);
             }
             beans.put(targetType, instance);
             return (T) instance;
