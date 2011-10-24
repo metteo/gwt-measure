@@ -16,6 +16,9 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.*;
 
 /**
@@ -23,15 +26,20 @@ import com.google.gwt.user.client.ui.*;
  */
 public class MainDisplay extends Composite implements Display {
 
-    final SimplePanel panel;
+    @UiField
+    SimplePanel content;
+    @UiField
+    SimplePanel output;
+
+    interface ViewUIBinder extends UiBinder<Widget, MainDisplay> {
+    }
 
     public MainDisplay() {
-        panel = new SimplePanel();
-        initWidget(panel);
+        initWidget(GWT.<ViewUIBinder>create(ViewUIBinder.class).createAndBindUi(this));
     }
 
     public void setWidget(IsWidget widget) {
-        panel.setWidget(widget);
+        content.setWidget(widget);
     }
 
     public void init() {
