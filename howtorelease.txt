@@ -1,0 +1,28 @@
+GWT Measure uses Sonatype Maven Repository for publishing.
+
+General instruction is located here:
+https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
+
+Generate public key:
+https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven
+
+Configure Maven by specifying these servers in ~/.m2/settings.xml
+
+<server>
+  <id>sonatype-nexus-snapshots</id>
+  <username>myuser</username>
+  <password>******</password>
+</server>
+<server>
+  <id>sonatype-nexus-staging</id>
+  <username>myuser</username>
+  <password>******</password>
+</server>
+
+Snapshot deployment:
+> mvn clean deploy
+
+Staging deployment:
+> mvn release:clean
+> mvn release:prepare
+> mvn release:perform

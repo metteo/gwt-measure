@@ -1,0 +1,12 @@
+syntax: glob
+
+# itself
+.hgignore
+
+# Maven
+*/target/*
+
+# IntelliJ IDEA
+.idea/*
+*.iml
+

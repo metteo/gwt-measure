@@ -1,0 +1,97 @@
+--------- Version 0.2.2 ----------
+First production ready version
+----------------------------------
+
++ GWT 2.1.1 support
++ Apache 2.0 License
++ integration with GWT lightweight measurements
++ gwt event handler on client for easy plugins
++ measurements of RPC Callbacks
++ support custom event attributes (fragment, size, bytes, method, sessionId)
++ slf4j api support on server
++ handle browser close and navigate to different url
++ pluggable server implementations
++ measurements groups support
++ measuring static resource download
++ client/server network events
++ disabling/enabling of features
++ measurements of HTTP RequestsBuilder
++ timing messages in json format
++ callback failure identification
++ uncaught exception reporting
++ gwt jdk logging on client
++ publish to maven repository
++ user defined context parameters
++ piggybacking requests for measurement delivery (rpc, request builder)
++ Limit of 8K HTTP header size
++ Sending measurements in request body to the servlet
++ uid injection with filter or remote servlet
++ measurements of EntryPoints
++ similar level of functionality as in HttpThrowableReporter
++ support RunAsync measurements in Web mode (fragment, size)
++ aspect-like measurement proxy generation on client
++ configurable global measurement listener
+
+--- In Progress ---
+# event aggregation via eventGroups
+# hierarchical measurements
+
+--- Version 1.0.0 Target ---
+# retry after failed RPC calls
+# mention gwt-debug-panel in documentation
+# write instrumentation manual
+# publish the road map
+# ensure extensibility and spi interfaces
+# provide gwt test cases
+# improve sample application to look realistic
+# gather and improve test coverage
+# write JavaDocs for all public classes
+# review public classes and configuration properties naming
+# compress js code, which should be included for instrumentation
+# retry sequence of measurement delivery
+# bundle GSON in server distribution
+# write contributor guidelines
+# make sure server part is optional
+# filtering of exception types to be reported
+# ensure incident report could be injected with context data
+# support for deobfuscating stack traces
+# create separate module for integration tests
+# spring/guice/javaEE injection support
+
+--- Post 1.0.0 ---
+# granular disabling of the features
+# write http servlet, which instruments the host html page
+# add code checks (FindBugs, Checkstyle, PMD, Cobertura)
+# exponential retry backoff period
+# split client and server distributions
+# compare with https://github.com/yahoo/boomerang/
+# compare with http://stevesouders.com/episodes/
+# Perf4J integration
+# categorization of reaction to different types of incidents
+# offline HTML5 storage of incidents on client until browser is connected
+# exception diagnostics and categorization
+# measurements of Timers
+# measurements of ClientBundle ExternalResources
+# measurements of native RequestFactory
+# native js measurement support (somehow)
+# browser type and version recognition
+# Browser Web Timing API usage (IE9, Chrome, FFox)
+# JMX reporting and configuration support
+# remote configuration of the client
+# write dependency checks between client/server/shared and libs (JDepend?)
+# GWT 2.3 support
+# create project logo
+# performance test on how much overhead the instrumentation brings
+
+----- Future -----
+# async message storage on server for large scale apps
+# Google App Engine integration
+# ip geomapping
+# sample reporting over embedded database
+# google chart api for reporting
+# reporting tools integration
+# Migrate to Java 1.6 and use SPI feature
+# internal event correlation DSL
+# dynaTrace integration
+# Chrome SpeedTracer JSON reports producer
+# websockets

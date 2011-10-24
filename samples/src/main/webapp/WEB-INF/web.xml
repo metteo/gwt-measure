@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2011 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <servlet>
+        <servlet-name>rpcServlet</servlet-name>
+        <servlet-class>com.googlecode.gwtmeasure.sample.server.MyServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>rpcServlet</servlet-name>
+        <url-pattern>/samplerpc/MyService</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>plainServlet</servlet-name>
+        <servlet-class>com.googlecode.gwtmeasure.sample.server.PlainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>plainServlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>measurementServlet</servlet-name>
+        <servlet-class>com.googlecode.gwtmeasure.server.servlet.MeasuringServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>measurementServlet</servlet-name>
+        <url-pattern>/measurements</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>measure</filter-name>
+        <filter-class>com.googlecode.gwtmeasure.server.servlet.MeasureFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>measure</filter-name>
+        <servlet-name>plainServlet</servlet-name>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>measure</filter-name>
+        <servlet-name>rpcServlet</servlet-name>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>com.googlecode.gwtmeasure.sample.server.measure.FilterConfiguration</listener-class>
+    </listener>
+
+</web-app>
