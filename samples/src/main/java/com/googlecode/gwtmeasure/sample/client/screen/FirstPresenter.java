@@ -29,7 +29,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.gwtmeasure.client.http.HttpStatsContext;
-import com.googlecode.gwtmeasure.client.http.MeasuredRequestBuilder;
+import com.googlecode.gwtmeasure.client.http.MeasuringRequestBuilder;
 import com.googlecode.gwtmeasure.client.rpc.RpcContext;
 import com.googlecode.gwtmeasure.sample.client.MyServiceAsync;
 import com.googlecode.gwtmeasure.sample.shared.Model;
@@ -69,7 +69,7 @@ public class FirstPresenter extends AbstractActivity {
     }
 
   public void callXhrServer() {
-        RequestBuilder builder = new MeasuredRequestBuilder(RequestBuilder.POST, "/servlet");
+        RequestBuilder builder = new MeasuringRequestBuilder(RequestBuilder.POST, "/servlet");
         builder.setCallback(new RequestCallback() {
             public void onResponseReceived(Request request, Response response) {
                 view.textArea.setText("Success with request id " + HttpStatsContext.getLastResolvedRequestId());
