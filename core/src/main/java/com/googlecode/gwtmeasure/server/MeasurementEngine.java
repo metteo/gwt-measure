@@ -33,13 +33,16 @@ import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
 import com.googlecode.gwtmeasure.shared.Measurements;
 import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * @author <a href="buzdin@gmail.com">Dmitry Buzdin</a>
  */
 public final class MeasurementEngine {
 
     private static final MeasurementEngine instance = new MeasurementEngine();
-    private boolean initialized = false;
+
+    private final AtomicBoolean initialized = new AtomicBoolean(false);
 
     public static MeasurementEngine instance() {
         return instance;
@@ -49,23 +52,21 @@ public final class MeasurementEngine {
 
     // Default implementations
     public void init() {
-        if (initialized) {
-            return;
+        if (initialized.compareAndSet(false, true)) {
+            instance.registerEventHandler(AggregatingMetricsHandler.class);
+            instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
+
+            beanContainer.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
+            beanContainer.register(RawEventStorage.class, new InMemoryStorage());
+            beanContainer.register(MetricConsumer.class, new LoggingMetricConsumer());
+
+            attachApiImpl();
         }
-
-        instance.registerEventHandler(AggregatingMetricsHandler.class);
-        instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
-
-        beanContainer.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
-        beanContainer.register(RawEventStorage.class, new InMemoryStorage());
-        beanContainer.register(MetricConsumer.class, new LoggingMetricConsumer());
-
-        attachApiImpl();
-	    initialized = true;
     }
 
     public void destroy() {
         beanContainer.reset();
+        initialized.set(false);
     }
 
     private void attachApiImpl() {
