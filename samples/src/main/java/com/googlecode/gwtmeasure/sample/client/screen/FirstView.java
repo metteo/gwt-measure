@@ -36,6 +36,9 @@ import com.googlecode.gwtmeasure.sample.client.Display;
 public class FirstView extends Composite {
 
     @UiField
+    TextArea textArea;
+
+    @UiField
     Button addButton;
     @UiField
     Button rpcButton;
@@ -45,8 +48,6 @@ public class FirstView extends Composite {
     Button asyncButton;
     @UiField
     Button errorButton;
-    @UiField
-    TextArea textArea;
 
     FirstPresenter presenter;
 
@@ -54,11 +55,7 @@ public class FirstView extends Composite {
     }
 
     public FirstView() {
-        initWidget(GWT.<Widget>create(ViewUIBinder.class));
-    }
-
-    public void init() {
-        RootLayoutPanel.get().add(this);
+        initWidget(GWT.<ViewUIBinder>create(ViewUIBinder.class).createAndBindUi(this));
     }
 
     public void setPresenter(FirstPresenter presenter) {

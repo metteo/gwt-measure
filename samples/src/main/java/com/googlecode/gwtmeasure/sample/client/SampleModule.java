@@ -49,8 +49,17 @@ public class SampleModule extends AbstractGinModule {
     }
 
     @Provides @Singleton
-    public PlaceHistoryHandler createPlaceHistoryHandler() {
-        return new PlaceHistoryHandler(new PlaceHistoryMapper() {
+    public PlaceHistoryHandler createPlaceHistoryHandler(PlaceHistoryMapper placeHistoryMapper,
+                                                         PlaceController placeController,
+                                                         EventBus eventBus) {
+        PlaceHistoryHandler placeHistoryHandler = new PlaceHistoryHandler(placeHistoryMapper);
+        placeHistoryHandler.register(placeController, eventBus, FirstPresenter.PLACE);
+        return placeHistoryHandler;
+    }
+
+    @Provides @Singleton
+    public PlaceHistoryMapper createPlaceHistoryMapper() {
+        return new PlaceHistoryMapper() {
             public Place getPlace(String token) {
                 return FirstPresenter.PLACE;
             }
@@ -58,7 +67,7 @@ public class SampleModule extends AbstractGinModule {
             public String getToken(Place place) {
                 return "";
             }
-        });
+        };
     }
 
     @Provides @Singleton

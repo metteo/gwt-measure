@@ -16,10 +16,7 @@
 
 package com.googlecode.gwtmeasure.sample.client;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 
 /**
  * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
@@ -35,6 +32,10 @@ public class MainDisplay extends Composite implements Display {
 
     public void setWidget(IsWidget widget) {
         panel.setWidget(widget);
+    }
+
+    public void init() {
+        RootLayoutPanel.get().add(this);
     }
 
 }
