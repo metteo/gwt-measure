@@ -62,7 +62,7 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>com.googlecode.gwtmeasure.sample.server.FilterConfiguration</listener-class>
+        <listener-class>com.googlecode.gwtmeasure.sample.server.measure.FilterConfiguration</listener-class>
     </listener>
 
 </web-app>

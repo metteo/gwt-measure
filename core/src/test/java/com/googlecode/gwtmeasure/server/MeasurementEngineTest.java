@@ -14,41 +14,30 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server.event;
+package com.googlecode.gwtmeasure.server;
 
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 /**
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class EventCacheTest extends Assert {
+public class MeasurementEngineTest extends Assert {
 
-    private EventCache cache;
+    private MeasurementEngine instance;
 
     @Before
-    public void setUp() throws Exception {
-        cache = new EventCache();
+    public void setUp() {
+        instance = MeasurementEngine.instance();
     }
 
     @Test
-    public void testAppend_Null() throws Exception {
-        PerformanceTiming result = cache.findMatch(new PerformanceTiming());
-        assertThat(result, nullValue());
-    }
-        
-    @Test
-    public void testAppend_Simple() throws Exception {
-        PerformanceTiming timing = new PerformanceTiming();
-        cache.append(timing);
-
-        PerformanceTiming result = cache.findMatch(new PerformanceTiming());
-        assertThat(result, sameInstance(timing));
+    public void shouldBeInitialized() {
+        assertThat(instance.getBeanContainer(), notNullValue());
     }
 
 }

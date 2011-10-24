@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,43 +14,19 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
-
-import com.googlecode.gwtmeasure.server.incident.LoggingIncidentReportHandler;
-import com.googlecode.gwtmeasure.server.internal.CompositeMetricsEventHandler;
-import com.googlecode.gwtmeasure.server.internal.MeasureException;
-import com.googlecode.gwtmeasure.server.internal.NullPerformanceEventFilter;
-import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
-import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
-import com.googlecode.gwtmeasure.server.spi.PerformanceEventFilter;
+package com.googlecode.gwtmeasure.server.internal;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasureContext {
-
-    private static final MeasureContext instance = new MeasureContext();
+public final class BeanContainer {
 
     private final Map<Class<?>, Class<?>> registry = new ConcurrentHashMap<Class<?>, Class<?>>();
     private final Map<Class<?>, Object> beans = new ConcurrentHashMap<Class<?>, Object>();
-
-    // Default implementations
-    static {
-        CompositeMetricsEventHandler eventHandler = new CompositeMetricsEventHandler();
-        eventHandler.addHandler(new LoggingHandler());
-
-        instance.registerEventHandler(eventHandler);
-        instance.registerIncidentHandler(LoggingIncidentReportHandler.class);
-        instance.register(PerformanceEventFilter.class, new NullPerformanceEventFilter());
-    }
-
-    public static MeasureContext instance() {
-        return instance;
-    }
 
     public <T> T getBean(final Class<T> type) {
         Class<T> targetType = type;
@@ -82,7 +58,7 @@ public class MeasureContext {
                 }
                 instance = constructor.newInstance(initargs);
             } catch (Exception e) {
-                throw new MeasureException("Failed to instantiate", e);
+                throw new MeasureException("Failed to instantiate " + targetType.getSimpleName(), e);
             }
             beans.put(targetType, instance);
             return (T) instance;
@@ -99,24 +75,8 @@ public class MeasureContext {
     }
 
     public void reset() {
+        registry.clear();
         beans.clear();
     }
-
-    public void registerEventHandler(Class<? extends MetricsEventHandler> eventHandler) {
-        register(MetricsEventHandler.class, eventHandler);
-    }
-
-    public void registerEventHandler(MetricsEventHandler eventHandler) {
-        register(MetricsEventHandler.class, eventHandler);
-    }
-
-    public void registerIncidentHandler(IncidentReportHandler incidentHandler) {
-        register(IncidentReportHandler.class, incidentHandler);
-    }
-
-    public void registerIncidentHandler(Class<? extends IncidentReportHandler> incidentHandler) {
-        register(IncidentReportHandler.class, incidentHandler);
-    }
-
 
 }

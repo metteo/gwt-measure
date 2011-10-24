@@ -1,16 +1,19 @@
 package com.googlecode.gwtmeasure.client.aop;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.googlecode.gwtmeasure.client.Measurements;
-import com.googlecode.gwtmeasure.client.PerformanceEventHandler;
-import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.PerformanceTiming;
+import com.googlecode.gwtmeasure.client.GwtTestConstants;
+import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.internal.VoidMeasurementListener;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,25 +21,28 @@ import java.util.Set;
  */
 public class MeasuringProxyGeneratorGwtTest extends GWTTestCase {
 
-    final Set<PerformanceTiming> triggeredEvents = new HashSet<PerformanceTiming>();
+    final List<String> triggeredEvents = new ArrayList<String>();
+
     MeasuredClass measured;
 
     @Override
     public String getModuleName() {
-        return "com.googlecode.gwtmeasure.GWTMeasure";
+        return GwtTestConstants.MODULE_NAME;
     }
 
     @Override
     protected void gwtSetUp() throws Exception {
         super.gwtSetUp();
 
-        Measurements.setMeasurementHub(new MeasurementHub() {
-            public void submit(PerformanceTiming event) {
-                triggeredEvents.add(event);
-            }
+        Measurements.setClientImpl(new Measurements.Impl() {
+            public OpenMeasurement run(String eventGroup, String subSystem) {
+                triggeredEvents.add(eventGroup);
 
-            public HandlerRegistration addHandler(PerformanceEventHandler handler) {
-                return null;
+                VoidHub hub = new VoidHub();
+                VoidMeasurementListener listener = new VoidMeasurementListener();
+                PendingMeasurement measurement = new PendingMeasurement(hub, listener);
+                measurement.start(eventGroup, subSystem);
+                return measurement;
             }
         });
 
@@ -60,52 +66,52 @@ public class MeasuringProxyGeneratorGwtTest extends GWTTestCase {
     public void testEventContent() {
         measured.goToServer();
 
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
 
-        PerformanceTiming timing = triggeredEvents.iterator().next();
-        assertEquals("MeasuredClass.goToServer()", timing.getEventGroup());
+        String eventGroup = triggeredEvents.iterator().next();
+        assertEquals("MeasuredClass.goToServer", eventGroup);
     }
 
     public void testVoidMethod() {
         measured.goToServer();
         assertTrue(measured.called);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testPrimitiveMethod() {
         int result = measured.getResult();
         assertEquals(42, result);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testArrayMethod() {
         int[] result = measured.array();
         assertTrue(Arrays.equals(new int[]{1, 2, 3}, result));
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testObjectMethod() {
         Set<String> result = measured.strings();
         assertNotNull(result);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testPassObject() {
         measured.passObject(new Object());
         assertNotNull(measured.object);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testPassObjects() {
         measured.passObjects(new Object(), new Object());
         assertNotNull(measured.object);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testPassVarargs() {
         measured.passVarargs(new Object(), new Object());
         assertNotNull(measured.object);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
     public void testFinalMethod() {
@@ -119,7 +125,7 @@ public class MeasuringProxyGeneratorGwtTest extends GWTTestCase {
             measured.throwsRuntimeException();
             fail();
         } catch (NullPointerException e) {
-            assertEquals(0, triggeredEvents.size());
+            assertEquals(1, triggeredEvents.size());
         }
     }
 
@@ -128,20 +134,20 @@ public class MeasuringProxyGeneratorGwtTest extends GWTTestCase {
             measured.throwsCheckedException();
             fail();
         } catch (IOException e) {
-            assertEquals(0, triggeredEvents.size());
+            assertEquals(1, triggeredEvents.size());
         }
     }
 
     public void testEnums() {
         MeasuredClass.Status result = measured.returnsEnum();
         assertNotNull(result);
-        assertEquals(2, triggeredEvents.size());
+        assertEquals(1, triggeredEvents.size());
     }
 
    public void testGenerics() {
        Object result = measured.returnsGenericType();
        assertNotNull(result);
-       assertEquals(2, triggeredEvents.size());
+       assertEquals(1, triggeredEvents.size());
    }
 
 }

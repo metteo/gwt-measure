@@ -29,7 +29,7 @@
     <source path="shared"/>
 
     <!-- The Entry Point -->
-    <entry-point class="com.googlecode.gwtmeasure.client.MeasureConfiguration"/>
+    <entry-point class="com.googlecode.gwtmeasure.client.MeasurementEngine"/>
 
     <!-- Deferred Binding Properties -->
     <define-property name="gwt.measure.enabled" values="TRUE, FALSE"/>
@@ -44,7 +44,7 @@
     <set-property name="gwt.measure.loggingHandler" value="ENABLED"/>
 
     <!-- Measurement Hub -->
-    <replace-with class="com.googlecode.gwtmeasure.client.internal.MeasurementHubImpl">
+    <replace-with class="com.googlecode.gwtmeasure.client.internal.ClientMeasurementHub">
         <when-property-is name="gwt.measure.enabled" value="TRUE"/>
         <when-type-assignable class="com.googlecode.gwtmeasure.client.spi.MeasurementHub"/>
     </replace-with>

@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.sample.client;
-
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+package com.googlecode.gwtmeasure.client;
 
 /**
- * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class AdditionalView {
+public class GwtTestConstants {
 
-    public Widget render() {
-        return new Label("Run Async");
-    }
-    
+    public static final String MODULE_NAME = "com.googlecode.gwtmeasure.GWTMeasure";
+
 }

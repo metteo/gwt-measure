@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
@@ -38,7 +38,7 @@ public final class HeaderInjector extends ResultInjector {
     }
 
     public Result inject(RequestBuilder requestBuilder, List<PerformanceTiming> timings, List<IncidentReport> incidents) {
-        int headerLimit = Measurements.getHeaderLimit();
+        int headerLimit = Configuration.getHeaderLimit();
         Result result = new Result();
 
         if (!timings.isEmpty()) {            

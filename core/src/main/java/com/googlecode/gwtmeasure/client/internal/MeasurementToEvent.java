@@ -16,47 +16,51 @@
 
 package com.googlecode.gwtmeasure.client.internal;
 
-import com.google.gwt.core.client.GWT;
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class MeasurementToEvent {
+public final class MeasurementToEvent {
 
-    public PerformanceTiming[] convert(PendingMeasurement measurement) {
+    public PerformanceTiming createStartTiming(PendingMeasurement measurement) {
         long from = measurement.getFrom();
-        long to = measurement.getTo();
+
         String group = measurement.getSubSystem();
         String name = measurement.getEventGroup();
 
-        PerformanceTiming[] result = new PerformanceTiming[2];
-
         PerformanceTiming.Builder beginBuilder = new PerformanceTiming.Builder()
-                .setModuleName(moduleName())
+                .setModuleName(SafeGWT.getModuleName())
                 .setMillis(from)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_BEGIN)
                 .setEventGroup(name);
 
         appendParameters(measurement, beginBuilder);
-        result[0] = beginBuilder.create();
+
+        return beginBuilder.create();
+    }
+
+    public PerformanceTiming createEndTiming(PendingMeasurement measurement) {
+        long to = measurement.getTo();
+
+        String group = measurement.getSubSystem();
+        String name = measurement.getEventGroup();
 
         PerformanceTiming.Builder endBuilder = new PerformanceTiming.Builder()
-                .setModuleName(moduleName())
+                .setModuleName(SafeGWT.getModuleName())
                 .setMillis(to)
                 .setSubSystem(group)
                 .setType(Constants.TYPE_END)
                 .setEventGroup(name);
-        
-        appendParameters(measurement, endBuilder);
-        result[1] = endBuilder.create();
 
-        return result;
+        appendParameters(measurement, endBuilder);
+        return endBuilder.create();
     }
 
     private void appendParameters(PendingMeasurement measurement, PerformanceTiming.Builder builder) {
@@ -65,10 +69,6 @@ public class MeasurementToEvent {
             String value = measurement.getParameter(parameterName);
             builder.setParameter(parameterName, value);
         }
-    }
-
-    String moduleName() {
-        return GWT.getModuleName();
     }
 
 }

@@ -16,14 +16,14 @@
 
 package com.googlecode.gwtmeasure.client.http;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.client.delivery.HeaderInjector;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
+import com.googlecode.gwtmeasure.client.internal.SafeGWT;
 import com.googlecode.gwtmeasure.client.internal.TimeUtils;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
 import com.googlecode.gwtmeasure.shared.Constants;
@@ -47,22 +47,28 @@ public class MeasuringRequestBuilder extends RequestBuilder {
     @Override
     public Request send() throws RequestException {
         int id = HttpStatsContext.getNextRequestId();
+
+        httpBegin(id);
         attachHeaders(id);
         attachMeasurements();
-        requestSent(id);
 
-        return super.send();
+        Request request = super.send();
+        requestSent(id);
+        return request;
     }
 
     @Override
     public Request sendRequest(String requestData, RequestCallback callback) throws RequestException {
         int id = HttpStatsContext.getNextRequestId();
+
+        httpBegin(id);
         attachHeaders(id);
         attachMeasurements();
-        requestSent(id);
 
         RequestCallbackWrapper wrapper = new RequestCallbackWrapper(callback, id);
-        return super.sendRequest(requestData, wrapper);
+        Request request = super.sendRequest(requestData, wrapper);
+        requestSent(id);
+        return request;
     }
 
     @Override
@@ -90,12 +96,26 @@ public class MeasuringRequestBuilder extends RequestBuilder {
         injector.inject(this, timings, incidents);
     }
 
-    private void requestSent(int id) {
-        MeasurementHub hub = Measurements.getMeasurementHub();
+    private void httpBegin(int id) {
+        MeasurementHub hub = Configuration.getMeasurementHub();
 
         PerformanceTiming timing = new PerformanceTiming.Builder()
                 .setMillis(TimeUtils.current())
-                .setModuleName(GWT.getModuleName())
+                .setModuleName(SafeGWT.getModuleName())
+                .setSubSystem(Constants.SUB_SYSTEM_HTTP)
+                .setType(Constants.TYPE_BEGIN)
+                .setEventGroup(Integer.toString(id))
+                .create();
+
+        hub.submit(timing);
+    }
+
+    private void requestSent(int id) {
+        MeasurementHub hub = Configuration.getMeasurementHub();
+
+        PerformanceTiming timing = new PerformanceTiming.Builder()
+                .setMillis(TimeUtils.current())
+                .setModuleName(SafeGWT.getModuleName())
                 .setSubSystem(Constants.SUB_SYSTEM_HTTP)
                 .setType(Constants.TYPE_REQUEST_SENT)
                 .setEventGroup(Integer.toString(id))

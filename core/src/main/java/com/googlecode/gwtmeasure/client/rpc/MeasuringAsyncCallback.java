@@ -17,12 +17,13 @@
 package com.googlecode.gwtmeasure.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.googlecode.gwtmeasure.client.Measurements;
-import com.googlecode.gwtmeasure.client.PendingMeasurement;
+import com.googlecode.gwtmeasure.client.exception.IncidentReportFactory;
 import com.googlecode.gwtmeasure.client.internal.DeliveryQueue;
 import com.googlecode.gwtmeasure.client.internal.TypeUtils;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
+import com.googlecode.gwtmeasure.shared.Measurements;
+import com.googlecode.gwtmeasure.shared.OpenMeasurement;
 
 /**
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
@@ -30,20 +31,33 @@ import com.googlecode.gwtmeasure.shared.IncidentReport;
 public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
 
     private final int requestId;
+
     final AsyncCallback<T> originalCallback;
-    final PendingMeasurement measurement;
+    final OpenMeasurement measurement;
+
+    IncidentReportFactory incidentReportFactory;
+
+    {
+        incidentReportFactory = new IncidentReportFactory();
+    }
 
     public MeasuringAsyncCallback(AsyncCallback<T> originalCallback, int requestId) {
         this.originalCallback = originalCallback;
         this.requestId = requestId;
         String callbackType = originalCallback.getClass().getName();
         String methodName = TypeUtils.classSimpleName(callbackType) + ".onSuccess";
-        this.measurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
-        this.measurement.setParameter(Constants.PARAM_METHOD, methodName);
+        this.measurement = createMeasurement(requestId, methodName);
+    }
+
+    protected OpenMeasurement createMeasurement(int requestId, String methodName) {
+        OpenMeasurement openMeasurement = Measurements.start(Integer.toString(requestId), Constants.SUB_SYSTEM_RPC);
+        openMeasurement.setParameter(Constants.PARAM_METHOD, methodName);
+        return openMeasurement;
     }
 
     public void onSuccess(T result) {
         RpcContext.setLastResolvedRequestId(requestId);
+
         try {
             originalCallback.onSuccess(result);
         } catch (RuntimeException exception) {
@@ -55,7 +69,9 @@ public class MeasuringAsyncCallback<T> implements AsyncCallback<T> {
     }
 
     public void onFailure(Throwable caught) {
-        IncidentReport report = IncidentReport.createRpcReport(caught);
+        RpcContext.setLastResolvedRequestId(requestId);
+
+        IncidentReport report = incidentReportFactory.createRpcReport(caught);
         DeliveryQueue.instance().pushIncident(report);
         
         measurement.discard();

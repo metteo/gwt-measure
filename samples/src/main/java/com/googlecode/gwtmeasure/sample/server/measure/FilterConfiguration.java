@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.sample.server;
+package com.googlecode.gwtmeasure.sample.server.measure;
 
-import com.googlecode.gwtmeasure.server.MeasureContext;
+import com.googlecode.gwtmeasure.server.MeasurementEngine;
 import com.googlecode.gwtmeasure.server.spi.IncidentReportHandler;
 import com.googlecode.gwtmeasure.server.spi.MetricsEventHandler;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
@@ -31,8 +31,8 @@ import javax.servlet.ServletContextListener;
 public class FilterConfiguration implements ServletContextListener, MetricsEventHandler, IncidentReportHandler {
 
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        MeasureContext.instance().registerEventHandler(this);
-        MeasureContext.instance().registerIncidentHandler(this);
+        MeasurementEngine.instance().registerEventHandler(this);
+        MeasurementEngine.instance().registerIncidentHandler(this);
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
