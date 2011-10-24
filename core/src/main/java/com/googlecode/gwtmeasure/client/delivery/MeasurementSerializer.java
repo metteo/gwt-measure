@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public final class MeasurementSerializer {
+public class MeasurementSerializer {
 
     private static final int BYTES_IN_JS_CHAR = 2;
 

@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 /**
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public final class NetworkEventProducer {
+public class NetworkEventProducer {
 
     private MetricsEventHandler eventHandler;
 
