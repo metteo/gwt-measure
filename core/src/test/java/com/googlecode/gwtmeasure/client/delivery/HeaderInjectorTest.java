@@ -17,7 +17,7 @@
 package com.googlecode.gwtmeasure.client.delivery;
 
 import com.google.gwt.http.client.RequestBuilder;
-import com.googlecode.gwtmeasure.client.Measurements;
+import com.googlecode.gwtmeasure.client.Configuration;
 import com.googlecode.gwtmeasure.shared.Constants;
 import com.googlecode.gwtmeasure.shared.HasJsonRepresentation;
 import com.googlecode.gwtmeasure.shared.IncidentReport;
@@ -45,7 +45,7 @@ public class HeaderInjectorTest extends Assert {
 
     @Before
     public void setUp() {
-        Measurements.setWindowId(null);
+        Configuration.setWindowId(null);
         serializer = mock(MeasurementSerializer.class);
         injector = new HeaderInjector(serializer);
         requestBuilder = mock(RequestBuilder.class);
@@ -64,7 +64,7 @@ public class HeaderInjectorTest extends Assert {
     @Test
     public void testInject_OnlyEvents() throws Exception {
         timings.add(new PerformanceTiming());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Measurements.getHeaderLimit())))
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Configuration.getHeaderLimit())))
                 .thenReturn("first");
         
         HeaderInjector.Result result = injector.inject(requestBuilder, timings, reports);
@@ -77,7 +77,7 @@ public class HeaderInjectorTest extends Assert {
     @Test
     public void testInject_OnlyErrors() throws Exception {
         reports.add(new IncidentReport());
-        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Measurements.getHeaderLimit())))
+        when(serializer.serialize((List<? extends HasJsonRepresentation>) any(), eq(Configuration.getHeaderLimit())))
                 .thenReturn("V");
 
         HeaderInjector.Result result = injector.inject(requestBuilder, timings, reports);

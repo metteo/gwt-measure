@@ -27,6 +27,10 @@ public final class RpcContext {
     private static int requestIdCounter;
     private static int lastResolvedRequestId;
 
+    /**
+     * Returns last request id, which is resolved in onSuccess() onFailure() callback methods
+     * @return id
+     */
     public static int getLastResolvedRequestId() {
         return lastResolvedRequestId;
     }
@@ -35,6 +39,10 @@ public final class RpcContext {
         RpcContext.lastResolvedRequestId = lastResolvedRequestId;
     }
 
+    /**
+     * Returns last active request id, which may still not be resolved at the moment
+     * @return id
+     */
     public static int getRequestIdCounter() {
         return requestIdCounter;
     }

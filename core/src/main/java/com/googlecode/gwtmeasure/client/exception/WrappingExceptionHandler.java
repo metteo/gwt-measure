@@ -27,6 +27,12 @@ public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
 
     private GWT.UncaughtExceptionHandler handler;
 
+    IncidentReportFactory incidentReportFactory;
+
+    {
+        incidentReportFactory = new IncidentReportFactory();
+    }
+
     public WrappingExceptionHandler(GWT.UncaughtExceptionHandler handler) {
         this.handler = handler;
     }
@@ -37,7 +43,7 @@ public class WrappingExceptionHandler implements GWT.UncaughtExceptionHandler {
      * @param exception cause
      */
     public void onUncaughtException(Throwable exception) {
-        IncidentReport report = IncidentReport.createReport(exception);
+        IncidentReport report = incidentReportFactory.createReport(exception);
         DeliveryQueue.instance().pushIncident(report);
 
         if (handler != null) {

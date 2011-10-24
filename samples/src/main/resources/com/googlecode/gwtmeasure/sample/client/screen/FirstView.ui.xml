@@ -1,0 +1,33 @@
+<!--
+  ~ Copyright 2011 the original author or authors.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <g:HTMLPanel>
+        <div>
+            <g:Label text="Measurements"/>
+            <g:TextArea width="400px" height="300px" ui:field="textArea"/>
+        </div>
+        <div>
+            <g:Button text="Add Measurement" ui:field="addButton"/>
+            <g:Button text="RPC Request" ui:field="rpcButton"/>
+            <g:Button text="HTTP Request" ui:field="httpButton"/>
+            <g:Button text="Run Async" ui:field="asyncButton"/>
+            <g:Button text="Exception" ui:field="errorButton"/>
+        </div>
+    </g:HTMLPanel>
+
+</ui:UiBinder>

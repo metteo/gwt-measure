@@ -27,6 +27,4 @@ public interface MeasurementHub {
 
     void submit(PerformanceTiming event);
 
-    HandlerRegistration addHandler(PerformanceEventHandler handler);
-
 }

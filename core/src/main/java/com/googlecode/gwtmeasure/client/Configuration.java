@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,24 +16,30 @@
 
 package com.googlecode.gwtmeasure.client;
 
+import com.googlecode.gwtmeasure.client.internal.VoidHub;
+import com.googlecode.gwtmeasure.client.internal.VoidMeasurementListener;
 import com.googlecode.gwtmeasure.client.internal.WindowId;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
-import com.googlecode.gwtmeasure.shared.Constants;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 
 /**
- * Public API for controlling settings and creating new custom measurements.
- *
- * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public final class Measurements {
+public final class Configuration {
 
-    private static MeasurementHub measurementHub;
-    private static WindowId windowId;
+    // Extension points
+    private static MeasurementHub measurementHub = new VoidHub();
+    private static MeasurementListener measurementListener = new VoidMeasurementListener();
+
+    // Settings
     private static int deliveryInterval = 15000; // in milliseconds
     private static String endpointUrl = "measurements";
     private static int headerLimit = 4 * 1024; // in bytes
 
-    private Measurements() {
+    // Current Tab unique id
+    private static WindowId windowId;
+
+    private Configuration() {
     }
 
     /**
@@ -41,51 +47,30 @@ public final class Measurements {
      * @param measurementHub implementation of event routing and propagation
      */
     public static void setMeasurementHub(MeasurementHub measurementHub) {
-        Measurements.measurementHub = measurementHub;
+        Configuration.measurementHub = measurementHub;
     }
 
-    /**      
+    /**
+     * Reference to current registered MeasurementListener instance.
+     * @return listener object
+     */
+    public static MeasurementListener getMeasurementListener() {
+        return measurementListener;
+    }
+
+    /**
+     * Sets centralized MeasurementListener instance.
+     * @param measurementListener instance to be registered.
+     */
+    public static void setMeasurementListener(MeasurementListener measurementListener) {
+        Configuration.measurementListener = measurementListener;
+    }
+
+    /**
      * @return reference to current Hub implementation
      */
     public static MeasurementHub getMeasurementHub() {
         return measurementHub;
-    }
-
-    /**
-     * Starts recording of new measurement interval.
-     *
-     * @param eventGroup eventGroup of the measured event
-     * @return measurement object
-     */
-    public static PendingMeasurement start(String eventGroup) {
-        return start(eventGroup, Constants.SUB_SYSTEM_DEFAULT);
-    }
-
-    /**
-     * Starts recording of new measurement interval.
-     * 
-     * @param eventGroup eventGroup of the measured event
-     * @param subSystem name of the measured event
-     * @return measurement object
-     * @see com.googlecode.gwtmeasure.client.PendingMeasurement
-     */
-    public static PendingMeasurement start(String eventGroup, String subSystem) {
-        return new PendingMeasurement(eventGroup, subSystem, measurementHub);
-    }
-
-    /**
-     * Sets uniquely identifying browser tab id for single-session/multi-tab measurements.
-     * @param windowId unique window id
-     */
-    public static void setWindowId(WindowId windowId) {
-        Measurements.windowId = windowId;
-    }
-
-    /**
-     * @return current window unique window id
-     */
-    public static WindowId getWindowId() {
-        return windowId;
     }
 
     /**
@@ -101,7 +86,7 @@ public final class Measurements {
      * @param millis time period in millis
      */
     public static void setDeliveryInterval(int millis) {
-        Measurements.deliveryInterval = deliveryInterval;
+        Configuration.deliveryInterval = deliveryInterval;
     }
 
     /**
@@ -121,7 +106,7 @@ public final class Measurements {
      * @param headerLimit size of header in bytes.
      */
     public static void setHeaderLimit(int headerLimit) {
-        Measurements.headerLimit = headerLimit;
+        Configuration.headerLimit = headerLimit;
     }
 
     /**
@@ -137,7 +122,22 @@ public final class Measurements {
      * @param endpointUrl relative url
      */
     public static void setEndpointUrl(String endpointUrl) {
-        Measurements.endpointUrl = endpointUrl;
+        Configuration.endpointUrl = endpointUrl;
+    }
+
+    /**
+     * Sets uniquely identifying browser tab id for single-session/multi-tab measurements.
+     * @param windowId unique window id
+     */
+    public static void setWindowId(WindowId windowId) {
+        Configuration.windowId = windowId;
+    }
+
+    /**
+     * @return current window unique window id
+     */
+    public static WindowId getWindowId() {
+        return windowId;
     }
 
 }

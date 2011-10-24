@@ -16,7 +16,10 @@
 
 package com.googlecode.gwtmeasure.shared;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +28,7 @@ import java.util.Set;
  *
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public class PerformanceTiming implements HasJsonRepresentation {
+public class PerformanceTiming implements HasJsonRepresentation, Serializable {
 
     private String moduleName = "";
     private String subSystem = "";
@@ -36,6 +39,14 @@ public class PerformanceTiming implements HasJsonRepresentation {
     private Map<String, String> parameters = new HashMap<String, String>();
 
     public PerformanceTiming() {
+    }
+
+    public boolean isBeginEvent() {
+        return Constants.TYPE_BEGIN.equals(type);
+    }
+
+    public boolean isEndEvent() {
+        return Constants.TYPE_END.equals(type);
     }
 
     public static class Builder {
@@ -81,6 +92,14 @@ public class PerformanceTiming implements HasJsonRepresentation {
             return this.event;
         }
 
+    }
+
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
     }
 
     public String getModuleName() {
@@ -161,7 +180,6 @@ public class PerformanceTiming implements HasJsonRepresentation {
                 && eventGroup.equals(this.eventGroup)
                 && type.equals(this.type);
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -2,6 +2,7 @@ package com.googlecode.gwtmeasure.client.internal;
 
 import com.googlecode.gwtmeasure.client.PendingMeasurement;
 import com.googlecode.gwtmeasure.client.spi.MeasurementHub;
+import com.googlecode.gwtmeasure.client.spi.MeasurementListener;
 import com.googlecode.gwtmeasure.shared.PerformanceTiming;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,35 +17,47 @@ import static org.mockito.Mockito.mock;
 public class MeasurementToEventTest extends Assert {
 
     private MeasurementToEvent converter;
+    private MeasurementHub hubAdapter;
+    private MeasurementListener listener;
 
     @Before
     public void setUp() {
-        converter = new MeasurementToEvent() {
-            @Override
-            String moduleName() {
-                return "moduleName";
-            }
-        };
+        converter = new MeasurementToEvent();
+        hubAdapter = mock(MeasurementHub.class);
+        listener = mock(MeasurementListener.class);
     }
 
     @Test
-    public void testConvert() throws Exception {
-        PendingMeasurement measurement = new PendingMeasurement("name", "group", mock(MeasurementHubAdapter.class));
+    public void shouldConvertStart() throws Exception {
+        PendingMeasurement measurement = createMeasurement();
+
+        PerformanceTiming result = converter.createStartTiming(measurement);
+
+        assertTiming(result, "begin", "name", "group");
+    }
+
+    @Test
+    public void shouldConvertEnd() throws Exception {
+        PendingMeasurement measurement = createMeasurement();
         measurement.stop();
 
-        PerformanceTiming[] events = converter.convert(measurement);
+        PerformanceTiming result = converter.createEndTiming(measurement);
 
-        assertThat(events.length, is(2));
-
-        assertThat(events[0].getModuleName(), equalTo("moduleName"));
-        assertThat(events[0].getType(), equalTo("begin"));
-        assertThat(events[0].getSubSystem(), equalTo("group"));
-        assertThat(events[0].getEventGroup(), equalTo("name"));
-
-        assertThat(events[1].getModuleName(), equalTo("moduleName"));
-        assertThat(events[1].getType(), equalTo("end"));
-        assertThat(events[1].getSubSystem(), equalTo("group"));
-        assertThat(events[1].getEventGroup(), equalTo("name"));
+        assertTiming(result, "end", "name", "group");
     }
+
+    private void assertTiming(PerformanceTiming event, String type, String subSystem, String eventGroup) {
+        assertThat(event.getModuleName(), equalTo(""));
+        assertThat(event.getType(), equalTo(type));
+        assertThat(event.getSubSystem(), equalTo(subSystem));
+        assertThat(event.getEventGroup(), equalTo(eventGroup));
+    }
+
+    private PendingMeasurement createMeasurement() {
+        PendingMeasurement measurement = new PendingMeasurement(hubAdapter, listener);
+        measurement.start("group", "name");
+        return measurement;
+    }
+
 
 }

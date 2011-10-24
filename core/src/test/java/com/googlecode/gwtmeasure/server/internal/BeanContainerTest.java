@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,38 +14,37 @@
  * limitations under the License.
  */
 
-package com.googlecode.gwtmeasure.server;
+package com.googlecode.gwtmeasure.server.internal;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.junit.Assert.assertThat;
 
 /**
- * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
+ * @author <a href="mailto:dmitry.buzdin@ctco.lv">Dmitry Buzdin</a>
  */
-public class MeasureContextTest extends Assert {
+public class BeanContainerTest {
 
-    private MeasureContext context;
+    private BeanContainer container;
 
     @Before
     public void setUp() {
-        context = new MeasureContext();        
+        container = new BeanContainer();
     }
 
     @Test
     public void testGetBean() throws Exception {
-        Service bean = context.getBean(Service.class);
-        
+        Service bean = container.getBean(Service.class);
+
         assertThat(bean, notNullValue());
     }
 
     @Test
     public void testConstructorInjection() throws Exception {
-        ServiceWithDeps bean = context.getBean(ServiceWithDeps.class);
+        ServiceWithDeps bean = container.getBean(ServiceWithDeps.class);
 
         assertThat(bean, notNullValue());
         assertThat(bean.getService(), notNullValue());
@@ -54,44 +53,44 @@ public class MeasureContextTest extends Assert {
 
     @Test
     public void testReusesInstances() throws Exception {
-        Service dependency = context.getBean(Service.class);
-        ServiceWithDeps bean = context.getBean(ServiceWithDeps.class);
+        Service dependency = container.getBean(Service.class);
+        ServiceWithDeps bean = container.getBean(ServiceWithDeps.class);
 
         assertThat(bean.getService(), sameInstance(dependency));
     }
 
     @Test
     public void testInterfaceImplemenation() throws Exception {
-        context.register(I.class, Impl.class);
-        I bean = context.getBean(I.class);
+        container.register(I.class, Impl.class);
+        I bean = container.getBean(I.class);
         assertThat(bean, is(Impl.class));
     }
 
     @Test
     public void testImplementationReplacement() throws Exception {
-        context.register(I.class, Impl.class);
-        context.register(I.class, Alternate.class);
-        I bean = context.getBean(I.class);
+        container.register(I.class, Impl.class);
+        container.register(I.class, Alternate.class);
+        I bean = container.getBean(I.class);
         assertThat(bean, is(Alternate.class));
     }
 
     @Test
     public void testRegisterBean() throws Exception {
         Impl bean = new Impl();
-        context.register(I.class, bean);
-        I result = context.getBean(I.class);
+        container.register(I.class, bean);
+        I result = container.getBean(I.class);
         assertThat(bean, sameInstance(result));
     }
 
     @Test
     public void testBeanReplacement() throws Exception {
         Impl bean = new Impl();
-        context.register(I.class, bean);
+        container.register(I.class, bean);
 
         Impl replacement = new Impl();
-        context.register(I.class, replacement);
-        
-        I result = context.getBean(I.class);
+        container.register(I.class, replacement);
+
+        I result = container.getBean(I.class);
 
         assertThat(replacement, sameInstance(result));
     }

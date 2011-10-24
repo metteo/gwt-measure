@@ -17,6 +17,7 @@
 package com.googlecode.gwtmeasure.shared;
 
 import com.google.gwt.junit.client.GWTTestCase;
+import com.googlecode.gwtmeasure.client.GwtTestConstants;
 import com.googlecode.gwtmeasure.client.delivery.JsonEncoderImpl;
 
 /**
@@ -33,7 +34,7 @@ public class IncidentReportGwtTest extends GWTTestCase {
 
     @Override
     public String getModuleName() {
-        return "com.googlecode.gwtmeasure.GWTMeasure";
+        return GwtTestConstants.MODULE_NAME;
     }
 
     public void testJsonEncode() throws Exception {
