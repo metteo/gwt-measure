@@ -9,4 +9,6 @@ syntax: glob
 # IntelliJ IDEA
 .idea/*
 *.iml
+*.ipr
+*.iws
 
