@@ -5,12 +5,12 @@
     <parent>
         <groupId>com.googlecode.gwt-measure</groupId>
         <artifactId>gwt-measure-parent</artifactId>
-        <version>0.2.4</version>
+        <version>0.2.5-SNAPSHOT</version>
     </parent>
 
     <groupId>com.googlecode.gwt-measure</groupId>
     <artifactId>gwt-measure</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>
