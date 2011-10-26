@@ -32,7 +32,7 @@ import java.io.IOException;
  *  
  * @author <a href="mailto:buzdin@gmail.com">Dmitry Buzdin</a>
  */
-public final class MeasuringServlet extends HttpServlet {
+public class MeasuringServlet extends HttpServlet {
 
     MetricsProcessor metricsProcessor;
 
